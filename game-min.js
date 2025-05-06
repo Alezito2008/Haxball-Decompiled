@@ -855,7 +855,7 @@
             }
             this.In(null);
             this.Ej.disabled = !0;
-            dOMManipulator.Qf(this.yj);
+            dOMManipulator.ClearChildElements(this.yj);
             let b = [];
             this.vj = [];
             let c = Pb.get().then(function(e) {
@@ -872,7 +872,7 @@
             a.sort(function(k, l) {
                 return k.Ze - l.Ze
             });
-            dOMManipulator.Qf(this.yj);
+            dOMManipulator.ClearChildElements(this.yj);
             let b = 0
               , c = 0
               , d = !this.Us.Le
@@ -1986,7 +1986,7 @@
         static replaceWith(a, b) {
             a.parentElement.replaceChild(b, a)
         }
-        static Qf(a) {
+        static ClearChildElements(a) {
             let b = a.firstChild;
             for (; null != b; )
                 a.removeChild(b),
@@ -2481,7 +2481,7 @@
             return null != ua.Tq
         }
         ab(a, b) {
-            dOMManipulator.Qf(this.yf);
+            dOMManipulator.ClearChildElements(this.yf);
             ua.Tq = a;
             null != a ? (this.yf.style.display = "flex",
             this.yf.appendChild(a),
@@ -2775,7 +2775,7 @@
                 c.nextSibling != e && this.eb.insertBefore(c, e)
         }
     }
-    class da {
+    class messageCanvas {
         constructor(a, b) {
             let c = []
               , d = 0;
@@ -2796,9 +2796,9 @@
                 let g = e[d];
                 ++d;
                 var f = b - .05 * c;
-                let h = da.Ln.eval(f)
+                let h = messageCanvas.Ln.eval(f)
                   , k = 35 * -(this.kf.length - 1) + 70 * c;
-                f = 180 * da.Mn.eval(f);
+                f = 180 * messageCanvas.Mn.eval(f);
                 a.globalAlpha = h;
                 a.drawImage(g, f * (0 != (c & 1) ? -1 : 1) - .5 * g.width, k - .5 * g.height);
                 a.globalAlpha = 1;
@@ -5591,30 +5591,30 @@
             this.U = a
         }
     }
-    class wc {
+    class GameMessageController {
         constructor() {
             this.Wc = 0;
-            this.eb = [];
-            this.ms = new da(["Time is", "Up!"],16777215);
-            this.pr = new da(["Red is", "Victorious!"],15035990);
-            this.nr = new da(["Red", "Scores!"],15035990);
-            this.jo = new da(["Blue is", "Victorious!"],625603);
-            this.io = new da(["Blue", "Scores!"],625603);
-            this.Nq = new da(["Game", "Paused"],16777215)
+            this.gameElements = [];
+            this.timeUpMessage = new messageCanvas(["Time is", "Up!"],16777215);
+            this.redVictoryMessage = new messageCanvas(["Red is", "Victorious!"],15035990);
+            this.redScoreMessage = new messageCanvas(["Red", "Scores!"],15035990);
+            this.blueVictoryMessage = new messageCanvas(["Blue is", "Victorious!"],625603);
+            this.blueScoreMessage = new messageCanvas(["Blue", "Scores!"],625603);
+            this.GamePausedMessage = new messageCanvas(["Game", "Paused"],16777215)
         }
-        Pa(a) {
-            this.eb.push(a)
+        AddElement(element) {
+            this.gameElements.push(element)
         }
-        uo() {
-            this.eb = [];
+        initializeGameElements() {
+            this.gameElements = [];
             this.Wc = 0
         }
         A(a) {
-            0 < this.eb.length && (this.Wc += a) > this.eb[0].fp() && (this.Wc = 0,
-            this.eb.shift())
+            0 < this.gameElements.length && (this.Wc += a) > this.gameElements[0].fp() && (this.Wc = 0,
+            this.gameElements.shift())
         }
         Rc(a) {
-            0 < this.eb.length && this.eb[0].Rc(a, this.Wc)
+            0 < this.gameElements.length && this.gameElements[0].Rc(a, this.Wc)
         }
     }
     class na {
@@ -5657,7 +5657,7 @@
                         V = V.code;
                         null == Lb.v(V) && (Lb.Pa(V, y),
                         gameConfig.j.GetPlayerKeys.saveAvatar(Lb),
-                        Ic())
+                        ConfigureKeyBindings())
                     }
                 }
                 ;
@@ -5821,19 +5821,19 @@
             Db();
             let Lb = gameConfig.j.GetPlayerKeys.v()
               , yc = l.get("presskey")
-              , Ic = null
-              , eb = l.get("inputsec");
-            Ic = function() {
-                dOMManipulator.Qf(eb);
-                eb.appendChild(b("Up"));
-                eb.appendChild(b("Down"));
-                eb.appendChild(b("Left"));
-                eb.appendChild(b("Right"));
-                eb.appendChild(b("Kick"));
-                eb.appendChild(b("ToggleChat"))
+              , ConfigureKeyBindings = null
+              , inputSectionElement = l.get("inputsec");
+            ConfigureKeyBindings = function() {
+                dOMManipulator.ClearChildElements(inputSectionElement);
+                inputSectionElement.appendChild(b("Up"));
+                inputSectionElement.appendChild(b("Down"));
+                inputSectionElement.appendChild(b("Left"));
+                inputSectionElement.appendChild(b("Right"));
+                inputSectionElement.appendChild(b("Kick"));
+                inputSectionElement.appendChild(b("ToggleChat"))
             }
             ;
-            Ic();
+            ConfigureKeyBindings();
             this.wd.onclick = function() {
                 H.h(Mc.rb)
             }
@@ -6125,11 +6125,11 @@
             a.m(this.Nh);
             if (!this.cf()) {
                 a.Eb(this.D);
-                a.R(this.ud);
-                a.u(this.be);
-                a.u(this.ae);
-                a.u(this.bd);
-                a.u(this.Gc);
+                a.R(this.stadiumType);
+                a.u(this.stadiumWidth);
+                a.u(this.stadiumHeight);
+                a.u(this.kickOffRadius);
+                a.u(this.CornerRadius);
                 a.u(this.Te);
                 a.R(this.td);
                 a.u(this.bc);
@@ -6198,11 +6198,11 @@
                 return f
             }
             this.D = a.Ab();
-            this.ud = a.N();
-            this.be = a.w();
-            this.ae = a.w();
-            this.bd = a.w();
-            this.Gc = a.w();
+            this.stadiumType = a.N();
+            this.stadiumWidth = a.w();
+            this.stadiumHeight = a.w();
+            this.kickOffRadius = a.w();
+            this.CornerRadius = a.w();
             this.Te = a.w();
             this.td = a.N();
             this.bc = a.w();
@@ -6262,7 +6262,7 @@
                 throw v.C(new Sa("Invalid stadium"));
         }
         gn() {
-            return 0 >= this.H.length || 0 > this.Gc || 0 > this.bd || 0 > this.Kd.V ? !1 : !0
+            return 0 >= this.H.length || 0 > this.CornerRadius || 0 > this.kickOffRadius || 0 > this.Kd.V ? !1 : !0
         }
         qe() {
             let a = 0
@@ -6343,14 +6343,14 @@
                 playerPhysics: f,
                 ballPhysics: "disc0"
             };
-            q.pa(c, "maxViewWidth", this.mf, 0);
-            q.pa(c, "cameraFollow", 1 == this.Ue ? "player" : "", "");
-            q.pa(c, "spawnDistance", this.mc, 200);
+            q.setIfDifferent(c, "maxViewWidth", this.mf, 0);
+            q.setIfDifferent(c, "cameraFollow", 1 == this.Ue ? "player" : "", "");
+            q.setIfDifferent(c, "spawnDistance", this.mc, 200);
             0 != h.length && (c.joints = h);
             0 != k.length && (c.redSpawnPoints = k);
             0 != l.length && (c.blueSpawnPoints = l);
-            q.pa(c, "kickOffReset", this.Df ? "full" : "partial", "partial");
-            switch (this.ud) {
+            q.setIfDifferent(c, "kickOffReset", this.Df ? "full" : "partial", "partial");
+            switch (this.stadiumType) {
             case 1:
                 b = "grass";
                 break;
@@ -6360,13 +6360,13 @@
             default:
                 b = "none"
             }
-            q.pa(a, "type", b, "none");
-            q.pa(a, "width", this.be, 0);
-            q.pa(a, "height", this.ae, 0);
-            q.pa(a, "kickOffRadius", this.bd, 0);
-            q.pa(a, "cornerRadius", this.Gc, 0);
+            q.setIfDifferent(a, "type", b, "none");
+            q.setIfDifferent(a, "width", this.stadiumWidth, 0);
+            q.setIfDifferent(a, "height", this.stadiumHeight, 0);
+            q.setIfDifferent(a, "kickOffRadius", this.kickOffRadius, 0);
+            q.setIfDifferent(a, "cornerRadius", this.CornerRadius, 0);
             q.Eg(a, this.td, 7441498);
-            q.pa(a, "goalLine", this.Te, 0);
+            q.setIfDifferent(a, "goalLine", this.Te, 0);
             return c
         }
         el(a) {
@@ -6421,11 +6421,11 @@
             default:
                 e = 0
             }
-            this.ud = e;
-            this.be = this.le(a, "width");
-            this.ae = this.le(a, "height");
-            this.bd = this.le(a, "kickOffRadius");
-            this.Gc = this.le(a, "cornerRadius");
+            this.stadiumType = e;
+            this.stadiumWidth = this.le(a, "width");
+            this.stadiumHeight = this.le(a, "height");
+            this.kickOffRadius = this.le(a, "kickOffRadius");
+            this.CornerRadius = this.le(a, "cornerRadius");
             this.td = 7441498;
             null != a.color && (this.td = q.pg(a.color));
             this.Te = this.le(a, "goalLine");
@@ -6493,12 +6493,12 @@
             this.H.push(this.rg());
             this.bc = b;
             this.sc = c;
-            this.ud = 1;
+            this.stadiumType = 1;
             this.td = 7441498;
-            this.be = d;
-            this.ae = e;
-            this.bd = g;
-            this.Gc = h;
+            this.stadiumWidth = d;
+            this.stadiumHeight = e;
+            this.kickOffRadius = g;
+            this.CornerRadius = h;
             this.mc = .75 * d;
             400 < this.mc && (this.mc = 400);
             a = new R;
@@ -6626,11 +6626,11 @@
             this.H.push(this.rg());
             this.bc = b;
             this.sc = c;
-            this.ud = 2;
-            this.be = d;
-            this.ae = e;
-            this.bd = 75;
-            this.Gc = h;
+            this.stadiumType = 2;
+            this.stadiumWidth = d;
+            this.stadiumHeight = e;
+            this.kickOffRadius = 75;
+            this.CornerRadius = h;
             this.Te = g;
             this.mc = .75 * (d - g);
             400 < this.mc && (this.mc = 400);
@@ -7075,7 +7075,7 @@
                 x: a.a.x,
                 y: a.a.y
             };
-            q.pa(b, "bCoef", a.o, 1);
+            q.setIfDifferent(b, "bCoef", a.o, 1);
             q.Pc(b, "cMask", a.i, 63);
             q.Pc(b, "cGroup", a.B, 32);
             return b
@@ -7097,12 +7097,12 @@
                 v0: a.$.Dd,
                 v1: a.ea.Dd
             };
-            q.pa(c, "bias", a.Hc, b.Hc);
-            q.pa(c, "bCoef", a.o, b.o);
+            q.setIfDifferent(c, "bias", a.Hc, b.Hc);
+            q.setIfDifferent(c, "bCoef", a.o, b.o);
             let d = a.ip();
-            q.pa(c, "curve", d, 0);
+            q.setIfDifferent(c, "curve", d, 0);
             0 != d && (c.curveF = a.vb);
-            q.pa(c, "vis", a.bb, b.bb);
+            q.setIfDifferent(c, "vis", a.bb, b.bb);
             q.Pc(c, "cMask", a.i, b.i);
             q.Pc(c, "cGroup", a.B, b.B);
             q.Eg(c, a.S, b.S);
@@ -7137,7 +7137,7 @@
                 length: a.Ib >= a.fc ? a.Ib : [a.Ib, a.fc]
             };
             q.Eg(b, a.S, 0);
-            q.pa(b, "strength", a.ye, 1 / 0);
+            q.setIfDifferent(b, "strength", a.ye, 1 / 0);
             return b
         }
         static Rp(a, b) {
@@ -7170,7 +7170,7 @@
                 normal: [a.ya.x, a.ya.y],
                 dist: a.Va
             };
-            q.pa(b, "bCoef", a.o, 1);
+            q.setIfDifferent(b, "bCoef", a.o, 1);
             q.Pc(b, "cMask", a.i, 63);
             q.Pc(b, "cGroup", a.B, 32);
             return b
@@ -7230,18 +7230,18 @@
         }
         static Sq(a) {
             let b = {};
-            q.pa(b, "bCoef", a.o, .5);
-            q.pa(b, "invMass", a.ca, .5);
-            q.pa(b, "damping", a.Ea, .96);
-            q.pa(b, "acceleration", a.Qe, .1);
-            q.pa(b, "kickingAcceleration", a.gf, .07);
-            q.pa(b, "kickingDamping", a.hf, .96);
-            q.pa(b, "kickStrength", a.ef, 5);
+            q.setIfDifferent(b, "bCoef", a.o, .5);
+            q.setIfDifferent(b, "invMass", a.ca, .5);
+            q.setIfDifferent(b, "damping", a.Ea, .96);
+            q.setIfDifferent(b, "acceleration", a.Qe, .1);
+            q.setIfDifferent(b, "kickingAcceleration", a.gf, .07);
+            q.setIfDifferent(b, "kickingDamping", a.hf, .96);
+            q.setIfDifferent(b, "kickStrength", a.ef, 5);
             q.Pc(b, "cGroup", a.B, 0);
             if (0 != a.ra.x || 0 != a.ra.y)
                 b.gravity = [a.ra.x, a.ra.y];
-            q.pa(b, "radius", a.V, 15);
-            q.pa(b, "kickback", a.ff, 0);
+            q.setIfDifferent(b, "radius", a.V, 15);
+            q.setIfDifferent(b, "kickback", a.ff, 0);
             return b
         }
         static Tp(a) {
@@ -7281,10 +7281,10 @@
                 c.speed = [a.G.x, a.G.y];
             if (a.ra.x != b.ra.x || a.ra.y != b.ra.y)
                 c.gravity = [a.ra.x, a.ra.y];
-            q.pa(c, "radius", a.V, b.V);
-            q.pa(c, "bCoef", a.o, b.o);
-            q.pa(c, "invMass", a.ca, b.ca);
-            q.pa(c, "damping", a.Ea, b.Ea);
+            q.setIfDifferent(c, "radius", a.V, b.V);
+            q.setIfDifferent(c, "bCoef", a.o, b.o);
+            q.setIfDifferent(c, "invMass", a.ca, b.ca);
+            q.setIfDifferent(c, "damping", a.Ea, b.Ea);
             q.Eg(c, a.S, b.S);
             q.Pc(c, "cMask", a.i, b.i);
             q.Pc(c, "cGroup", a.B, b.B);
@@ -7321,7 +7321,7 @@
             null != a && (b.B = q.Kc(a));
             return b
         }
-        static pa(a, b, c, d) {
+        static setIfDifferent(a, b, c, d) {
             c != d && (a[b] = c)
         }
     }
@@ -7858,7 +7858,7 @@
         }
         kj(a) {
             var b = null != a && 0 != a.length;
-            this.Qb.hidden || dOMManipulator.Qf(this.Qb);
+            this.Qb.hidden || dOMManipulator.ClearChildElements(this.Qb);
             this.dd = null;
             this.Qb.hidden = !b;
             if (b) {
@@ -8297,7 +8297,7 @@
             this.Ig = 1.5;
             this.Ya = new P(0,0);
             this.Xk = !1;
-            this.Cd = new wc;
+            this.Cd = new GameMessageController;
             this.Fp = a;
             this.na = window.document.createElement("canvas");
             this.na.mozOpaque = !0;
@@ -8474,7 +8474,7 @@
             b && (120 != a.Ta && (a = a.Ta / 120 * 200,
             this.c.fillStyle = "white",
             this.c.fillRect(.5 * -a, 100, a, 20)),
-            this.Cd.Nq.Cr(this.c))
+            this.Cd.GamePausedCanvas.Cr(this.c))
         }
         Wr(a) {
             this.Xk != a && (this.na.style.filter = a ? "grayscale(70%)" : "",
@@ -10945,13 +10945,13 @@
     Object.assign(T.prototype, {
         g: T
     });
-    da.b = !0;
-    Object.assign(da.prototype, {
-        g: da
+    messageCanvas.b = !0;
+    Object.assign(messageCanvas.prototype, {
+        g: messageCanvas
     });
-    wc.b = !0;
-    Object.assign(wc.prototype, {
-        g: wc
+    GameMessageController.b = !0;
+    Object.assign(GameMessageController.prototype, {
+        g: GameMessageController
     });
     tb.b = !0;
     Object.assign(tb.prototype, {
@@ -11292,8 +11292,8 @@
     });
     I.On = .17435839227423353;
     I.Nn = 5.934119456780721;
-    da.Ln = new Tb([0, 0, 2, 1, 0, .35, 1, 0, 1, 0, .7, 1, 0, 0, 0, 1]);
-    da.Mn = new Tb([0, -1, 3, 0, 0, .35, 0, 0, 0, 0, .65, 0, 0, 1, 3, 1]);
+    messageCanvas.Ln = new Tb([0, 0, 2, 1, 0, .35, 1, 0, 1, 0, .7, 1, 0, 0, 0, 1]);
+    messageCanvas.Mn = new Tb([0, -1, 3, 0, 0, .35, 0, 0, 0, 0, .65, 0, 0, 1, 3, 1]);
     Ab.O = "<div class='dialog change-location-view'><h1>Change Location</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='change'>Change</button><button data-hook='cancel'>Cancel</button></div></div></div>";
     $a.O = "<div class='chatbox-view'><div class='chatbox-view-contents'><div data-hook='drag' class='drag'></div><div data-hook='log' class='log subtle-thin-scrollbar'><div data-hook='log-contents' class='log-contents'><p>Controls:<br/>Move: WASD or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div></div><div class='autocompletebox' data-hook='autocompletebox'></div><div class='input'><input data-hook='input' type='text' /></div></div></div>";
     nameInputForm.O = "<div class='choose-nickname-view'><img src=\"images/haxball.png\" /><div class='dialog'><h1>Choose nickname</h1><div class='label-input'><label>Nick:</label><input data-hook='input' type='text' /></div><button data-hook='ok'>Ok</button></div></div>";
