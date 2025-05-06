@@ -5,7 +5,7 @@
 'use strict';
 (function(pa) {
     function ka() {
-        return w.Pe(this, "")
+        return typeUtility.Pe(this, "")
     }
     function BindEventHandler(a, b) {
         if (null == b)
@@ -104,7 +104,7 @@
                             D.h(b.Cg, h)
                         } catch (h) {
                             g = v.Mb(h).Fb(),
-                            g instanceof SyntaxError ? D.h(b.vi, "SyntaxError in line: " + utils.Je(g.lineNumber)) : g instanceof Sa ? D.h(b.vi, g.eq) : D.h(b.vi, "Error loading stadium file.")
+                            g instanceof SyntaxError ? D.h(b.vi, "SyntaxError in line: " + integerUtils.Je(g.lineNumber)) : g instanceof Sa ? D.h(b.vi, g.eq) : D.h(b.vi, "Error loading stadium file.")
                         }
                     }
                     ;
@@ -175,17 +175,17 @@
     class jb {
         constructor() {
             this.Rb = -1;
-            this.gb = new T(m.j.configLowLatencyCanvas.v());
+            this.gb = new T(gameConfig.j.configLowLatencyCanvas.v());
             this.Wc = new ic;
             this.f = dOMManipulator.CreateElementFromHTML(jb.O);
             let a = dOMManipulator.MapDataHooks(this.f);
             this.Tb = new Ob(a.get("red-score"),0);
             this.Ob = new Ob(a.get("blue-score"),0);
-            dOMManipulator.replaceWith(a.get("timer"), this.Wc.f);
+            dOMManipulator.replaceWith(a.get("timer"), this.Wc.gameTimerContainer);
             dOMManipulator.replaceWith(a.get("canvas"), this.gb.na)
         }
         A(a) {
-            var b = m.j.configLowLatencyCanvas.v();
+            var b = gameConfig.j.configLowLatencyCanvas.v();
             if (this.gb.Fp != b) {
                 let c = this.gb.na;
                 this.gb = new T(b);
@@ -468,11 +468,11 @@
             a.ke = b.ke
         }
     }
-    class inputMapping {
+    class InputMapping {
         constructor() {
             this.fd = new Map
         }
-        Pa(a, b) {
+        bindKey(a, b) {
             this.fd.set(a, b)
         }
         v(a) {
@@ -504,7 +504,7 @@
             return JSON.stringify(a)
         }
         static gg(a) {
-            let b = new inputMapping
+            let b = new InputMapping
               , c = Ac.mn(a)
               , d = 0;
             for (; d < c.length; ) {
@@ -515,31 +515,31 @@
             return b
         }
         static ParseInputMapping(a) {
-            return inputMapping.gg(JSON.parse(a))
+            return InputMapping.gg(JSON.parse(a))
         }
-        static initializeInputMapping() {
-            let a = new inputMapping;
-            a.Pa("ArrowUp", "Up");
-            a.Pa("KeyW", "Up");
-            a.Pa("ArrowDown", "Down");
-            a.Pa("KeyS", "Down");
-            a.Pa("ArrowLeft", "Left");
-            a.Pa("KeyA", "Left");
-            a.Pa("ArrowRight", "Right");
-            a.Pa("KeyD", "Right");
-            a.Pa("KeyX", "Kick");
-            a.Pa("Space", "Kick");
-            a.Pa("ControlLeft", "Kick");
-            a.Pa("ControlRight", "Kick");
-            a.Pa("ShiftLeft", "Kick");
-            a.Pa("ShiftRight", "Kick");
-            a.Pa("Numpad0", "Kick");
-            return a
+        static getInputMapping() {
+            let inputMapping = new InputMapping;
+            inputMapping.bindKey("ArrowUp", "Up");
+            inputMapping.bindKey("KeyW", "Up");
+            inputMapping.bindKey("ArrowDown", "Down");
+            inputMapping.bindKey("KeyS", "Down");
+            inputMapping.bindKey("ArrowLeft", "Left");
+            inputMapping.bindKey("KeyA", "Left");
+            inputMapping.bindKey("ArrowRight", "Right");
+            inputMapping.bindKey("KeyD", "Right");
+            inputMapping.bindKey("KeyX", "Kick");
+            inputMapping.bindKey("Space", "Kick");
+            inputMapping.bindKey("ControlLeft", "Kick");
+            inputMapping.bindKey("ControlRight", "Kick");
+            inputMapping.bindKey("ShiftLeft", "Kick");
+            inputMapping.bindKey("ShiftRight", "Kick");
+            inputMapping.bindKey("Numpad0", "Kick");
+            return inputMapping
         }
     }
-    class utils {
+    class integerUtils {
         static Je(a) {
-            return w.Pe(a, "")
+            return typeUtility.Pe(a, "")
         }
         static parseInt(a) {
             a = parseInt(a);
@@ -718,20 +718,20 @@
         static xj(a) {
             C.Ys() && C.Ss(function() {
                 Jc.xj();
-                let b = null == m.j.configGeo.v() ? la.lp().then(function(d) {
-                    m.j.configGeo.saveAvatar(d)
+                let b = null == gameConfig.j.configGeo.v() ? la.lp().then(function(d) {
+                    gameConfig.j.configGeo.saveAvatar(d)
                 }, function() {}) : Promise.resolve(null)
                   , c = Z.v("res.dat", "arraybuffer").then(function(d) {
                     d = new JSZip(d);
-                    m.Qa = new jc(d);
-                    return Promise.all([m.Qa.Xo, C.ih(d.file("images/grass.png").asArrayBuffer()).then(function(e) {
-                        return m.qp = e
+                    gameConfig.Qa = new jc(d);
+                    return Promise.all([gameConfig.Qa.Xo, C.ih(d.file("images/grass.png").asArrayBuffer()).then(function(e) {
+                        return gameConfig.qp = e
                     }), C.ih(d.file("images/concrete.png").asArrayBuffer()).then(function(e) {
-                        return m.Co = e
+                        return gameConfig.Co = e
                     }), C.ih(d.file("images/concrete2.png").asArrayBuffer()).then(function(e) {
-                        return m.Ao = e
+                        return gameConfig.Ao = e
                     }), C.ih(d.file("images/typing.png").asArrayBuffer()).then(function(e) {
-                        return m.cn = e
+                        return gameConfig.cn = e
                     })])
                 });
                 Promise.all([c, b]).then(function() {
@@ -761,7 +761,7 @@
             window.document.body.appendChild(C.$g);
             let b = null;
             b = function() {
-                m.Qa.rm();
+                gameConfig.Qa.rm();
                 window.document.removeEventListener("click", b, !0)
             }
             ;
@@ -1002,17 +1002,17 @@
             return 0 == this.cb.length ? 0 : this.cb[this.cb.length - 1].value
         }
     }
-    class Cc {
-        static pn() {
+    class LocalStorageManager {
+        static createLocalStorageInstance() {
             try {
-                let a = window.localStorage;
-                a.getItem("");
-                if (0 == a.length) {
+                let localStorage = window.localStorage;
+                localStorage.getItem("");
+                if (localStorage.length == 0) {
                     let b = "_hx_" + Math.random();
-                    a.setItem(b, b);
-                    a.removeItem(b)
+                    localStorage.setItem(b, b);
+                    localStorage.removeItem(b)
                 }
-                return a
+                return localStorage
             } catch (a) {
                 return null
             }
@@ -1023,14 +1023,14 @@
             this.Ga = 0;
             this.Ck = this.Dk = !1;
             this.Ye = 0;
-            this.f = window.document.createElement("div");
-            this.f.className = "game-timer-view";
-            this.f.appendChild(this.Lq = this.ee("OVERTIME!", "overtime"));
-            this.f.appendChild(this.gq = this.ee("0", "digit"));
-            this.f.appendChild(this.fq = this.ee("0", "digit"));
-            this.f.appendChild(this.ee(":", null));
-            this.f.appendChild(this.Nr = this.ee("0", "digit"));
-            this.f.appendChild(this.Mr = this.ee("0", "digit"))
+            this.gameTimerContainer = window.document.createElement("div");
+            this.gameTimerContainer.className = "game-timer-view";
+            this.gameTimerContainer.appendChild(this.Lq = this.ee("OVERTIME!", "overtime"));
+            this.gameTimerContainer.appendChild(this.gq = this.ee("0", "digit"));
+            this.gameTimerContainer.appendChild(this.fq = this.ee("0", "digit"));
+            this.gameTimerContainer.appendChild(this.ee(":", null));
+            this.gameTimerContainer.appendChild(this.Nr = this.ee("0", "digit"));
+            this.gameTimerContainer.appendChild(this.Mr = this.ee("0", "digit"))
         }
         ee(a, b) {
             let c = window.document.createElement("span");
@@ -1067,7 +1067,7 @@
             this.Ck = a)
         }
         fs(a) {
-            a != this.Dk && (this.f.className = a ? "game-timer-view time-warn" : "game-timer-view",
+            a != this.Dk && (this.gameTimerContainer.className = a ? "game-timer-view time-warn" : "game-timer-view",
             this.Dk = a)
         }
     }
@@ -1158,8 +1158,8 @@
             }
         }
     }
-    class Dc {
-        static xf(a) {
+    class UrlParameterParser {
+        static extractUrlParams(a) {
             let b = new mc("([^&=]+)=?([^&]*)","g");
             a = a.substring(1);
             var c = 0;
@@ -1174,8 +1174,8 @@
             }
             return d
         }
-        static v() {
-            return Dc.xf(window.top.location.search)
+        static getUrlParameters() {
+            return UrlParameterParser.extractUrlParams(window.top.location.search)
         }
     }
     class hb {
@@ -1294,7 +1294,7 @@
         }
         static pl(a) {
             a = a / 1E3 | 0;
-            return (a / 60 | 0) + ":" + aa.Of(utils.Je(a % 60))
+            return (a / 60 | 0) + ":" + aa.Of(integerUtils.Je(a % 60))
         }
     }
     class ta {
@@ -1352,7 +1352,7 @@
             }
         }
         static get() {
-            return Z.v(m.Se + "api/list", "arraybuffer").then(function(a) {
+            return Z.v(gameConfig.RESOURCE_SERVER_URL + "api/list", "arraybuffer").then(function(a) {
                 return Pb.parse(new J(new DataView(a),!1))
             })
         }
@@ -1416,7 +1416,7 @@
             p.Nf++
         }
         static Cj(a, b) {
-            let c = w.nn(a).Qn;
+            let c = typeUtility.nn(a).Qn;
             if (null == c)
                 throw v.C("Tried to pack unregistered action");
             b.m(c);
@@ -1568,9 +1568,9 @@
             this.lj = window.setInterval(function() {
                 a.A()
             }, 50);
-            var c = m.j.configExtrapolation.v();
+            var c = gameConfig.j.configExtrapolation.v();
             c = -200 > c ? -200 : 1E3 < c ? 1E3 : c;
-            0 != c && (a.Fm(m.j.configExtrapolation.v()),
+            0 != c && (a.Fm(gameConfig.j.configExtrapolation.v()),
             this.l.Ka.Hb("Extrapolation set to " + c + " msec"))
         }
         ls() {
@@ -1621,7 +1621,7 @@
         }
         Rc() {
             var a = window.performance.now();
-            1 == m.j.configFPSLimit.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
+            1 == gameConfig.j.configFPSLimit.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
             this.Bd++,
             a = this.za.U.oa(this.za.xc),
             null != a && (this.Ni = a.fb),
@@ -1656,8 +1656,8 @@
             }
         }
         Fa(a) {
-            var b = m.j.configViewMode;
-            let c = null != m.j.GetPlayerKeys.v().v(a.code);
+            var b = gameConfig.j.configViewMode;
+            let c = null != gameConfig.j.GetPlayerKeys.v().v(a.code);
             switch (a.keyCode) {
             case 9:
             case 13:
@@ -1751,7 +1751,7 @@
                 c.l.Jf.Gm(c.Bd);
                 c.Bd = 0
             }, 1E3);
-            this.Jm(m.j.configViewMode.v());
+            this.Jm(gameConfig.j.configViewMode.v());
             this.l.f.classList.add("replayer");
             this.se = new Ba(a);
             this.se.Eq = function() {
@@ -1789,14 +1789,14 @@
         Rc() {
             this.se.A();
             let a = window.performance.now();
-            1 == m.j.configFPSLimit.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
+            1 == gameConfig.j.configFPSLimit.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
             this.Bd++,
-            this.Jm(m.j.configViewMode.v()),
+            this.Jm(gameConfig.j.configViewMode.v()),
             0 < this.za.Pd || this.l.A(this.za))
         }
         Fa(a) {
-            var b = m.j.configViewMode;
-            let c = null != m.j.GetPlayerKeys.v().v(a.code);
+            var b = gameConfig.j.configViewMode;
+            let c = null != gameConfig.j.GetPlayerKeys.v().v(a.code);
             switch (a.keyCode) {
             case 27:
                 this.l.Zk() ? this.l.ab(null) : (b = this.l,
@@ -1835,9 +1835,9 @@
             this.W.ld(a)
         }
         Jm() {
-            let a = m.j.configViewMode.v()
+            let a = gameConfig.j.configViewMode.v()
               , b = this.l.ib.gb;
-            b.te = m.j.configResolutionScale.v();
+            b.te = gameConfig.j.configResolutionScale.v();
             b.Wg = 35;
             0 >= a ? b.Ld = 610 : (b.Ld = 0,
             b.Ig = 1 + .25 * (a - 1))
@@ -1897,9 +1897,9 @@
         }
         A(a, b) {
             if (null != a.I) {
-                let c = m.j.configTeamColors.v() ? b.mb[a.fa.ba] : a.fa.Um
+                let c = gameConfig.j.configTeamColors.v() ? b.mb[a.fa.ba] : a.fa.Um
                   , d = null != a.Sd ? a.Sd : a.Zb
-                  , e = m.j.configShowAvatars.v() && null != d;
+                  , e = gameConfig.j.configShowAvatars.v() && null != d;
                 if (!tb.so(this.mb, c) || !e && a.Nb != this.Ch || e && this.Zf != d)
                     tb.Io(this.mb, c),
                     e ? (this.Zf = d,
@@ -2325,7 +2325,7 @@
             this.fo = b.get("sound-bar-bg");
             let c = this;
             b.get("sound-btn").onclick = function() {
-                m.j.configSoundMain.saveAvatar(!m.j.configSoundMain.v());
+                gameConfig.j.configSoundMain.saveAvatar(!gameConfig.j.configSoundMain.v());
                 c.A()
             }
             ;
@@ -2337,8 +2337,8 @@
                         g = (g.clientY - h.top) / h.height
                     }
                     g = 1 - g;
-                    m.j.configSoundVolume.saveAvatar(1 < g ? 1 : 0 > g ? 0 : g);
-                    m.j.configSoundMain.saveAvatar(!0);
+                    gameConfig.j.configSoundVolume.saveAvatar(1 < g ? 1 : 0 > g ? 0 : g);
+                    gameConfig.j.configSoundMain.saveAvatar(!0);
                     c.A()
                 }
                 e(d);
@@ -2358,14 +2358,14 @@
             this.A()
         }
         A() {
-            let a = m.j.configSoundVolume.v()
-              , b = !m.j.configSoundMain.v();
+            let a = gameConfig.j.configSoundVolume.v()
+              , b = !gameConfig.j.configSoundMain.v();
             if (this.Lp != a || this.Kp != b)
                 this.Lp = a,
                 (this.Kp = b) && (a = 0),
                 this.Bp.className = "icon-" + (0 >= a ? "volume-off" : .5 >= a ? "volume-down" : "volume-up"),
                 this.ho.style.top = 100 * (1 - a) + "%",
-                m.Qa.Gi()
+                gameConfig.Qa.Gi()
         }
     }
     class ua {
@@ -2452,11 +2452,11 @@
             this.od && this.Xa.A(a.U, a.U.oa(a.xc));
             H.h(this.Xl);
             this.si.disabled = null == a.U.M;
-            let b = m.j.configViewMode.v()
+            let b = gameConfig.j.configViewMode.v()
               , c = this.ib.gb;
-            c.te = m.j.configResolutionScale.v();
-            this.Ur(m.j.configChatOpacity.v());
-            this.Tr("full" == m.j.configChatBGMode.v());
+            c.te = gameConfig.j.configResolutionScale.v();
+            this.Ur(gameConfig.j.configChatOpacity.v());
+            this.Tr("full" == gameConfig.j.configChatBGMode.v());
             this.cs(0 == b);
             let d = this.Ka.f.getBoundingClientRect().height;
             0 == b ? (c.Ig = 1,
@@ -2470,7 +2470,7 @@
             this.ib.f.style.paddingBottom = "0");
             a = a.hg();
             this.ib.A(a);
-            m.Qa.sk.wt(a)
+            gameConfig.Qa.sk.wt(a)
         }
         we(a) {
             this.od != a && (this.od = a,
@@ -2725,7 +2725,7 @@
             this.f.ondrop = function(d) {
                 d.preventDefault();
                 d = d.dataTransfer.getData("player");
-                null != d && (d = utils.parseInt(d),
+                null != d && (d = integerUtils.parseInt(d),
                 null != d && za.h(c.Ag, d, a))
             }
             ;
@@ -2945,12 +2945,12 @@
         }
         Fa(a) {
             var b = a.code;
-            b = m.j.GetPlayerKeys.v().v(b);
+            b = gameConfig.j.GetPlayerKeys.v().v(b);
             null != b && (a.preventDefault(),
             this.tq(b))
         }
         ld(a) {
-            a = m.j.GetPlayerKeys.v().v(a.code);
+            a = gameConfig.j.GetPlayerKeys.v().v(a.code);
             null != a && this.jq(a)
         }
         tq(a) {
@@ -3006,23 +3006,23 @@
             B.Pp()
         }
         static Pp() {
-            let a = m.j.configPlayerAuthKey.v();
+            let a = gameConfig.j.configPlayerAuthKey.v();
             null == a ? U.ep().then(function(b) {
                 B.Xe = b;
-                m.j.configPlayerAuthKey.saveAvatar(b.ts())
+                gameConfig.j.configPlayerAuthKey.saveAvatar(b.ts())
             }).catch(function() {}) : U.cp(a).then(function(b) {
                 return B.Xe = b
             }).catch(function() {})
         }
         static hp() {
-            let a = Cc.pn();
+            let a = LocalStorageManager.createLocalStorageInstance();
             return null != a ? null != a.getItem("crappy_router") : !1
         }
         static Ek(a) {
-            let b = new nameInputForm(m.j.configPlayerName.v());
+            let b = new nameInputForm(gameConfig.j.configPlayerName.v());
             b.Bl = function(c) {
-                m.j.configPlayerName.saveAvatar(c);
-                m.Qa.rm();
+                gameConfig.j.configPlayerName.saveAvatar(c);
+                gameConfig.Qa.rm();
                 a()
             }
             ;
@@ -3054,7 +3054,7 @@
             C.Na((new ba("Connecting","Connecting...",[])).f);
             let e = null;
             e = function(f, g) {
-                Z.Yl(m.Se + "api/client", "room=" + f + "&rcr=" + g, Z.Lj).then(function(h) {
+                Z.Yl(gameConfig.RESOURCE_SERVER_URL + "api/client", "room=" + f + "&rcr=" + g, Z.Lj).then(function(h) {
                     switch (h.action) {
                     case "connect":
                         h = h.token;
@@ -3076,14 +3076,14 @@
             e(a, "")
         }
         static fr() {
-            let a = Dc.v()
+            let a = UrlParameterParser.getUrlParameters()
               , b = a.get("c")
               , c = a.get("p");
             a.get("v");
             null != b ? null != c ? B.Ph(b) : B.eg(b) : B.xb()
         }
         static xb() {
-            let a = new Ua(m.j.Wh());
+            let a = new Ua(gameConfig.j.Wh());
             C.Na(a.La);
             a.zn = function(b) {
                 if (9 != b.je.Ee) {
@@ -3138,7 +3138,7 @@
             return "" + pa.location.origin + "/play?c=" + a + (b ? "&p=1" : "")
         }
         static Uo() {
-            let a = m.j.configPlayerName.v()
+            let a = gameConfig.j.configPlayerName.v()
               , b = new Bb("" + a + "'s room");
             C.Na(b.f);
             b.ti = function() {
@@ -3164,18 +3164,18 @@
                 }
                 C.Na((new ba("Creating room","Connecting...",[])).f);
                 let e = null
-                  , f = m.j.Wh()
+                  , f = gameConfig.j.Wh()
                   , g = new xa;
                 g.lc = c.name;
                 let h = new ya;
                 h.D = a;
                 h.fb = !0;
                 h.country = f.ub;
-                h.Zb = m.j.configAvatar.v();
+                h.Zb = gameConfig.j.configAvatar.v();
                 g.K.push(h);
                 let k = new Zb({
-                    iceServers: m.kg,
-                    Aj: m.Se + "api/host",
+                    iceServers: gameConfig.stunServers,
+                    Aj: gameConfig.RESOURCE_SERVER_URL + "api/host",
                     state: g,
                     version: 9
                 });
@@ -3293,12 +3293,12 @@
                 let d = B.hp()
                   , e = new xa
                   , f = A.ka();
-                f.oc(m.j.configPlayerName.v());
-                f.oc(m.j.Wh().ub);
-                f.Eb(m.j.configAvatar.v());
+                f.oc(gameConfig.j.configPlayerName.v());
+                f.oc(gameConfig.j.Wh().ub);
+                f.Eb(gameConfig.j.configAvatar.v());
                 let g = new Oa(a,{
-                    iceServers: m.kg,
-                    Aj: m.Hs,
+                    iceServers: gameConfig.stunServers,
+                    Aj: gameConfig.WEBSOCKET_URL,
                     state: e,
                     version: 9,
                     xt: f.Vg(),
@@ -3584,13 +3584,13 @@
                 }
                 break;
             case "extrapolation":
-                2 == commandArguments.length ? (commandArguments = utils.parseInt(commandArguments[1]),
-                null != commandArguments && -200 <= commandArguments && 1E3 >= commandArguments ? (m.j.configExtrapolation.saveAvatar(commandArguments),
+                2 == commandArguments.length ? (commandArguments = integerUtils.parseInt(commandArguments[1]),
+                null != commandArguments && -200 <= commandArguments && 1E3 >= commandArguments ? (gameConfig.j.configExtrapolation.saveAvatar(commandArguments),
                 this.roomManager.Fm(commandArguments),
                 this.displayChatMessage("Extrapolation set to " + commandArguments + " msec")) : this.displayChatMessage("Extrapolation must be a value between -200 and 1000 milliseconds")) : this.displayChatMessage("Extrapolation requires a value in milliseconds.");
                 break;
             case "handicap":
-                commandArguments.length == 2 ? (commandArguments = utils.parseInt(commandArguments[1]),
+                commandArguments.length == 2 ? (commandArguments = integerUtils.parseInt(commandArguments[1]),
                 null != commandArguments && 0 <= commandArguments && 300 >= commandArguments ? (this.roomManager.Vr(commandArguments),
                 this.displayChatMessage("Ping handicap set to " + commandArguments + " msec")) : this.displayChatMessage("Ping handicap must be a value between 0 and 300 milliseconds")) : this.displayChatMessage("Ping handicap requires a value in milliseconds.");
                 break;
@@ -3598,9 +3598,9 @@
                 if (4 > commandArguments.length)
                     this.displayChatMessage("Usage: /kick_ratelimit <min> <rate> <burst>");
                 else {
-                    d = utils.parseInt(commandArguments[1]);
-                    var e = utils.parseInt(commandArguments[2]);
-                    commandArguments = utils.parseInt(commandArguments[3]);
+                    d = integerUtils.parseInt(commandArguments[1]);
+                    var e = integerUtils.parseInt(commandArguments[2]);
+                    commandArguments = integerUtils.parseInt(commandArguments[3]);
                     null == d || null == e || null == commandArguments ? this.displayChatMessage("Invalid arguments") : this.roomManager.ta(Pa.qa(d, e, commandArguments))
                 }
                 break;
@@ -3652,7 +3652,7 @@
         }
         setAvatarCommand(avatarString) {
             null != avatarString && (avatarString = stringUtils2.substr(avatarString, 3));
-            m.j.configAvatar.saveAvatar(avatarString);
+            gameConfig.j.configAvatar.saveAvatar(avatarString);
             this.roomManager.ta(Qa.qa(avatarString))
         }
         static Mq(a) {
@@ -3677,14 +3677,14 @@
             }
             if ("clear" == a[2])
                 return b;
-            c.sd = 256 * utils.parseInt(a[2]) / 360 | 0;
-            c.pd = utils.parseInt("0x" + a[3]);
+            c.sd = 256 * integerUtils.parseInt(a[2]) / 360 | 0;
+            c.pd = integerUtils.parseInt("0x" + a[3]);
             if (4 < a.length) {
                 c.hb = [];
                 let d = 4
                   , e = a.length;
                 for (; d < e; )
-                    c.hb.push(utils.parseInt("0x" + a[d++]))
+                    c.hb.push(integerUtils.parseInt("0x" + a[d++]))
             }
             return b
         }
@@ -3982,7 +3982,7 @@
                 return new ta(g,configInstance,function(k) {
                     let l = h;
                     try {
-                        null != k && (l = utils.parseInt(k))
+                        null != k && (l = integerUtils.parseInt(k))
                     } catch (n) {}
                     return l
                 }
@@ -4000,7 +4000,7 @@
                 }
                 )
             }
-            let configInstance = Cc.pn();
+            let configInstance = LocalStorageManager.createLocalStorageInstance();
             this.configPlayerName = e("player_name", "", 25);
             this.configViewMode = d("view_mode", -1);
             this.configFPSLimit = d("fps_limit", 0);
@@ -4027,11 +4027,11 @@
             this.GetPlayerKeys = function() {
                 return new ta("player_keys",configInstance,function(inputValue) {
                     if (null == inputValue)
-                        return inputMapping.initializeInputMapping();
+                        return InputMapping.getInputMapping();
                     try {
-                        return inputMapping.ParseInputMapping(inputValue)
+                        return InputMapping.ParseInputMapping(inputValue)
                     } catch (h) {
-                        return inputMapping.initializeInputMapping()
+                        return InputMapping.getInputMapping()
                     }
                 }
                 ,function(inputValue) {
@@ -4092,7 +4092,7 @@
             0 >= this.qh && .05 > this.He && (window.clearInterval(this.uh),
             this.uh = null,
             this.He = 0);
-            a = m.j.configSoundCrowd.v() ? this.He : 0;
+            a = gameConfig.j.configSoundCrowd.v() ? this.He : 0;
             this.fh.gain.value = a
         }
         Fj(a) {
@@ -4218,11 +4218,11 @@
             null != a && a()
         }
     }
-    class m {
+    class gameConfig {
     }
     class Ra {
     }
-    class w {
+    class typeUtility {
         static nn(a) {
             if (null == a)
                 return null;
@@ -4232,8 +4232,8 @@
                 let b = a.g;
                 if (null != b)
                     return b;
-                a = w.Nj(a);
-                return null != a ? w.Un(a) : null
+                a = typeUtility.GetTypeName(a);
+                return null != a ? typeUtility.Un(a) : null
             }
         }
         static Pe(a, b) {
@@ -4257,7 +4257,7 @@
                         for (d = d.Oe; f < d.length; ) {
                             let g = d[f];
                             f += 1;
-                            e.push(w.Pe(a[g], b))
+                            e.push(typeUtility.Pe(a[g], b))
                         }
                         a = e;
                         return c + "(" + a.join(",") + ")"
@@ -4270,7 +4270,7 @@
                     e = 0;
                     for (f = a.length; e < f; )
                         d = e++,
-                        c += (0 < d ? "," : "") + w.Pe(a[d], b);
+                        c += (0 < d ? "," : "") + typeUtility.Pe(a[d], b);
                     return c += "]"
                 }
                 try {
@@ -4287,7 +4287,7 @@
                 f = null;
                 for (f in a)
                     e && !a.hasOwnProperty(f) || "prototype" == f || "__class__" == f || "__super__" == f || "__interfaces__" == f || "__properties__" == f || (2 != c.length && (c += ", \n"),
-                    c += b + f + " : " + w.Pe(a[f], b));
+                    c += b + f + " : " + typeUtility.Pe(a[f], b));
                 b = b.substring(1);
                 return c += "\n" + b + "}";
             case "string":
@@ -4308,57 +4308,61 @@
                       , e = c.length;
                     for (; d < e; ) {
                         let f = c[d++];
-                        if (f == b || w.Mj(f, b))
+                        if (f == b || typeUtility.Mj(f, b))
                             return !0
                     }
                 }
                 a = a.ja
             }
         }
-        static Sn(a, b) {
-            if (null == b)
-                return !1;
-            switch (b) {
+        static CheckValueType(valueToCheck, expectedType) {
+            if (expectedType == null)
+                return false;
+            switch (expectedType) {
             case Array:
-                return a instanceof Array;
-            case Gc:
-                return "boolean" == typeof a;
+                return valueToCheck instanceof Array;
+            case BooleanType:
+                return "boolean" == typeof valueToCheck;
             case Nc:
-                return null != a;
-            case E:
-                return "number" == typeof a;
-            case bc:
-                return "number" == typeof a ? (a | 0) === a : !1;
+                return null != valueToCheck;
+            case NumericType:
+                return "number" == typeof valueToCheck;
+            case isIntegerCheck:
+                if (typeof valueToCheck == "number") {
+                    return Number.isInteger(valueToCheck);
+                } else {
+                    return false;
+                }
             case String:
-                return "string" == typeof a;
+                return "string" == typeof valueToCheck;
             default:
-                if (null != a)
-                    if ("function" == typeof b) {
-                        if (w.Rn(a, b))
-                            return !0
+                if (null != valueToCheck)
+                    if ("function" == typeof expectedType) {
+                        if (typeUtility.IsInstanceOf(valueToCheck, expectedType))
+                            return true
                     } else {
-                        if ("object" == typeof b && w.Tn(b) && a instanceof b)
-                            return !0
+                        if ("object" == typeof expectedType && typeUtility.IsTypeDefined(expectedType) && valueToCheck instanceof expectedType)
+                            return true
                     }
                 else
-                    return !1;
-                return b == Oc && null != a.b || b == Pc && null != a.Wf ? !0 : null != a.Gb ? Ib[a.Gb] == b : !1
+                    return false;
+                return expectedType == Oc && null != valueToCheck.b || expectedType == Pc && null != valueToCheck.Wf ? !0 : null != valueToCheck.Gb ? Ib[valueToCheck.Gb] == expectedType : !1
             }
         }
-        static Rn(a, b) {
-            return a instanceof b ? !0 : b.xh ? w.Mj(w.nn(a), b) : !1
+        static IsInstanceOf(a, b) {
+            return a instanceof b ? true : b.xh ? typeUtility.Mj(typeUtility.nn(a), b) : false
         }
         static J(a, b) {
-            if (null == a || w.Sn(a, b))
+            if (null == a || typeUtility.CheckValueType(a, b))
                 return a;
-            throw v.C("Cannot cast " + utils.Je(a) + " to " + utils.Je(b));
+            throw v.C("Cannot cast " + integerUtils.Je(a) + " to " + integerUtils.Je(b));
         }
-        static Nj(a) {
-            a = w.Vn.call(a).slice(8, -1);
+        static GetTypeName(a) {
+            a = typeUtility.Vn.call(a).slice(8, -1);
             return "Object" == a || "Function" == a || "Math" == a || "JSON" == a ? null : a
         }
-        static Tn(a) {
-            return null != w.Nj(a)
+        static IsTypeDefined(a) {
+            return null != typeUtility.GetTypeName(a)
         }
         static Un(a) {
             return pa[a]
@@ -4530,7 +4534,7 @@
             null == this.pm && (b(),
             this.pm = window.setTimeout(b, 1E3))
         }
-        $i(a) {
+        $i(recaptchaResponse) {
             function b(e) {
                 e = e.sitekey;
                 if (null == e)
@@ -4539,14 +4543,14 @@
                     d.$i(f)
                 })
             }
-            function c(e) {
-                let f = e.url;
+            function c(webSocketConfig) {
+                let f = webSocketConfig.url;
                 if (null == f)
                     throw v.C(null);
-                e = e.token;
-                if (null == e)
+                webSocketConfig = webSocketConfig.token;
+                if (null == webSocketConfig)
                     throw v.C(null);
-                d.aa = new WebSocket(f + "?token=" + e);
+                d.aa = new WebSocket(f + "?token=" + webSocketConfig);
                 d.aa.binaryType = "arraybuffer";
                 d.aa.onopen = function() {
                     d.yp()
@@ -4562,9 +4566,9 @@
                 ;
                 d.aa.onmessage = BindEventHandler(d, d.ai)
             }
-            null == a && (a = "");
+            null == recaptchaResponse && (recaptchaResponse = "");
             let d = this;
-            Z.Yl(this.js, "token=" + this.Ff + "&rcr=" + a, Z.Lj).then(function(e) {
+            Z.Yl(this.js, "token=" + this.Ff + "&rcr=" + recaptchaResponse, Z.Lj).then(function(e) {
                 switch (e.action) {
                 case "connect":
                     c(e);
@@ -4818,7 +4822,7 @@
             this.Fg.textContent = "" + this.zb;
             let c = this;
             this.f.ondragstart = function(d) {
-                d.dataTransfer.setData("player", utils.Je(c.ba))
+                d.dataTransfer.setData("player", integerUtils.Je(c.ba))
             }
             ;
             this.f.oncontextmenu = function(d) {
@@ -5140,8 +5144,7 @@
             return b
         }
         static lp() {
-            return Z.Nk(m.Se + "api/geo").then(function(a) {
-                console.log('URL: ', m.Se)
+            return Z.Nk(gameConfig.RESOURCE_SERVER_URL + "api/geo").then(function(a) {
                 return la.gg(a)
             })
         }
@@ -5241,8 +5244,8 @@
             b.start()
         }
         Gi() {
-            let a = m.j.configSoundVolume.v();
-            m.j.configSoundMain.v() || (a = 0);
+            let a = gameConfig.j.configSoundVolume.v();
+            gameConfig.j.configSoundMain.v() || (a = 0);
             this.qg.gain.value = a
         }
     }
@@ -5255,7 +5258,7 @@
         }
         hm() {
             let a = this;
-            Z.Nk(m.Se + "api/notice").then(function(b) {
+            Z.Nk(gameConfig.RESOURCE_SERVER_URL + "api/notice").then(function(b) {
                 let c = b.content;
                 null != c && "" != c && lb.vo != c && (a.Ho.innerHTML = c,
                 a.ql.hidden = !1,
@@ -5280,7 +5283,7 @@
             a.get("drag").onmousedown = function(c) {
                 function d(h) {
                     h.preventDefault();
-                    m.j.configChatHeight.saveAvatar(gc(gc(e + (f - h.y))));
+                    gameConfig.j.configChatHeight.saveAvatar(gc(gc(e + (f - h.y))));
                     context.chatbarInput.blur();
                     context.bf = !1;
                     context.Af()
@@ -5370,9 +5373,9 @@
             this.f.style.height = a + "px"
         }
         pk() {
-            let a = gc(m.j.configChatHeight.v());
+            let a = gc(gameConfig.j.configChatHeight.v());
             if (this.fi) {
-                let b = gc(m.j.configChatFocusHeight.v());
+                let b = gc(gameConfig.j.configChatFocusHeight.v());
                 a <= b && (a = b)
             } else
                 this.bf && (a = 0);
@@ -5449,7 +5452,7 @@
             let c = this;
             a.Sl = function(d) {
                 c.l.Ka.Hb("" + d.D + " has joined");
-                m.Qa.md(m.Qa.Gp);
+                gameConfig.Qa.md(gameConfig.Qa.Gp);
                 c.jj(a)
             }
             ;
@@ -5458,34 +5461,34 @@
                 null == e ? d = "" + d.D + " has left" : (Xb.h(c.wq, d.Z, e, null != g ? g.D : null, f),
                 d = "" + d.D + " was " + (f ? "banned" : "kicked") + b(g) + ("" != e ? " (" + e + ")" : ""));
                 c.l.Ka.Hb(d);
-                m.Qa.md(m.Qa.Mp);
+                gameConfig.Qa.md(gameConfig.Qa.Mp);
                 c.jj(a)
             }
             ;
             a.Ql = function(d, e) {
                 let f = null != c.di && -1 != e.indexOf(c.di);
                 c.l.Ka.da("" + d.D + ": " + e, f ? "highlight" : null);
-                m.j.configSoundHighlight.v() && f ? m.Qa.md(m.Qa.Tk) : m.j.configSoundChat.v() && m.Qa.md(m.Qa.ik)
+                gameConfig.j.configSoundHighlight.v() && f ? gameConfig.Qa.md(gameConfig.Qa.Tk) : gameConfig.j.configSoundChat.v() && gameConfig.Qa.md(gameConfig.Qa.ik)
             }
             ;
             a.tm = function(d, e, f, g) {
                 c.l.Ka.Xp(d, e, f);
-                if (m.j.configSoundChat.v())
+                if (gameConfig.j.configSoundChat.v())
                     switch (g) {
                     case 1:
-                        m.Qa.md(m.Qa.ik);
+                        gameConfig.Qa.md(gameConfig.Qa.ik);
                         break;
                     case 2:
-                        m.Qa.md(m.Qa.Tk)
+                        gameConfig.Qa.md(gameConfig.Qa.Tk)
                     }
             }
             ;
             a.zi = function() {
-                m.Qa.md(m.Qa.Ip)
+                gameConfig.Qa.md(gameConfig.Qa.Ip)
             }
             ;
             a.dj = function(d) {
-                m.Qa.md(m.Qa.op);
+                gameConfig.Qa.md(gameConfig.Qa.op);
                 let e = c.l.ib.gb.Cd;
                 e.Pa(d == u.ia ? e.nr : e.io)
             }
@@ -5625,7 +5628,7 @@
                     S.className = "icon-cancel";
                     S.onclick = function() {
                         Lb.sr(V);
-                        m.j.GetPlayerKeys.saveAvatar(Lb);
+                        gameConfig.j.GetPlayerKeys.saveAvatar(Lb);
                         xc.remove()
                     }
                     ;
@@ -5642,7 +5645,7 @@
                         V.stopPropagation();
                         V = V.code;
                         null == Lb.v(V) && (Lb.Pa(V, y),
-                        m.j.GetPlayerKeys.saveAvatar(Lb),
+                        gameConfig.j.GetPlayerKeys.saveAvatar(Lb),
                         Ic())
                     }
                 }
@@ -5664,12 +5667,12 @@
                 }
             }
             function d() {
-                let y = m.j.configChatFocusHeight.v();
+                let y = gameConfig.j.configChatFocusHeight.v();
                 K.textContent = "" + y;
                 N.value = "" + y
             }
             function e() {
-                let y = m.j.configChatOpacity.v();
+                let y = gameConfig.j.configChatOpacity.v();
                 t.textContent = "" + y;
                 z.value = "" + y
             }
@@ -5733,24 +5736,24 @@
             h("misc");
             h("input");
             k(n[na.ym]);
-            g("tsound-main", m.j.configSoundMain, function() {
-                m.Qa.Gi()
+            g("tsound-main", gameConfig.j.configSoundMain, function() {
+                gameConfig.Qa.Gi()
             });
-            g("tsound-chat", m.j.configSoundChat);
-            g("tsound-highlight", m.j.configSoundHighlight);
-            g("tsound-crowd", m.j.configSoundCrowd);
-            f("viewmode", m.j.configViewMode, function(y) {
+            g("tsound-chat", gameConfig.j.configSoundChat);
+            g("tsound-highlight", gameConfig.j.configSoundHighlight);
+            g("tsound-crowd", gameConfig.j.configSoundCrowd);
+            f("viewmode", gameConfig.j.configViewMode, function(y) {
                 return y - 1
             }, function(y) {
                 return y + 1
             });
-            f("fps", m.j.configFPSLimit, function(y) {
+            f("fps", gameConfig.j.configFPSLimit, function(y) {
                 return y
             }, function(y) {
                 return y
             });
             let r = [1, .75, .5, .25];
-            f("resscale", m.j.configResolutionScale, function(y) {
+            f("resscale", gameConfig.j.configResolutionScale, function(y) {
                 return r[y]
             }, function(y) {
                 let F = 0
@@ -5759,15 +5762,15 @@
                     ++F;
                 return F
             });
-            g("tvideo-lowlatency", m.j.configLowLatencyCanvas);
-            g("tvideo-teamcol", m.j.configTeamColors);
-            g("tvideo-showindicators", m.j.configShowIndicators);
-            g("tvideo-showavatars", m.j.configShowAvatars);
+            g("tvideo-lowlatency", gameConfig.j.configLowLatencyCanvas);
+            g("tvideo-teamcol", gameConfig.j.configTeamColors);
+            g("tvideo-showindicators", gameConfig.j.configShowIndicators);
+            g("tvideo-showavatars", gameConfig.j.configShowAvatars);
             let t = l.get("chatopacity-value")
               , z = l.get("chatopacity-range");
             e();
             z.oninput = function() {
-                m.j.configChatOpacity.saveAvatar(parseFloat(z.value));
+                gameConfig.j.configChatOpacity.saveAvatar(parseFloat(z.value));
                 e()
             }
             ;
@@ -5775,11 +5778,11 @@
               , N = l.get("chatfocusheight-range");
             d();
             N.oninput = function() {
-                m.j.configChatFocusHeight.saveAvatar(utils.parseInt(N.value));
+                gameConfig.j.configChatFocusHeight.saveAvatar(integerUtils.parseInt(N.value));
                 d()
             }
             ;
-            f("chatbgmode", m.j.configChatBGMode, function(y) {
+            f("chatbgmode", gameConfig.j.configChatBGMode, function(y) {
                 return 0 == y ? "full" : "compact"
             }, function(y) {
                 return "full" == y ? 0 : 1
@@ -5787,8 +5790,8 @@
             let Db = null
               , Mc = this;
             Db = function() {
-                let y = m.j.configGeoOverride.v();
-                c("loc", "Detected location", m.j.configGeo.v());
+                let y = gameConfig.j.configGeoOverride.v();
+                c("loc", "Detected location", gameConfig.j.configGeo.v());
                 c("loc-ovr", "Location override", y);
                 let F = l.get("loc-ovr-btn");
                 F.disabled = !a;
@@ -5798,14 +5801,14 @@
                 }
                 ) : (F.textContent = "Remove override",
                 F.onclick = function() {
-                    m.j.configGeoOverride.saveAvatar(null);
+                    gameConfig.j.configGeoOverride.saveAvatar(null);
                     Db()
                 }
                 )
             }
             ;
             Db();
-            let Lb = m.j.GetPlayerKeys.v()
+            let Lb = gameConfig.j.GetPlayerKeys.v()
               , yc = l.get("presskey")
               , Ic = null
               , eb = l.get("inputsec");
@@ -5961,7 +5964,7 @@
             b.ub = Ra.eb[(a << 2) + 1].toLowerCase();
             b.Jc = Ra.eb[(a << 2) + 2];
             b.Mc = Ra.eb[(a << 2) + 3];
-            m.j.configGeoOverride.saveAvatar(b);
+            gameConfig.j.configGeoOverride.saveAvatar(b);
             H.h(this.rb)
         }
     }
@@ -6261,11 +6264,11 @@
         }
         le(a, b) {
             a = a[b];
-            return null != a ? w.J(a, E) : 0
+            return null != a ? typeUtility.J(a, NumericType) : 0
         }
         Wp(a) {
             a = a.canBeStored;
-            return null != a ? w.J(a, Gc) : !0
+            return null != a ? typeUtility.J(a, BooleanType) : !0
         }
         Ce() {
             return JSON.stringify(this.ss())
@@ -6357,8 +6360,8 @@
         }
         el(a) {
             function b(h) {
-                let k = w.J(h[0], E);
-                h = w.J(h[1], E);
+                let k = typeUtility.J(h[0], NumericType);
+                h = typeUtility.J(h[1], NumericType);
                 null == h && (h = 0);
                 null == k && (k = 0);
                 return new P(k,h)
@@ -6367,7 +6370,7 @@
                 null == n && (n = !1);
                 var r = d[k];
                 if (!n || null != r)
-                    if (n = w.J(r, Array),
+                    if (n = typeUtility.J(r, Array),
                     null != n)
                         for (r = 0; r < n.length; ) {
                             let t = n[r];
@@ -6387,14 +6390,14 @@
             this.vc = [];
             this.H = [];
             this.qb = [];
-            this.D = w.J(d.name, String);
-            this.bc = w.J(d.width, E);
-            this.sc = w.J(d.height, E);
+            this.D = typeUtility.J(d.name, String);
+            this.bc = typeUtility.J(d.width, NumericType);
+            this.sc = typeUtility.J(d.height, NumericType);
             this.mf = this.le(d, "maxViewWidth") | 0;
             "player" == d.cameraFollow && (this.Ue = 1);
             this.mc = 200;
             a = d.spawnDistance;
-            null != a && (this.mc = w.J(a, E));
+            null != a && (this.mc = typeUtility.J(a, NumericType));
             a = d.bg;
             let e;
             switch (a.type) {
@@ -6961,7 +6964,7 @@
             return q.wb
         }
         static Zn(a, b) {
-            if (null != a.trait && (b = b[w.J(a.trait, String)],
+            if (null != a.trait && (b = b[typeUtility.J(a.trait, String)],
             null != b)) {
                 let c = 0
                   , d = Ac.mn(b);
@@ -6991,7 +6994,7 @@
             return b
         }
         static Kc(a) {
-            a = w.J(a, Array);
+            a = typeUtility.J(a, Array);
             let b = 0
               , c = 0;
             for (; c < a.length; )
@@ -7051,7 +7054,7 @@
             if ("transparent" == a)
                 return -1;
             if ("string" == typeof a)
-                return utils.parseInt("0x" + utils.Je(a));
+                return integerUtils.parseInt("0x" + integerUtils.Je(a));
             if (a instanceof Array)
                 return ((a[0] | 0) << 16) + ((a[1] | 0) << 8) + (a[2] | 0);
             throw v.C("Bad color");
@@ -7068,10 +7071,10 @@
         }
         static Vp(a) {
             let b = new G;
-            b.a.x = w.J(a.x, E);
-            b.a.y = w.J(a.y, E);
+            b.a.x = typeUtility.J(a.x, NumericType);
+            b.a.y = typeUtility.J(a.y, NumericType);
             var c = a.bCoef;
-            null != c && (b.o = w.J(c, E));
+            null != c && (b.o = typeUtility.J(c, NumericType));
             c = a.cMask;
             null != c && (b.i = q.Kc(c));
             a = a.cGroup;
@@ -7096,8 +7099,8 @@
         }
         static Up(a, b) {
             let c = new I;
-            var d = w.J(a.v1, bc);
-            c.$ = b[w.J(a.v0, bc)];
+            var d = typeUtility.J(a.v1, isIntegerCheck);
+            c.$ = b[typeUtility.J(a.v0, isIntegerCheck)];
             c.ea = b[d];
             b = a.bias;
             d = a.bCoef;
@@ -7107,10 +7110,10 @@
               , h = a.cMask
               , k = a.cGroup;
             a = a.color;
-            null != b && (c.Hc = w.J(b, E));
-            null != d && (c.o = w.J(d, E));
-            null != f ? c.vb = w.J(f, E) : null != e && c.Vc(w.J(e, E));
-            null != g && (c.bb = w.J(g, Gc));
+            null != b && (c.Hc = typeUtility.J(b, NumericType));
+            null != d && (c.o = typeUtility.J(d, NumericType));
+            null != f ? c.vb = typeUtility.J(f, NumericType) : null != e && c.Vc(typeUtility.J(e, NumericType));
+            null != g && (c.bb = typeUtility.J(g, BooleanType));
             null != h && (c.i = q.Kc(h));
             null != k && (c.B = q.Kc(k));
             null != a && (c.S = q.pg(a));
@@ -7128,8 +7131,8 @@
         }
         static Rp(a, b) {
             let c = new ob;
-            var d = w.J(a.d0, bc)
-              , e = w.J(a.d1, bc);
+            var d = typeUtility.J(a.d0, isIntegerCheck)
+              , e = typeUtility.J(a.d1, isIntegerCheck);
             let f = a.color
               , g = a.strength;
             a = a.length;
@@ -7145,9 +7148,9 @@
             d = e.a,
             e = b.x - d.x,
             b = b.y - d.y,
-            c.fc = c.Ib = Math.sqrt(e * e + b * b))) : a instanceof Array ? (c.Ib = w.J(a[0], E),
-            c.fc = w.J(a[1], E)) : c.fc = c.Ib = w.J(a, E);
-            c.ye = null == g || "rigid" == g ? 1 / 0 : w.J(g, E);
+            c.fc = c.Ib = Math.sqrt(e * e + b * b))) : a instanceof Array ? (c.Ib = typeUtility.J(a[0], NumericType),
+            c.fc = typeUtility.J(a[1], NumericType)) : c.fc = c.Ib = typeUtility.J(a, NumericType);
+            c.ye = null == g || "rigid" == g ? 1 / 0 : typeUtility.J(g, NumericType);
             null != f && (c.S = q.pg(f));
             return c
         }
@@ -7163,9 +7166,9 @@
         }
         static Sp(a) {
             let b = new R;
-            var c = w.J(a.normal, Array)
-              , d = w.J(c[0], E)
-              , e = w.J(c[1], E);
+            var c = typeUtility.J(a.normal, Array)
+              , d = typeUtility.J(c[0], NumericType)
+              , e = typeUtility.J(c[1], NumericType);
             c = b.ya;
             let f = d;
             var g = e;
@@ -7175,11 +7178,11 @@
             e = Math.sqrt(d * d + g * g);
             c.x = d / e;
             c.y = g / e;
-            b.Va = w.J(a.dist, E);
+            b.Va = typeUtility.J(a.dist, NumericType);
             c = a.bCoef;
             d = a.cMask;
             a = a.cGroup;
-            null != c && (b.o = w.J(c, E));
+            null != c && (b.o = typeUtility.J(c, NumericType));
             null != d && (b.i = q.Kc(d));
             null != a && (b.B = q.Kc(a));
             return b
@@ -7193,8 +7196,8 @@
         }
         static Qp(a) {
             let b = new Kb;
-            var c = w.J(a.p0, Array);
-            let d = w.J(a.p1, Array)
+            var c = typeUtility.J(a.p0, Array);
+            let d = typeUtility.J(a.p1, Array)
               , e = b.$;
             e.x = c[0];
             e.y = c[1];
@@ -7243,20 +7246,20 @@
               , n = a.cGroup
               , r = a.radius;
             a = a.kickback;
-            null != c && (b.o = w.J(c, E));
-            null != d && (b.ca = w.J(d, E));
-            null != e && (b.Ea = w.J(e, E));
-            null != f && (b.Qe = w.J(f, E));
-            null != g && (b.gf = w.J(g, E));
-            null != h && (b.hf = w.J(h, E));
-            null != k && (b.ef = w.J(k, E));
+            null != c && (b.o = typeUtility.J(c, NumericType));
+            null != d && (b.ca = typeUtility.J(d, NumericType));
+            null != e && (b.Ea = typeUtility.J(e, NumericType));
+            null != f && (b.Qe = typeUtility.J(f, NumericType));
+            null != g && (b.gf = typeUtility.J(g, NumericType));
+            null != h && (b.hf = typeUtility.J(h, NumericType));
+            null != k && (b.ef = typeUtility.J(k, NumericType));
             null != l && (c = b.ra,
-            d = w.J(l[1], E),
-            c.x = w.J(l[0], E),
+            d = typeUtility.J(l[1], NumericType),
+            c.x = typeUtility.J(l[0], NumericType),
             c.y = d);
             null != n && (b.B = q.Kc(n));
-            null != r && (b.V = w.J(r, E));
-            null != a && (b.ff = w.J(a, E));
+            null != r && (b.V = typeUtility.J(r, NumericType));
+            null != a && (b.ff = typeUtility.J(a, NumericType));
             return b
         }
         static So(a, b) {
@@ -7298,10 +7301,10 @@
             null != e && (d = b.ra,
             d.x = e[0],
             d.y = e[1]);
-            null != f && (b.V = w.J(f, E));
-            null != g && (b.o = w.J(g, E));
-            null != h && (b.ca = w.J(h, E));
-            null != k && (b.Ea = w.J(k, E));
+            null != f && (b.V = typeUtility.J(f, NumericType));
+            null != g && (b.o = typeUtility.J(g, NumericType));
+            null != h && (b.ca = typeUtility.J(h, NumericType));
+            null != k && (b.Ea = typeUtility.J(k, NumericType));
             null != l && (b.S = q.pg(l));
             null != n && (b.i = q.Kc(n));
             null != a && (b.B = q.Kc(a));
@@ -8291,9 +8294,9 @@
                 alpha: !1,
                 desynchronized: a
             });
-            this.rp = this.c.createPattern(m.qp, null);
-            this.Do = this.c.createPattern(m.Co, null);
-            this.Bo = this.c.createPattern(m.Ao, null)
+            this.rp = this.c.createPattern(gameConfig.qp, null);
+            this.Do = this.c.createPattern(gameConfig.Co, null);
+            this.Bo = this.c.createPattern(gameConfig.Ao, null)
         }
         vp(a, b) {
             a = this.nd.get(a.Z);
@@ -8549,7 +8552,7 @@
             T.Wi(this.c, !0)
         }
         wr(a, b) {
-            let c = m.j.configShowIndicators.v()
+            let c = gameConfig.j.configShowIndicators.v()
               , d = 0;
             for (a = a.K; d < a.length; ) {
                 let f = a[d];
@@ -8559,7 +8562,7 @@
                     continue;
                 e = e.a;
                 let g = this.nd.get(f.Z);
-                c && g.mg && this.c.drawImage(m.cn, e.x - .5 * m.cn.width, e.y - 35);
+                c && g.mg && this.c.drawImage(gameConfig.cn, e.x - .5 * gameConfig.cn.width, e.y - 35);
                 f != b && g.Yo(this.c, e.x, e.y + 50)
             }
         }
@@ -10441,7 +10444,7 @@
     stringUtils.b = !0;
     Math.b = !0;
     Ac.b = !0;
-    utils.b = !0;
+    integerUtils.b = !0;
     aa.b = !0;
     stringUtils2.b = !0;
     zc.b = !0;
@@ -10681,7 +10684,7 @@
     Object.assign(pb.prototype, {
         g: pb
     });
-    Dc.b = !0;
+    UrlParameterParser.b = !0;
     CommandManager.b = !0;
     Object.assign(CommandManager.prototype, {
         g: CommandManager
@@ -10707,16 +10710,16 @@
     Object.assign(uc.prototype, {
         g: uc
     });
-    Cc.b = !0;
+    LocalStorageManager.b = !0;
     ta.b = !0;
     Object.assign(ta.prototype, {
         g: ta
     });
-    inputMapping.b = !0;
-    Object.assign(inputMapping.prototype, {
-        g: inputMapping
+    InputMapping.b = !0;
+    Object.assign(InputMapping.prototype, {
+        g: InputMapping
     });
-    m.b = !0;
+    gameConfig.b = !0;
     nc.b = !0;
     Object.assign(nc.prototype, {
         g: nc
@@ -11077,7 +11080,7 @@
     Object.assign(Fc.prototype, {
         g: Fc
     });
-    w.b = !0;
+    typeUtility.b = !0;
     pa.Jj |= 0;
     "undefined" != typeof performance && "function" == typeof performance.now && (stringUtils.now = performance.now.bind(performance));
     null == String.fromCodePoint && (String.fromCodePoint = function(a) {
@@ -11093,10 +11096,10 @@
     Array.b = !0;
     Date.prototype.g = Date;
     Date.b = "Date";
-    var bc = {}
+    var isIntegerCheck = {}
       , Nc = {}
-      , E = Number
-      , Gc = Boolean
+      , NumericType = Number
+      , BooleanType = Boolean
       , Oc = {}
       , Pc = {};
     u.Oa = new u(0,16777215,0,-1,"Spectators","t-spec",0,0);
@@ -11105,7 +11108,7 @@
     u.Oa.Dg = u.Oa;
     u.ia.Dg = u.Da;
     u.Da.Dg = u.ia;
-    w.Vn = {}.toString;
+    typeUtility.Vn = {}.toString;
     Ja.Fo = {
         mandatory: {
             OfferToReceiveAudio: !1,
@@ -11147,12 +11150,12 @@
     }];
     Z.Lj = "application/x-www-form-urlencoded";
     Ra.eb = ["Afghanistan", "AF", 33.3, 65.1, "Albania", "AL", 41.1, 20.1, "Algeria", "DZ", 28, 1.6, "American Samoa", "AS", -14.2, -170.1, "Andorra", "AD", 42.5, 1.6, "Angola", "AO", -11.2, 17.8, "Anguilla", "AI", 18.2, -63, "Antigua and Barbuda", "AG", 17, -61.7, "Argentina", "AR", -34.5, -58.4, "Armenia", "AM", 40, 45, "Aruba", "AW", 12.5, -69.9, "Australia", "AU", -25.2, 133.7, "Austria", "AT", 47.5, 14.5, "Azerbaijan", "AZ", 40.1, 47.5, "Bahamas", "BS", 25, -77.3, "Bahrain", "BH", 25.9, 50.6, "Bangladesh", "BD", 23.6, 90.3, "Barbados", "BB", 13.1, -59.5, "Belarus", "BY", 53.7, 27.9, "Belgium", "BE", 50.5, 4.4, "Belize", "BZ", 17.1, -88.4, "Benin", "BJ", 9.3, 2.3, "Bermuda", "BM", 32.3, -64.7, "Bhutan", "BT", 27.5, 90.4, "Bolivia", "BO", -16.2, -63.5, "Bosnia and Herzegovina", "BA", 43.9, 17.6, "Botswana", "BW", -22.3, 24.6, "Bouvet Island", "BV", -54.4, 3.4, "Brazil", "BR", -14.2, -51.9, "British Indian Ocean Territory", "IO", -6.3, 71.8, "British Virgin Islands", "VG", 18.4, -64.6, "Brunei", "BN", 4.5, 114.7, "Bulgaria", "BG", 42.7, 25.4, "Burkina Faso", "BF", 12.2, -1.5, "Burundi", "BI", -3.3, 29.9, "Cambodia", "KH", 12.5, 104.9, "Cameroon", "CM", 7.3, 12.3, "Canada", "CA", 56.1, -106.3, "Cape Verde", "CV", 16, -24, "Cayman Islands", "KY", 19.5, -80.5, "Central African Republic", "CF", 6.6, 20.9, "Chad", "TD", 15.4, 18.7, "Chile", "CL", -35.6, -71.5, "China", "CN", 35.8, 104.1, "Christmas Island", "CX", -10.4, 105.6, "Colombia", "CO", 4.5, -74.2, "Comoros", "KM", -11.8, 43.8, "Congo [DRC]", "CD", -4, 21.7, "Congo [Republic]", "CG", -.2, 15.8, "Cook Islands", "CK", -21.2, -159.7, "Costa Rica", "CR", 9.7, -83.7, "Croatia", "HR", 45.1, 15.2, "Cuba", "CU", 21.5, -77.7, "Cyprus", "CY", 35.1, 33.4, "Czech Republic", "CZ", 49.8, 15.4, "C\u00f4te d'Ivoire", "CI", 7.5, -5.5, "Denmark", "DK", 56.2, 9.5, "Djibouti", "DJ", 11.8, 42.5, "Dominica", "DM", 15.4, -61.3, "Dominican Republic", "DO", 18.7, -70.1, "Ecuador", "EC", -1.8, -78.1, "Egypt", "EG", 26.8, 30.8, "El Salvador", "SV", 13.7, -88.8, "England", "ENG", 55.3, -3.4, "Equatorial Guinea", "GQ", 1.6, 10.2, "Eritrea", "ER", 15.1, 39.7, "Estonia", "EE", 58.5, 25, "Ethiopia", "ET", 9.1, 40.4, "Faroe Islands", "FO", 61.8, -6.9, "Fiji", "FJ", -16.5, 179.4, "Finland", "FI", 61.9, 25.7, "France", "FR", 46.2, 2.2, "French Guiana", "GF", 3.9, -53.1, "French Polynesia", "PF", -17.6, -149.4, "Gabon", "GA", -.8, 11.6, "Gambia", "GM", 13.4, -15.3, "Georgia", "GE", 42.3, 43.3, "Germany", "DE", 51.1, 10.4, "Ghana", "GH", 7.9, -1, "Gibraltar", "GI", 36.1, -5.3, "Greece", "GR", 39, 21.8, "Greenland", "GL", 71.7, -42.6, "Grenada", "GD", 12.2, -61.6, "Guadeloupe", "GP", 16.9, -62, "Guam", "GU", 13.4, 144.7, "Guatemala", "GT", 15.7, -90.2, "Guinea", "GN", 9.9, -9.6, "Guinea-Bissau", "GW", 11.8, -15.1, "Guyana", "GY", 4.8, -58.9, "Haiti", "HT", 18.9, -72.2, "Honduras", "HN", 15.1, -86.2, "Hong Kong", "HK", 22.3, 114.1, "Hungary", "HU", 47.1, 19.5, "Iceland", "IS", 64.9, -19, "India", "IN", 20.5, 78.9, "Indonesia", "ID", -.7, 113.9, "Iran", "IR", 32.4, 53.6, "Iraq", "IQ", 33.2, 43.6, "Ireland", "IE", 53.4, -8.2, "Israel", "IL", 31, 34.8, "Italy", "IT", 41.8, 12.5, "Jamaica", "JM", 18.1, -77.2, "Japan", "JP", 36.2, 138.2, "Jordan", "JO", 30.5, 36.2, "Kazakhstan", "KZ", 48, 66.9, "Kenya", "KE", -0, 37.9, "Kiribati", "KI", -3.3, -168.7, "Kosovo", "XK", 42.6, 20.9, "Kuwait", "KW", 29.3, 47.4, "Kyrgyzstan", "KG", 41.2, 74.7, "Laos", "LA", 19.8, 102.4, "Latvia", "LV", 56.8, 24.6, "Lebanon", "LB", 33.8, 35.8, "Lesotho", "LS", -29.6, 28.2, "Liberia", "LR", 6.4, -9.4, "Libya", "LY", 26.3, 17.2, "Liechtenstein", "LI", 47.1, 9.5, "Lithuania", "LT", 55.1, 23.8, "Luxembourg", "LU", 49.8, 6.1, "Macau", "MO", 22.1, 113.5, "Macedonia [FYROM]", "MK", 41.6, 21.7, "Madagascar", "MG", -18.7, 46.8, "Malawi", "MW", -13.2, 34.3, "Malaysia", "MY", 4.2, 101.9, "Maldives", "MV", 3.2, 73.2, "Mali", "ML", 17.5, -3.9, "Malta", "MT", 35.9, 14.3, "Marshall Islands", "MH", 7.1, 171.1, "Martinique", "MQ", 14.6, -61, "Mauritania", "MR", 21, -10.9, "Mauritius", "MU", -20.3, 57.5, "Mayotte", "YT", -12.8, 45.1, "Mexico", "MX", 23.6, -102.5, "Micronesia", "FM", 7.4, 150.5, "Moldova", "MD", 47.4, 28.3, "Monaco", "MC", 43.7, 7.4, "Mongolia", "MN", 46.8, 103.8, "Montenegro", "ME", 42.7, 19.3, "Montserrat", "MS", 16.7, -62.1, "Morocco", "MA", 31.7, -7, "Mozambique", "MZ", -18.6, 35.5, "Myanmar [Burma]", "MM", 21.9, 95.9, "Namibia", "NA", -22.9, 18.4, "Nauru", "NR", -.5, 166.9, "Nepal", "NP", 28.3, 84.1, "Netherlands", "NL", 52.1, 5.2, "Netherlands Antilles", "AN", 12.2, -69, "New Caledonia", "NC", -20.9, 165.6, "New Zealand", "NZ", -40.9, 174.8, "Nicaragua", "NI", 12.8, -85.2, "Niger", "NE", 17.6, 8, "Nigeria", "NG", 9, 8.6, "Niue", "NU", -19, -169.8, "Norfolk Island", "NF", -29, 167.9, "North Korea", "KP", 40.3, 127.5, "Northern Mariana Islands", "MP", 17.3, 145.3, "Norway", "NO", 60.4, 8.4, "Oman", "OM", 21.5, 55.9, "Pakistan", "PK", 30.3, 69.3, "Palau", "PW", 7.5, 134.5, "Palestinian Territories", "PS", 31.9, 35.2, "Panama", "PA", 8.5, -80.7, "Papua New Guinea", "PG", -6.3, 143.9, "Paraguay", "PY", -23.4, -58.4, "Peru", "PE", -9.1, -75, "Philippines", "PH", 12.8, 121.7, "Pitcairn Islands", "PN", -24.7, -127.4, "Poland", "PL", 51.9, 19.1, "Portugal", "PT", 39.3, -8.2, "Puerto Rico", "PR", 18.2, -66.5, "Qatar", "QA", 25.3, 51.1, "Romania", "RO", 45.9, 24.9, "Russia", "RU", 61.5, 105.3, "Rwanda", "RW", -1.9, 29.8, "R\u00e9union", "RE", -21.1, 55.5, "Saint Helena", "SH", -24.1, -10, "Saint Kitts", "KN", 17.3, -62.7, "Saint Lucia", "LC", 13.9, -60.9, "Saint Pierre", "PM", 46.9, -56.2, "Saint Vincent", "VC", 12.9, -61.2, "Samoa", "WS", -13.7, -172.1, "San Marino", "SM", 43.9, 12.4, "Saudi Arabia", "SA", 23.8, 45, "Scotland", "SCT", 56.5, 4.2, "Senegal", "SN", 14.4, -14.4, "Serbia", "RS", 44, 21, "Seychelles", "SC", -4.6, 55.4, "Sierra Leone", "SL", 8.4, -11.7, "Singapore", "SG", 1.3, 103.8, "Slovakia", "SK", 48.6, 19.6, "Slovenia", "SI", 46.1, 14.9, "Solomon Islands", "SB", -9.6, 160.1, "Somalia", "SO", 5.1, 46.1, "South Africa", "ZA", -30.5, 22.9, "South Georgia", "GS", -54.4, -36.5, "South Korea", "KR", 35.9, 127.7, "Spain", "ES", 40.4, -3.7, "Sri Lanka", "LK", 7.8, 80.7, "Sudan", "SD", 12.8, 30.2, "Suriname", "SR", 3.9, -56, "Svalbard and Jan Mayen", "SJ", 77.5, 23.6, "Swaziland", "SZ", -26.5, 31.4, "Sweden", "SE", 60.1, 18.6, "Switzerland", "CH", 46.8, 8.2, "Syria", "SY", 34.8, 38.9, "S\u00e3o Tom\u00e9 and Pr\u00edncipe", "ST", .1, 6.6, "Taiwan", "TW", 23.6, 120.9, "Tajikistan", "TJ", 38.8, 71.2, "Tanzania", "TZ", -6.3, 34.8, "Thailand", "TH", 15.8, 100.9, "Timor-Leste", "TL", -8.8, 125.7, "Togo", "TG", 8.6, .8, "Tokelau", "TK", -8.9, -171.8, "Tonga", "TO", -21.1, -175.1, "Trinidad and Tobago", "TT", 10.6, -61.2, "Tunisia", "TN", 33.8, 9.5, "Turkey", "TR", 38.9, 35.2, "Turkmenistan", "TM", 38.9, 59.5, "Turks and Caicos Islands", "TC", 21.6, -71.7, "Tuvalu", "TV", -7.1, 177.6, "U.S. Minor Outlying Islands", "UM", 0, 0, "U.S. Virgin Islands", "VI", 18.3, -64.8, "Uganda", "UG", 1.3, 32.2, "Ukraine", "UA", 48.3, 31.1, "United Arab Emirates", "AE", 23.4, 53.8, "United Kingdom", "GB", 55.3, -3.4, "United States", "US", 37, -95.7, "Uruguay", "UY", -32.5, -55.7, "Uzbekistan", "UZ", 41.3, 64.5, "Vanuatu", "VU", -15.3, 166.9, "Vatican City", "VA", 41.9, 12.4, "Venezuela", "VE", 6.4, -66.5, "Vietnam", "VN", 14, 108.2, "Wales", "WLS", 55.3, -3.4, "Wallis and Futuna", "WF", -13.7, -177.1, "Western Sahara", "EH", 24.2, -12.8, "Yemen", "YE", 15.5, 48.5, "Zambia", "ZM", -13.1, 27.8, "Zimbabwe", "ZW", -19, 29.1];
-    m.Hs = "wss://p2p.haxball.com/";
-    m.Se = "https://www.haxball.com/rs/";
-    m.kg = [{
+    gameConfig.WEBSOCKET_URL = "wss://p2p.haxball.com/";
+    gameConfig.RESOURCE_SERVER_URL = "https://www.haxball.com/rs/";
+    gameConfig.stunServers = [{
         urls: "stun:stun.l.google.com:19302"
     }];
-    m.j = new uc;
+    gameConfig.j = new uc;
     Y.ul = function() {
         let a = [];
         {
