@@ -66,7 +66,7 @@
             this.Xg();
             this.xi.onclick = function() {
                 null != b.lb && b.lb.Xd().then(function(e) {
-                    D.h(b.Cg, e)
+                    RoomCreator.createRoom(b.Cg, e)
                 })
             }
             ;
@@ -101,10 +101,10 @@
                             var g = f.result;
                             let h = new q;
                             h.el(g);
-                            D.h(b.Cg, h)
+                            RoomCreator.createRoom(b.Cg, h)
                         } catch (h) {
                             g = v.Mb(h).Fb(),
-                            g instanceof SyntaxError ? D.h(b.vi, "SyntaxError in line: " + integerUtils.Je(g.lineNumber)) : g instanceof Sa ? D.h(b.vi, g.eq) : D.h(b.vi, "Error loading stadium file.")
+                            g instanceof SyntaxError ? RoomCreator.createRoom(b.vi, "SyntaxError in line: " + integerUtils.Je(g.lineNumber)) : g instanceof Sa ? RoomCreator.createRoom(b.vi, g.eq) : RoomCreator.createRoom(b.vi, "Error loading stadium file.")
                         }
                     }
                     ;
@@ -823,7 +823,7 @@
                     g = g.item(0);
                     var h = new FileReader;
                     h.onload = function() {
-                        D.h(e.jt, h.result)
+                        RoomCreator.createRoom(e.jt, h.result)
                     }
                     ;
                     h.readAsArrayBuffer(g)
@@ -842,7 +842,7 @@
             }
             ;
             this.tn.onclick = function() {
-                null != e.Wd && D.h(e.zn, e.Wd.rt)
+                null != e.Wd && RoomCreator.createRoom(e.zn, e.Wd.rt)
             }
             ;
             this.on()
@@ -892,7 +892,7 @@
                     continue;
                 let n = new matchDetails(k);
                 n.TableBody.ondblclick = function() {
-                    D.h(g.zn, k)
+                    RoomCreator.createRoom(g.zn, k)
                 }
                 ;
                 n.TableBody.onclick = function() {
@@ -928,11 +928,11 @@
             let a = dOMManipulator.MapDataHooks(this.f)
               , b = this;
             a.get("cancel").onclick = function() {
-                D.h(b.rb, !1)
+                RoomCreator.createRoom(b.rb, !1)
             }
             ;
             a.get("leave").onclick = function() {
-                D.h(b.rb, !0)
+                RoomCreator.createRoom(b.rb, !0)
             }
         }
     }
@@ -2131,7 +2131,7 @@
         }
         zo(a) {
             a = (new J(new DataView(a))).N();
-            D.h(this.Qo, this.Ok() != a)
+            RoomCreator.createRoom(this.Qo, this.Ok() != a)
         }
         Im(a) {
             this.nm = a
@@ -2419,7 +2419,7 @@
                 }
                 ;
                 c.Cg = function(d) {
-                    D.h(b.Cg, d);
+                    RoomCreator.createRoom(b.Cg, d);
                     b.ab(null)
                 }
                 ;
@@ -2495,7 +2495,7 @@
             this.i = 63;
             this.o = 1;
             this.Va = 0;
-            this.ya = new P(0,0)
+            this.ya = new Vector2D(0,0)
         }
         ga(a) {
             let b = this.ya;
@@ -2730,11 +2730,11 @@
             }
             ;
             this.hi.onclick = function() {
-                D.h(c.sq, a)
+                RoomCreator.createRoom(c.sq, a)
             }
             ;
             this.Li.onclick = function() {
-                D.h(c.oe, a)
+                RoomCreator.createRoom(c.oe, a)
             }
         }
         A(a, b, c, d) {
@@ -2754,7 +2754,7 @@
                 f = this.Fd.get(e.Z),
                 null == f && (f = new yb(e),
                 f.wf = function(h) {
-                    D.h(g.wf, h)
+                    RoomCreator.createRoom(g.wf, h)
                 }
                 ,
                 this.Fd.set(e.Z, f),
@@ -2956,7 +2956,7 @@
         tq(a) {
             this.InputCommands.has(a) || (this.InputCommands.add(a),
             this.A(),
-            D.h(this.xl, a))
+            RoomCreator.createRoom(this.xl, a))
         }
         jq(a) {
             this.InputCommands.delete(a) && this.A()
@@ -3473,7 +3473,7 @@
                 a = .5 * (a.y - b.y);
                 b = this.$.a;
                 let d = this.vb;
-                this.fe = new P(b.x + c + -a * d,b.y + a + c * d);
+                this.fe = new Vector2D(b.x + c + -a * d,b.y + a + c * d);
                 a = this.$.a;
                 b = this.fe;
                 c = a.x - b.x;
@@ -3481,10 +3481,10 @@
                 this.tk = Math.sqrt(c * c + a * a);
                 c = this.$.a;
                 a = this.fe;
-                this.Sg = new P(-(c.y - a.y),c.x - a.x);
+                this.Sg = new Vector2D(-(c.y - a.y),c.x - a.x);
                 c = this.fe;
                 a = this.ea.a;
-                this.Tg = new P(-(c.y - a.y),c.x - a.x);
+                this.Tg = new Vector2D(-(c.y - a.y),c.x - a.x);
                 0 >= this.vb && (a = c = this.Sg,
                 c.x = -a.x,
                 c.y = -a.y,
@@ -3497,7 +3497,7 @@
                 c = a.x - b.x,
                 a = -(a.y - b.y),
                 b = Math.sqrt(a * a + c * c),
-                this.ya = new P(a / b,c / b)
+                this.ya = new Vector2D(a / b,c / b)
         }
     }
     class ab {
@@ -3723,11 +3723,11 @@
             this.nl(this.Lf, this.ml());
             this.nl(this.Ef, this.ml());
             this.Lf.onchange = function() {
-                D.h(f.Kq, f.Lf.selectedIndex)
+                RoomCreator.createRoom(f.Kq, f.Lf.selectedIndex)
             }
             ;
             this.Ef.onchange = function() {
-                D.h(f.Cq, f.Ef.selectedIndex)
+                RoomCreator.createRoom(f.Cq, f.Ef.selectedIndex)
             }
             ;
             this.Rm.onclick = function() {
@@ -3747,7 +3747,7 @@
             }
             ;
             this.gl.onclick = function() {
-                D.h(f.Jq, !f.ji)
+                RoomCreator.createRoom(f.Jq, !f.ji)
             }
             ;
             this.qm.onclick = function() {
@@ -3782,7 +3782,7 @@
             }
             ;
             b.oe = function(e) {
-                D.h(d.oe, e)
+                RoomCreator.createRoom(d.oe, e)
             }
             ;
             b.sq = function(e) {
@@ -3790,7 +3790,7 @@
             }
             ;
             b.wf = function(e) {
-                D.h(d.wf, e)
+                RoomCreator.createRoom(d.wf, e)
             }
         }
         ml() {
@@ -3896,8 +3896,8 @@
             this.og.value = a)
         }
     }
-    class D {
-        static h(a, b) {
+    class RoomCreator {
+        static createRoom(a, b) {
             null != a && a(b)
         }
     }
@@ -4057,7 +4057,7 @@
             return this.Ks[this.current++]
         }
     }
-    class P {
+    class Vector2D {
         constructor(a, b) {
             this.x = a;
             this.y = b
@@ -4169,14 +4169,14 @@
                 ca.lr = d.render(ca.Kg, {
                     sitekey: a,
                     callback: function(e) {
-                        D.h(ca.fm, e)
+                        RoomCreator.createRoom(ca.fm, e)
                     },
                     theme: "dark"
                 }));
                 d.reset(ca.lr);
                 ca.fm = function(e) {
                     window.setTimeout(function() {
-                        D.h(c.Wa, e)
+                        RoomCreator.createRoom(c.Wa, e)
                     }, 1E3);
                     ca.fm = null
                 }
@@ -4386,7 +4386,7 @@
                   , n = window.document.createElement("button");
                 n.textContent = k;
                 n.onclick = function() {
-                    D.h(g.Wa, l)
+                    RoomCreator.createRoom(g.Wa, l)
                 }
                 ;
                 d.appendChild(n)
@@ -4427,7 +4427,7 @@
             this.ff = 0;
             this.V = 15;
             this.B = 0;
-            this.ra = new P(0,0);
+            this.ra = new Vector2D(0,0);
             this.ca = this.o = .5;
             this.Ea = .96;
             this.Qe = .1;
@@ -4827,7 +4827,7 @@
             ;
             this.f.oncontextmenu = function(d) {
                 d.preventDefault();
-                D.h(c.wf, c.ba)
+                RoomCreator.createRoom(c.wf, c.ba)
             }
             ;
             this.Dm(a.fb)
@@ -4956,8 +4956,8 @@
     class Kb {
         constructor() {
             this.Ae = u.Oa;
-            this.ea = new P(0,0);
-            this.$ = new P(0,0)
+            this.ea = new Vector2D(0,0);
+            this.$ = new Vector2D(0,0)
         }
         ga(a) {
             var b = this.$;
@@ -5461,7 +5461,7 @@
             };
             // leave event
             gameEventHandler.Tl = function(targetPlayer, e, actionType, g) {
-                D.h(gameContext.xq, targetPlayer.Z);
+                RoomCreator.createRoom(gameContext.xq, targetPlayer.Z);
                 null == e ? targetPlayer = "" + targetPlayer.D + " has left" : (Xb.h(gameContext.wq, targetPlayer.Z, e, null != g ? g.D : null, actionType),
                 targetPlayer = "" + targetPlayer.D + " was " + (actionType ? "banned" : "kicked") + b(g) + ("" != e ? " (" + e + ")" : ""));
                 gameContext.logger.Ka.Hb(targetPlayer);
@@ -5852,9 +5852,9 @@
             this.ca = 1;
             this.o = .5;
             this.V = 10;
-            this.ra = new P(0,0);
-            this.G = new P(0,0);
-            this.a = new P(0,0)
+            this.ra = new Vector2D(0,0);
+            this.G = new Vector2D(0,0);
+            this.a = new Vector2D(0,0)
         }
         ga(a) {
             var b = this.a;
@@ -6190,7 +6190,7 @@
                   , h = 0;
                 for (; h < g; ) {
                     ++h;
-                    let k = new P(0,0);
+                    let k = new Vector2D(0,0);
                     k.x = a.w();
                     k.y = a.w();
                     f.push(k)
@@ -6375,7 +6375,7 @@
                 h = typeUtility.J(h[1], NumericType);
                 null == h && (h = 0);
                 null == k && (k = 0);
-                return new P(k,h)
+                return new Vector2D(k,h)
             }
             function c(h, k, l, n) {
                 null == n && (n = !1);
@@ -7635,9 +7635,9 @@
             this.ca = 1;
             this.o = .5;
             this.V = 10;
-            this.ra = new P(0,0);
-            this.G = new P(0,0);
-            this.a = new P(0,0)
+            this.ra = new Vector2D(0,0);
+            this.G = new Vector2D(0,0);
+            this.a = new Vector2D(0,0)
         }
         ga(a) {
             var b = this.a;
@@ -7916,7 +7916,7 @@
             this.B = 32;
             this.i = 63;
             this.o = 1;
-            this.a = new P(0,0)
+            this.a = new Vector2D(0,0)
         }
         ga(a) {
             let b = this.a;
@@ -7974,60 +7974,60 @@
     class Bb {
         constructor(a) {
             this.f = dOMManipulator.CreateElementFromHTML(Bb.O);
-            var b = dOMManipulator.MapDataHooks(this.f);
-            this.Fh = b.get("cancel");
-            this.rk = b.get("create");
-            this.pf = b.get("name");
-            this.Jl = b.get("pass");
-            this.ri = b.get("max-pl");
-            this.dn = b.get("unlisted");
-            this.pf.maxLength = 40;
-            this.pf.value = a;
-            let c = this;
-            this.pf.oninput = function() {
-                c.A()
+            var roomCreationMenuButtons = dOMManipulator.MapDataHooks(this.f);
+            this.cancelButton = roomCreationMenuButtons.get("cancel");
+            this.createRoomButton = roomCreationMenuButtons.get("create");
+            this.roomNameInput = roomCreationMenuButtons.get("name");
+            this.passwordInput = roomCreationMenuButtons.get("pass");
+            this.maxPlayersInput = roomCreationMenuButtons.get("max-pl");
+            this.isUnlistedCheckbox = roomCreationMenuButtons.get("unlisted");
+            this.roomNameInput.maxLength = 40;
+            this.roomNameInput.value = a;
+            let context = this;
+            this.roomNameInput.oninput = function() {
+                context.A()
             }
             ;
-            this.Jl.maxLength = 30;
-            this.dn.onclick = function() {
-                c.Xj(!c.en)
+            this.PasswordInput.maxLength = 30;
+            this.isUnlistedCheckbox.onclick = function() {
+                context.UpdateRoomVisibility(!context.isRoomVisible)
             }
             ;
-            this.Fh.onclick = function() {
-                H.h(c.ti)
+            this.cancelButton.onclick = function() {
+                H.h(context.ti)
             }
             ;
-            this.rk.onclick = function() {
-                if (c.Ic()) {
-                    let d = c.Jl.value;
-                    "" == d && (d = null);
-                    D.h(c.rq, {
-                        name: c.pf.value,
-                        password: d,
-                        dt: c.ri.selectedIndex + 2,
-                        vt: c.en
+            this.createRoomButton.onclick = function() {
+                if (context.IsRoomNameValid()) {
+                    let roomPassword = context.PasswordInput.value;
+                    roomPassword == "" && (roomPassword = null);
+                    RoomCreator.createRoom(context.rq, {
+                        name: context.roomNameInput.value,
+                        password: roomPassword,
+                        maxPlayerCount: context.maxPlayersInput.selectedIndex + 2,
+                        isRoomVisible: context.isRoomVisible
                     })
                 }
             }
             ;
             for (a = 2; 21 > a; )
-                b = window.document.createElement("option"),
-                b.textContent = "" + a++,
-                this.ri.appendChild(b);
-            this.ri.selectedIndex = 10;
-            this.Xj(!1);
+                roomCreationMenuButtons = window.document.createElement("option"),
+                roomCreationMenuButtons.textContent = "" + a++,
+                this.maxPlayersInput.appendChild(roomCreationMenuButtons);
+            this.maxPlayersInput.selectedIndex = 10;
+            this.UpdateRoomVisibility(false);
             this.A()
         }
-        Xj(a) {
-            this.en = a;
-            this.dn.textContent = "Show in room list: " + (a ? "No" : "Yes")
+        UpdateRoomVisibility(a) {
+            this.isRoomVisible = a;
+            this.isUnlistedCheckbox.textContent = "Show in room list: " + (a ? "No" : "Yes")
         }
-        Ic() {
-            let a = this.pf.value;
+        IsRoomNameValid() {
+            let a = this.roomNameInput.value;
             return 40 >= a.length ? 0 < a.length : !1
         }
         A() {
-            this.rk.disabled = !this.Ic()
+            this.createRoomButton.disabled = !this.IsRoomNameValid()
         }
     }
     class A {
@@ -8295,7 +8295,7 @@
             this.Wg = 35;
             this.Ld = 0;
             this.Ig = 1.5;
-            this.Ya = new P(0,0);
+            this.Ya = new Vector2D(0,0);
             this.Xk = !1;
             this.Cd = new GameMessageController;
             this.Fp = a;
@@ -8787,7 +8787,7 @@
             this.ua.Hd = function() {
                 null != g.Hd && g.Hd(new Yb(g.ua));
                 g.ua = null;
-                g.nk()
+                g.resetConnectionHandlers()
             }
             ;
             (async function() {
@@ -8822,7 +8822,7 @@
         no() {
             this.ie(ia.Me)
         }
-        nk() {
+        resetConnectionHandlers() {
             null != this.gameConnection && (this.gameConnection.onclose = null,
             this.gameConnection.onmessage = null,
             this.gameConnection.onerror = null,
@@ -8834,7 +8834,7 @@
         }
         ie(a) {
             null != this.kd && this.kd(a);
-            this.nk()
+            this.resetConnectionHandlers()
         }
         ai(a) {
             var b = new J(new DataView(a.data));
@@ -8922,7 +8922,7 @@
             }
             ;
             this.kickButton.onclick = function() {
-                D.h(menu.ui, menu.playerId)
+                RoomCreator.createRoom(menu.ui, menu.playerId)
             }
             ;
             this.closeButton.onclick = function() {
@@ -8935,7 +8935,7 @@
             this.giveAdminButton.disabled = !b || 0 == this.playerId;
             this.kickButton.disabled = !b || 0 == this.playerId
             this.kickButton.disabled = false
-            console.log(b, this.playerId)
+            console.log('Clicked on playerId: ', this.playerId)
         }
         UpdateAdminButtons(a, b) {
             a = a.oa(this.playerId);
@@ -9109,12 +9109,12 @@
                     }
                     ;
                     h.tf = function() {
-                        3 != d.yd && D.h(d.uf, ja.Tf("Connection closed"));
+                        3 != d.yd && RoomCreator.createRoom(d.uf, ja.Tf("Connection closed"));
                         d.terminateConnection()
                     }
                     ;
                     h = window.setTimeout(function() {
-                        D.h(d.uf, ja.Tf("Game state timeout"));
+                        RoomCreator.createRoom(d.uf, ja.Tf("Game state timeout"));
                         d.terminateConnection()
                     }, 1E4);
                     d.Be = h;
@@ -9149,7 +9149,7 @@
                         default:
                             h = ja.Tf(k)
                         }
-                        D.h(d.uf, h);
+                        RoomCreator.createRoom(d.uf, h);
                         d.terminateConnection(k)
                     }
                 }
@@ -9327,7 +9327,7 @@
                 ++d;
                 if (f > a)
                     break;
-                f < a ? D.h(this.Cl, -1) : D.h(this.Cl, c);
+                f < a ? RoomCreator.createRoom(this.Cl, -1) : RoomCreator.createRoom(this.Cl, c);
                 ++b
             }
             this.Ti.splice(0, b)
@@ -9408,7 +9408,7 @@
             }
             ;
             this.Oc.yg = function(c) {
-                D.h(b.yg, c)
+                RoomCreator.createRoom(b.yg, c)
             }
             ;
             this.Oc.vf = function(c, d) {
@@ -9505,7 +9505,7 @@
                 a.tf = function() {
                     stringUtils.remove(c.cc, b);
                     c.We.delete(b.ba);
-                    D.h(c.qq, b.ba)
+                    RoomCreator.createRoom(c.qq, b.ba)
                 }
                 ;
                 a = A.ka(1 + b.Ve.byteLength);
@@ -9785,7 +9785,7 @@
         apply(a) {
             let b = a.oa(this.P);
             null != b && this.kh != b.Td && (b.Td = this.kh,
-            D.h(a.Rl, b))
+            RoomCreator.createRoom(a.Rl, b))
         }
         wa(a) {
             a.m(this.kh ? 1 : 0)
@@ -10683,13 +10683,13 @@
     Object.assign(Bc.prototype, {
         g: Bc
     });
-    P.b = !0;
-    Object.assign(P.prototype, {
-        g: P
+    Vector2D.b = !0;
+    Object.assign(Vector2D.prototype, {
+        g: Vector2D
     });
     Z.b = !0;
     H.b = !0;
-    D.b = !0;
+    RoomCreator.b = !0;
     za.b = !0;
     hc.b = !0;
     Xb.b = !0;
@@ -11175,7 +11175,7 @@
             let b = 0;
             for (; 256 > b; )
                 ++b,
-                a.push(new P(0,0))
+                a.push(new Vector2D(0,0))
         }
         return a
     }(this);
