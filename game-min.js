@@ -6125,11 +6125,11 @@
             a.m(this.Nh);
             if (!this.cf()) {
                 a.Eb(this.D);
-                a.R(this.stadiumType);
-                a.u(this.stadiumWidth);
-                a.u(this.stadiumHeight);
-                a.u(this.kickOffRadius);
-                a.u(this.CornerRadius);
+                a.R(this.ud);
+                a.u(this.be);
+                a.u(this.ae);
+                a.u(this.bd);
+                a.u(this.Gc);
                 a.u(this.Te);
                 a.R(this.td);
                 a.u(this.bc);
@@ -6198,11 +6198,11 @@
                 return f
             }
             this.D = a.Ab();
-            this.stadiumType = a.N();
-            this.stadiumWidth = a.w();
-            this.stadiumHeight = a.w();
-            this.kickOffRadius = a.w();
-            this.CornerRadius = a.w();
+            this.ud = a.N();
+            this.be = a.w();
+            this.ae = a.w();
+            this.bd = a.w();
+            this.Gc = a.w();
             this.Te = a.w();
             this.td = a.N();
             this.bc = a.w();
@@ -6262,7 +6262,7 @@
                 throw v.C(new Sa("Invalid stadium"));
         }
         gn() {
-            return 0 >= this.H.length || 0 > this.CornerRadius || 0 > this.kickOffRadius || 0 > this.Kd.V ? !1 : !0
+            return 0 >= this.H.length || 0 > this.Gc || 0 > this.bd || 0 > this.Kd.V ? !1 : !0
         }
         qe() {
             let a = 0
@@ -6350,7 +6350,7 @@
             0 != k.length && (c.redSpawnPoints = k);
             0 != l.length && (c.blueSpawnPoints = l);
             q.setIfDifferent(c, "kickOffReset", this.Df ? "full" : "partial", "partial");
-            switch (this.stadiumType) {
+            switch (this.ud) {
             case 1:
                 b = "grass";
                 break;
@@ -6361,10 +6361,10 @@
                 b = "none"
             }
             q.setIfDifferent(a, "type", b, "none");
-            q.setIfDifferent(a, "width", this.stadiumWidth, 0);
-            q.setIfDifferent(a, "height", this.stadiumHeight, 0);
-            q.setIfDifferent(a, "kickOffRadius", this.kickOffRadius, 0);
-            q.setIfDifferent(a, "cornerRadius", this.CornerRadius, 0);
+            q.setIfDifferent(a, "width", this.be, 0);
+            q.setIfDifferent(a, "height", this.ae, 0);
+            q.setIfDifferent(a, "kickOffRadius", this.bd, 0);
+            q.setIfDifferent(a, "cornerRadius", this.Gc, 0);
             q.Eg(a, this.td, 7441498);
             q.setIfDifferent(a, "goalLine", this.Te, 0);
             return c
@@ -6421,11 +6421,11 @@
             default:
                 e = 0
             }
-            this.stadiumType = e;
-            this.stadiumWidth = this.le(a, "width");
-            this.stadiumHeight = this.le(a, "height");
-            this.kickOffRadius = this.le(a, "kickOffRadius");
-            this.CornerRadius = this.le(a, "cornerRadius");
+            this.ud = e;
+            this.be = this.le(a, "width");
+            this.ae = this.le(a, "height");
+            this.bd = this.le(a, "kickOffRadius");
+            this.Gc = this.le(a, "cornerRadius");
             this.td = 7441498;
             null != a.color && (this.td = q.pg(a.color));
             this.Te = this.le(a, "goalLine");
@@ -6493,12 +6493,12 @@
             this.H.push(this.rg());
             this.bc = b;
             this.sc = c;
-            this.stadiumType = 1;
+            this.ud = 1;
             this.td = 7441498;
-            this.stadiumWidth = d;
-            this.stadiumHeight = e;
-            this.kickOffRadius = g;
-            this.CornerRadius = h;
+            this.be = d;
+            this.ae = e;
+            this.bd = g;
+            this.Gc = h;
             this.mc = .75 * d;
             400 < this.mc && (this.mc = 400);
             a = new R;
@@ -6626,11 +6626,11 @@
             this.H.push(this.rg());
             this.bc = b;
             this.sc = c;
-            this.stadiumType = 2;
-            this.stadiumWidth = d;
-            this.stadiumHeight = e;
-            this.kickOffRadius = 75;
-            this.CornerRadius = h;
+            this.ud = 2;
+            this.be = d;
+            this.ae = e;
+            this.bd = 75;
+            this.Gc = h;
             this.Te = g;
             this.mc = .75 * (d - g);
             400 < this.mc && (this.mc = 400);
