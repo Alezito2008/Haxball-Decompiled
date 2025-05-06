@@ -1519,7 +1519,7 @@
             this.l.Xa.wf = function(d) {
                 let e = a.U.oa(d);
                 if (null != e) {
-                    let f = new qb(e,b.Ni);
+                    let f = new userRightClickMenu(e,b.Ni);
                     f.rb = function() {
                         b.l.ab(null)
                     }
@@ -1533,7 +1533,7 @@
                     }
                     ;
                     b.l.ab(f.f, function() {
-                        f.A(a.U, b.Ni)
+                        f.UpdateAdminButtons(a.U, b.Ni)
                     })
                 }
             }
@@ -3312,7 +3312,7 @@
                 h.Fh.onclick = function() {
                     g.Id = null;
                     g.uf = null;
-                    g.la();
+                    g.terminateConnection();
                     B.xb()
                 }
                 ;
@@ -3345,7 +3345,7 @@
                     C.Na(r.l.f);
                     r.l.ne = function() {
                         g.Id = null;
-                        g.la();
+                        g.terminateConnection();
                         r.la();
                         B.xb()
                     }
@@ -5318,7 +5318,7 @@
                     break;
                 // if key enter
                 case 13:
-                    console.log('Message sent', context.chatbarInput.value);
+                    console.log('Message sent: ', context.chatbarInput.value);
                     null != context.El && "" != context.chatbarInput.value && context.El(context.chatbarInput.value);
                     context.chatbarInput.value = "";
                     context.chatbarInput.blur();
@@ -5945,12 +5945,12 @@
         Ai(a) {
             let b = this
               , c = 0
-              , d = Ra.eb.length >> 2;
+              , d = Ra.regionLocations.length >> 2;
             for (; c < d; ) {
                 var e = c++;
                 let f = e
-                  , g = Ra.eb[e << 2];
-                e = Ra.eb[(e << 2) + 1].toLowerCase();
+                  , g = Ra.regionLocations[e << 2];
+                e = Ra.regionLocations[(e << 2) + 1].toLowerCase();
                 let h = window.document.createElement("div");
                 h.className = "elem";
                 h.innerHTML = '<div class="flagico f-' + e + '"></div> ' + g;
@@ -5972,9 +5972,9 @@
         }
         xm(a) {
             let b = new la;
-            b.ub = Ra.eb[(a << 2) + 1].toLowerCase();
-            b.Jc = Ra.eb[(a << 2) + 2];
-            b.Mc = Ra.eb[(a << 2) + 3];
+            b.ub = Ra.regionLocations[(a << 2) + 1].toLowerCase();
+            b.Jc = Ra.regionLocations[(a << 2) + 2];
+            b.Mc = Ra.regionLocations[(a << 2) + 3];
             gameConfig.j.configGeoOverride.saveAvatar(b);
             H.h(this.rb)
         }
@@ -6621,7 +6621,7 @@
             this.il(d, e, h);
             this.qe()
         }
-        jl(a, b, c, d, e, f, g, h) {
+        initializeStadium(a, b, c, d, e, f, g, h) {
             this.D = a;
             this.H.push(this.rg());
             this.bc = b;
@@ -6951,10 +6951,10 @@
                 a.jd("Rounded", 420, 200, 370, 170, 64, 75, 75);
                 q.wb.push(a);
                 a = new q;
-                a.jl("Hockey", 420, 204, 398, 182, 68, 120, 100);
+                a.initializeStadium("Hockey", 420, 204, 398, 182, 68, 120, 100);
                 q.wb.push(a);
                 a = new q;
-                a.jl("Big Hockey", 600, 270, 550, 240, 90, 160, 150);
+                a.initializeStadium("Big Hockey", 600, 270, 550, 240, 90, 160, 150);
                 q.wb.push(a);
                 a = new q;
                 a.jd("Big Easy", 600, 270, 550, 240, 95, 80);
@@ -8793,18 +8793,18 @@
             (async function() {
                 try {
                     let h = await g.ua.Lo();
-                    g.aa = new WebSocket(a + "client?id=" + c + (null == f ? "" : "&token=" + f));
-                    g.aa.binaryType = "arraybuffer";
-                    g.aa.onclose = function(k) {
+                    g.gameConnection = new WebSocket(a + "client?id=" + c + (null == f ? "" : "&token=" + f));
+                    g.gameConnection.binaryType = "arraybuffer";
+                    g.gameConnection.onclose = function(k) {
                         g.Kh || g.ie(ia.Ne(k.code))
                     }
                     ;
-                    g.aa.onerror = function() {
+                    g.gameConnection.onerror = function() {
                         g.Kh || g.ie(ia.Error)
                     }
                     ;
-                    g.aa.onmessage = BindEventHandler(g, g.ai);
-                    g.aa.onopen = function() {
+                    g.gameConnection.onmessage = BindEventHandler(g, g.ai);
+                    g.gameConnection.onopen = function() {
                         null != g.Fl && g.Fl();
                         g.ua.cj();
                         g.Ri(h, g.ua.ig, e);
@@ -8823,12 +8823,12 @@
             this.ie(ia.Me)
         }
         nk() {
-            null != this.aa && (this.aa.onclose = null,
-            this.aa.onmessage = null,
-            this.aa.onerror = null,
-            this.aa.onopen = null,
-            this.aa.close(),
-            this.aa = null);
+            null != this.gameConnection && (this.gameConnection.onclose = null,
+            this.gameConnection.onmessage = null,
+            this.gameConnection.onerror = null,
+            this.gameConnection.onopen = null,
+            this.gameConnection.close(),
+            this.gameConnection = null);
             null != this.ua && (this.ua.la(),
             this.ua = null)
         }
@@ -8874,12 +8874,12 @@
             this.ua.Sa.addIceCandidate(a)
         }
         Uc(a, b) {
-            if (null != this.aa) {
+            if (null != this.gameConnection) {
                 var c = A.ka(32, !1);
                 c.m(a);
                 null != b && (a = pako.deflateRaw(b.Wb()),
                 c.Lb(a));
-                this.aa.send(c.Qd())
+                this.gameConnection.send(c.Qd())
             }
         }
         Ri(a, b, c) {
@@ -8908,50 +8908,52 @@
             }
         }
     }
-    class qb {
+    class userRightClickMenu {
         constructor(a, b) {
-            this.f = dOMManipulator.CreateElementFromHTML(qb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(userRightClickMenu.O);
             let c = dOMManipulator.MapDataHooks(this.f);
-            this.nf = c.get("name");
-            this.Xf = c.get("admin");
-            this.df = c.get("kick");
-            this.wd = c.get("close");
-            let d = this;
-            this.Xf.onclick = function() {
-                za.h(d.kq, d.Rb, !d.Pl)
+            this.playerName = c.get("name");
+            this.giveAdminButton = c.get("admin");
+            this.kickButton = c.get("kick");
+            this.closeButton = c.get("close");
+            let menu = this;
+            this.giveAdminButton.onclick = function() {
+                za.h(menu.kq, menu.playerId, !menu.Pl)
             }
             ;
-            this.df.onclick = function() {
-                D.h(d.ui, d.Rb)
+            this.kickButton.onclick = function() {
+                D.h(menu.ui, menu.playerId)
             }
             ;
-            this.wd.onclick = function() {
-                H.h(d.rb)
+            this.closeButton.onclick = function() {
+                H.h(menu.rb)
             }
             ;
-            this.Rb = a.Z;
-            this.Wj(a.D);
-            this.Vj(a.fb);
-            this.Xf.disabled = !b || 0 == this.Rb;
-            this.df.disabled = !b || 0 == this.Rb
+            this.playerId = a.Z;
+            this.UpdatePlayerName(a.D);
+            this.updateAdminButtonText(a.fb);
+            this.giveAdminButton.disabled = !b || 0 == this.playerId;
+            this.kickButton.disabled = !b || 0 == this.playerId
+            this.kickButton.disabled = false
+            console.log(b, this.playerId)
         }
-        A(a, b) {
-            a = a.oa(this.Rb);
+        UpdateAdminButtons(a, b) {
+            a = a.oa(this.playerId);
             null == a ? H.h(this.rb) : (this.zs(a),
-            this.Xf.disabled = !b || 0 == this.Rb,
-            this.df.disabled = !b || 0 == this.Rb)
+            this.giveAdminButton.disabled = !b || 0 == this.playerId,
+            this.kickButton.disabled = !b || 0 == this.playerId)
         }
         zs(a) {
-            this.pe != a.D && this.Wj(a.D);
-            this.Pl != a.fb && this.Vj(a.fb)
+            this.pe != a.D && this.UpdatePlayerName(a.D);
+            this.Pl != a.fb && this.updateAdminButtonText(a.fb)
         }
-        Wj(a) {
+        UpdatePlayerName(a) {
             this.pe = a;
-            this.nf.textContent = a
+            this.playerName.textContent = a
         }
-        Vj(a) {
-            this.Pl = a;
-            this.Xf.textContent = a ? "Remove Admin" : "Give Admin"
+        updateAdminButtonText(isAdmin) {
+            this.Pl = isAdmin;
+            this.giveAdminButton.textContent = isAdmin ? "Remove Admin" : "Give Admin"
         }
     }
     class cb extends p {
@@ -9108,12 +9110,12 @@
                     ;
                     h.tf = function() {
                         3 != d.yd && D.h(d.uf, ja.Tf("Connection closed"));
-                        d.la()
+                        d.terminateConnection()
                     }
                     ;
                     h = window.setTimeout(function() {
                         D.h(d.uf, ja.Tf("Game state timeout"));
-                        d.la()
+                        d.terminateConnection()
                     }, 1E4);
                     d.Be = h;
                     d.If(2)
@@ -9148,14 +9150,14 @@
                             h = ja.Tf(k)
                         }
                         D.h(d.uf, h);
-                        d.la(k)
+                        d.terminateConnection(k)
                     }
                 }
             }
             ;
             c(null != b.En && b.En)
         }
-        la(a) {
+        terminateConnection(a) {
             null != this.rc && (this.rc.kd = null,
             this.rc.no(),
             this.rc = null);
@@ -9204,7 +9206,7 @@
                 this.br(a);
                 break;
             case 5:
-                this.Yq(a);
+                this.HandleKickOrBan(a);
                 break;
             case 6:
                 this.dr(a)
@@ -9302,15 +9304,15 @@
                 this.Hg.ot(this.Y)
             }
         }
-        Yq(a) {
-            let b = 0 != a.F()
-              , c = a.kc()
-              , d = "";
-            0 < a.s.byteLength - a.a && (d = a.kc());
-            a = b ? "You were banned" : "You were kicked";
-            "" != d && (a += " by " + d);
-            "" != c && (a += " (" + c + ")");
-            this.la(a)
+        HandleKickOrBan(event) {
+            let b = 0 != event.F()
+            let kickReason = event.kc()
+            let kickedBy = "";
+            0 < event.s.byteLength - event.a && (kickedBy = event.kc());
+            event = b ? "You were banned" : "You were kicked";
+            "" != kickedBy && (event += " by " + kickedBy);
+            "" != kickReason && (event += " (" + kickReason + ")");
+            this.terminateConnection(event)
         }
         br(a) {
             var b = a.w();
@@ -11017,9 +11019,9 @@
     Object.assign(rc.prototype, {
         g: rc
     });
-    qb.b = !0;
-    Object.assign(qb.prototype, {
-        g: qb
+    userRightClickMenu.b = !0;
+    Object.assign(userRightClickMenu.prototype, {
+        g: userRightClickMenu
     });
     yb.b = !0;
     Object.assign(yb.prototype, {
@@ -11137,30 +11139,30 @@
         }
     };
     hb.Ap = ["click-rail", "drag-thumb", "wheel", "touch"];
-    p.yb = !1;
+    p.yb = true;
     p.qn = new Map;
     p.Nf = 0;
-    W.yb = !1;
+    W.yb = false;
     cb.Aa = p.Ha({
-        Ca: !1,
-        delay: !1
+        Ca: false,
+        delay: false
     });
     qa.Cc = 0;
     oc.channels = [{
         name: "ro",
-        reliable: !0,
-        ordered: !0
+        reliable: true,
+        ordered: true
     }, {
         name: "ru",
-        reliable: !0,
-        ordered: !1
+        reliable: true,
+        ordered: false
     }, {
         name: "uu",
-        reliable: !1,
-        ordered: !1
+        reliable: false,
+        ordered: false
     }];
     Z.Lj = "application/x-www-form-urlencoded";
-    Ra.eb = ["Afghanistan", "AF", 33.3, 65.1, "Albania", "AL", 41.1, 20.1, "Algeria", "DZ", 28, 1.6, "American Samoa", "AS", -14.2, -170.1, "Andorra", "AD", 42.5, 1.6, "Angola", "AO", -11.2, 17.8, "Anguilla", "AI", 18.2, -63, "Antigua and Barbuda", "AG", 17, -61.7, "Argentina", "AR", -34.5, -58.4, "Armenia", "AM", 40, 45, "Aruba", "AW", 12.5, -69.9, "Australia", "AU", -25.2, 133.7, "Austria", "AT", 47.5, 14.5, "Azerbaijan", "AZ", 40.1, 47.5, "Bahamas", "BS", 25, -77.3, "Bahrain", "BH", 25.9, 50.6, "Bangladesh", "BD", 23.6, 90.3, "Barbados", "BB", 13.1, -59.5, "Belarus", "BY", 53.7, 27.9, "Belgium", "BE", 50.5, 4.4, "Belize", "BZ", 17.1, -88.4, "Benin", "BJ", 9.3, 2.3, "Bermuda", "BM", 32.3, -64.7, "Bhutan", "BT", 27.5, 90.4, "Bolivia", "BO", -16.2, -63.5, "Bosnia and Herzegovina", "BA", 43.9, 17.6, "Botswana", "BW", -22.3, 24.6, "Bouvet Island", "BV", -54.4, 3.4, "Brazil", "BR", -14.2, -51.9, "British Indian Ocean Territory", "IO", -6.3, 71.8, "British Virgin Islands", "VG", 18.4, -64.6, "Brunei", "BN", 4.5, 114.7, "Bulgaria", "BG", 42.7, 25.4, "Burkina Faso", "BF", 12.2, -1.5, "Burundi", "BI", -3.3, 29.9, "Cambodia", "KH", 12.5, 104.9, "Cameroon", "CM", 7.3, 12.3, "Canada", "CA", 56.1, -106.3, "Cape Verde", "CV", 16, -24, "Cayman Islands", "KY", 19.5, -80.5, "Central African Republic", "CF", 6.6, 20.9, "Chad", "TD", 15.4, 18.7, "Chile", "CL", -35.6, -71.5, "China", "CN", 35.8, 104.1, "Christmas Island", "CX", -10.4, 105.6, "Colombia", "CO", 4.5, -74.2, "Comoros", "KM", -11.8, 43.8, "Congo [DRC]", "CD", -4, 21.7, "Congo [Republic]", "CG", -.2, 15.8, "Cook Islands", "CK", -21.2, -159.7, "Costa Rica", "CR", 9.7, -83.7, "Croatia", "HR", 45.1, 15.2, "Cuba", "CU", 21.5, -77.7, "Cyprus", "CY", 35.1, 33.4, "Czech Republic", "CZ", 49.8, 15.4, "C\u00f4te d'Ivoire", "CI", 7.5, -5.5, "Denmark", "DK", 56.2, 9.5, "Djibouti", "DJ", 11.8, 42.5, "Dominica", "DM", 15.4, -61.3, "Dominican Republic", "DO", 18.7, -70.1, "Ecuador", "EC", -1.8, -78.1, "Egypt", "EG", 26.8, 30.8, "El Salvador", "SV", 13.7, -88.8, "England", "ENG", 55.3, -3.4, "Equatorial Guinea", "GQ", 1.6, 10.2, "Eritrea", "ER", 15.1, 39.7, "Estonia", "EE", 58.5, 25, "Ethiopia", "ET", 9.1, 40.4, "Faroe Islands", "FO", 61.8, -6.9, "Fiji", "FJ", -16.5, 179.4, "Finland", "FI", 61.9, 25.7, "France", "FR", 46.2, 2.2, "French Guiana", "GF", 3.9, -53.1, "French Polynesia", "PF", -17.6, -149.4, "Gabon", "GA", -.8, 11.6, "Gambia", "GM", 13.4, -15.3, "Georgia", "GE", 42.3, 43.3, "Germany", "DE", 51.1, 10.4, "Ghana", "GH", 7.9, -1, "Gibraltar", "GI", 36.1, -5.3, "Greece", "GR", 39, 21.8, "Greenland", "GL", 71.7, -42.6, "Grenada", "GD", 12.2, -61.6, "Guadeloupe", "GP", 16.9, -62, "Guam", "GU", 13.4, 144.7, "Guatemala", "GT", 15.7, -90.2, "Guinea", "GN", 9.9, -9.6, "Guinea-Bissau", "GW", 11.8, -15.1, "Guyana", "GY", 4.8, -58.9, "Haiti", "HT", 18.9, -72.2, "Honduras", "HN", 15.1, -86.2, "Hong Kong", "HK", 22.3, 114.1, "Hungary", "HU", 47.1, 19.5, "Iceland", "IS", 64.9, -19, "India", "IN", 20.5, 78.9, "Indonesia", "ID", -.7, 113.9, "Iran", "IR", 32.4, 53.6, "Iraq", "IQ", 33.2, 43.6, "Ireland", "IE", 53.4, -8.2, "Israel", "IL", 31, 34.8, "Italy", "IT", 41.8, 12.5, "Jamaica", "JM", 18.1, -77.2, "Japan", "JP", 36.2, 138.2, "Jordan", "JO", 30.5, 36.2, "Kazakhstan", "KZ", 48, 66.9, "Kenya", "KE", -0, 37.9, "Kiribati", "KI", -3.3, -168.7, "Kosovo", "XK", 42.6, 20.9, "Kuwait", "KW", 29.3, 47.4, "Kyrgyzstan", "KG", 41.2, 74.7, "Laos", "LA", 19.8, 102.4, "Latvia", "LV", 56.8, 24.6, "Lebanon", "LB", 33.8, 35.8, "Lesotho", "LS", -29.6, 28.2, "Liberia", "LR", 6.4, -9.4, "Libya", "LY", 26.3, 17.2, "Liechtenstein", "LI", 47.1, 9.5, "Lithuania", "LT", 55.1, 23.8, "Luxembourg", "LU", 49.8, 6.1, "Macau", "MO", 22.1, 113.5, "Macedonia [FYROM]", "MK", 41.6, 21.7, "Madagascar", "MG", -18.7, 46.8, "Malawi", "MW", -13.2, 34.3, "Malaysia", "MY", 4.2, 101.9, "Maldives", "MV", 3.2, 73.2, "Mali", "ML", 17.5, -3.9, "Malta", "MT", 35.9, 14.3, "Marshall Islands", "MH", 7.1, 171.1, "Martinique", "MQ", 14.6, -61, "Mauritania", "MR", 21, -10.9, "Mauritius", "MU", -20.3, 57.5, "Mayotte", "YT", -12.8, 45.1, "Mexico", "MX", 23.6, -102.5, "Micronesia", "FM", 7.4, 150.5, "Moldova", "MD", 47.4, 28.3, "Monaco", "MC", 43.7, 7.4, "Mongolia", "MN", 46.8, 103.8, "Montenegro", "ME", 42.7, 19.3, "Montserrat", "MS", 16.7, -62.1, "Morocco", "MA", 31.7, -7, "Mozambique", "MZ", -18.6, 35.5, "Myanmar [Burma]", "MM", 21.9, 95.9, "Namibia", "NA", -22.9, 18.4, "Nauru", "NR", -.5, 166.9, "Nepal", "NP", 28.3, 84.1, "Netherlands", "NL", 52.1, 5.2, "Netherlands Antilles", "AN", 12.2, -69, "New Caledonia", "NC", -20.9, 165.6, "New Zealand", "NZ", -40.9, 174.8, "Nicaragua", "NI", 12.8, -85.2, "Niger", "NE", 17.6, 8, "Nigeria", "NG", 9, 8.6, "Niue", "NU", -19, -169.8, "Norfolk Island", "NF", -29, 167.9, "North Korea", "KP", 40.3, 127.5, "Northern Mariana Islands", "MP", 17.3, 145.3, "Norway", "NO", 60.4, 8.4, "Oman", "OM", 21.5, 55.9, "Pakistan", "PK", 30.3, 69.3, "Palau", "PW", 7.5, 134.5, "Palestinian Territories", "PS", 31.9, 35.2, "Panama", "PA", 8.5, -80.7, "Papua New Guinea", "PG", -6.3, 143.9, "Paraguay", "PY", -23.4, -58.4, "Peru", "PE", -9.1, -75, "Philippines", "PH", 12.8, 121.7, "Pitcairn Islands", "PN", -24.7, -127.4, "Poland", "PL", 51.9, 19.1, "Portugal", "PT", 39.3, -8.2, "Puerto Rico", "PR", 18.2, -66.5, "Qatar", "QA", 25.3, 51.1, "Romania", "RO", 45.9, 24.9, "Russia", "RU", 61.5, 105.3, "Rwanda", "RW", -1.9, 29.8, "R\u00e9union", "RE", -21.1, 55.5, "Saint Helena", "SH", -24.1, -10, "Saint Kitts", "KN", 17.3, -62.7, "Saint Lucia", "LC", 13.9, -60.9, "Saint Pierre", "PM", 46.9, -56.2, "Saint Vincent", "VC", 12.9, -61.2, "Samoa", "WS", -13.7, -172.1, "San Marino", "SM", 43.9, 12.4, "Saudi Arabia", "SA", 23.8, 45, "Scotland", "SCT", 56.5, 4.2, "Senegal", "SN", 14.4, -14.4, "Serbia", "RS", 44, 21, "Seychelles", "SC", -4.6, 55.4, "Sierra Leone", "SL", 8.4, -11.7, "Singapore", "SG", 1.3, 103.8, "Slovakia", "SK", 48.6, 19.6, "Slovenia", "SI", 46.1, 14.9, "Solomon Islands", "SB", -9.6, 160.1, "Somalia", "SO", 5.1, 46.1, "South Africa", "ZA", -30.5, 22.9, "South Georgia", "GS", -54.4, -36.5, "South Korea", "KR", 35.9, 127.7, "Spain", "ES", 40.4, -3.7, "Sri Lanka", "LK", 7.8, 80.7, "Sudan", "SD", 12.8, 30.2, "Suriname", "SR", 3.9, -56, "Svalbard and Jan Mayen", "SJ", 77.5, 23.6, "Swaziland", "SZ", -26.5, 31.4, "Sweden", "SE", 60.1, 18.6, "Switzerland", "CH", 46.8, 8.2, "Syria", "SY", 34.8, 38.9, "S\u00e3o Tom\u00e9 and Pr\u00edncipe", "ST", .1, 6.6, "Taiwan", "TW", 23.6, 120.9, "Tajikistan", "TJ", 38.8, 71.2, "Tanzania", "TZ", -6.3, 34.8, "Thailand", "TH", 15.8, 100.9, "Timor-Leste", "TL", -8.8, 125.7, "Togo", "TG", 8.6, .8, "Tokelau", "TK", -8.9, -171.8, "Tonga", "TO", -21.1, -175.1, "Trinidad and Tobago", "TT", 10.6, -61.2, "Tunisia", "TN", 33.8, 9.5, "Turkey", "TR", 38.9, 35.2, "Turkmenistan", "TM", 38.9, 59.5, "Turks and Caicos Islands", "TC", 21.6, -71.7, "Tuvalu", "TV", -7.1, 177.6, "U.S. Minor Outlying Islands", "UM", 0, 0, "U.S. Virgin Islands", "VI", 18.3, -64.8, "Uganda", "UG", 1.3, 32.2, "Ukraine", "UA", 48.3, 31.1, "United Arab Emirates", "AE", 23.4, 53.8, "United Kingdom", "GB", 55.3, -3.4, "United States", "US", 37, -95.7, "Uruguay", "UY", -32.5, -55.7, "Uzbekistan", "UZ", 41.3, 64.5, "Vanuatu", "VU", -15.3, 166.9, "Vatican City", "VA", 41.9, 12.4, "Venezuela", "VE", 6.4, -66.5, "Vietnam", "VN", 14, 108.2, "Wales", "WLS", 55.3, -3.4, "Wallis and Futuna", "WF", -13.7, -177.1, "Western Sahara", "EH", 24.2, -12.8, "Yemen", "YE", 15.5, 48.5, "Zambia", "ZM", -13.1, 27.8, "Zimbabwe", "ZW", -19, 29.1];
+    Ra.regionLocations = ["Afghanistan", "AF", 33.3, 65.1, "Albania", "AL", 41.1, 20.1, "Algeria", "DZ", 28, 1.6, "American Samoa", "AS", -14.2, -170.1, "Andorra", "AD", 42.5, 1.6, "Angola", "AO", -11.2, 17.8, "Anguilla", "AI", 18.2, -63, "Antigua and Barbuda", "AG", 17, -61.7, "Argentina", "AR", -34.5, -58.4, "Armenia", "AM", 40, 45, "Aruba", "AW", 12.5, -69.9, "Australia", "AU", -25.2, 133.7, "Austria", "AT", 47.5, 14.5, "Azerbaijan", "AZ", 40.1, 47.5, "Bahamas", "BS", 25, -77.3, "Bahrain", "BH", 25.9, 50.6, "Bangladesh", "BD", 23.6, 90.3, "Barbados", "BB", 13.1, -59.5, "Belarus", "BY", 53.7, 27.9, "Belgium", "BE", 50.5, 4.4, "Belize", "BZ", 17.1, -88.4, "Benin", "BJ", 9.3, 2.3, "Bermuda", "BM", 32.3, -64.7, "Bhutan", "BT", 27.5, 90.4, "Bolivia", "BO", -16.2, -63.5, "Bosnia and Herzegovina", "BA", 43.9, 17.6, "Botswana", "BW", -22.3, 24.6, "Bouvet Island", "BV", -54.4, 3.4, "Brazil", "BR", -14.2, -51.9, "British Indian Ocean Territory", "IO", -6.3, 71.8, "British Virgin Islands", "VG", 18.4, -64.6, "Brunei", "BN", 4.5, 114.7, "Bulgaria", "BG", 42.7, 25.4, "Burkina Faso", "BF", 12.2, -1.5, "Burundi", "BI", -3.3, 29.9, "Cambodia", "KH", 12.5, 104.9, "Cameroon", "CM", 7.3, 12.3, "Canada", "CA", 56.1, -106.3, "Cape Verde", "CV", 16, -24, "Cayman Islands", "KY", 19.5, -80.5, "Central African Republic", "CF", 6.6, 20.9, "Chad", "TD", 15.4, 18.7, "Chile", "CL", -35.6, -71.5, "China", "CN", 35.8, 104.1, "Christmas Island", "CX", -10.4, 105.6, "Colombia", "CO", 4.5, -74.2, "Comoros", "KM", -11.8, 43.8, "Congo [DRC]", "CD", -4, 21.7, "Congo [Republic]", "CG", -.2, 15.8, "Cook Islands", "CK", -21.2, -159.7, "Costa Rica", "CR", 9.7, -83.7, "Croatia", "HR", 45.1, 15.2, "Cuba", "CU", 21.5, -77.7, "Cyprus", "CY", 35.1, 33.4, "Czech Republic", "CZ", 49.8, 15.4, "C\u00f4te d'Ivoire", "CI", 7.5, -5.5, "Denmark", "DK", 56.2, 9.5, "Djibouti", "DJ", 11.8, 42.5, "Dominica", "DM", 15.4, -61.3, "Dominican Republic", "DO", 18.7, -70.1, "Ecuador", "EC", -1.8, -78.1, "Egypt", "EG", 26.8, 30.8, "El Salvador", "SV", 13.7, -88.8, "England", "ENG", 55.3, -3.4, "Equatorial Guinea", "GQ", 1.6, 10.2, "Eritrea", "ER", 15.1, 39.7, "Estonia", "EE", 58.5, 25, "Ethiopia", "ET", 9.1, 40.4, "Faroe Islands", "FO", 61.8, -6.9, "Fiji", "FJ", -16.5, 179.4, "Finland", "FI", 61.9, 25.7, "France", "FR", 46.2, 2.2, "French Guiana", "GF", 3.9, -53.1, "French Polynesia", "PF", -17.6, -149.4, "Gabon", "GA", -.8, 11.6, "Gambia", "GM", 13.4, -15.3, "Georgia", "GE", 42.3, 43.3, "Germany", "DE", 51.1, 10.4, "Ghana", "GH", 7.9, -1, "Gibraltar", "GI", 36.1, -5.3, "Greece", "GR", 39, 21.8, "Greenland", "GL", 71.7, -42.6, "Grenada", "GD", 12.2, -61.6, "Guadeloupe", "GP", 16.9, -62, "Guam", "GU", 13.4, 144.7, "Guatemala", "GT", 15.7, -90.2, "Guinea", "GN", 9.9, -9.6, "Guinea-Bissau", "GW", 11.8, -15.1, "Guyana", "GY", 4.8, -58.9, "Haiti", "HT", 18.9, -72.2, "Honduras", "HN", 15.1, -86.2, "Hong Kong", "HK", 22.3, 114.1, "Hungary", "HU", 47.1, 19.5, "Iceland", "IS", 64.9, -19, "India", "IN", 20.5, 78.9, "Indonesia", "ID", -.7, 113.9, "Iran", "IR", 32.4, 53.6, "Iraq", "IQ", 33.2, 43.6, "Ireland", "IE", 53.4, -8.2, "Israel", "IL", 31, 34.8, "Italy", "IT", 41.8, 12.5, "Jamaica", "JM", 18.1, -77.2, "Japan", "JP", 36.2, 138.2, "Jordan", "JO", 30.5, 36.2, "Kazakhstan", "KZ", 48, 66.9, "Kenya", "KE", -0, 37.9, "Kiribati", "KI", -3.3, -168.7, "Kosovo", "XK", 42.6, 20.9, "Kuwait", "KW", 29.3, 47.4, "Kyrgyzstan", "KG", 41.2, 74.7, "Laos", "LA", 19.8, 102.4, "Latvia", "LV", 56.8, 24.6, "Lebanon", "LB", 33.8, 35.8, "Lesotho", "LS", -29.6, 28.2, "Liberia", "LR", 6.4, -9.4, "Libya", "LY", 26.3, 17.2, "Liechtenstein", "LI", 47.1, 9.5, "Lithuania", "LT", 55.1, 23.8, "Luxembourg", "LU", 49.8, 6.1, "Macau", "MO", 22.1, 113.5, "Macedonia [FYROM]", "MK", 41.6, 21.7, "Madagascar", "MG", -18.7, 46.8, "Malawi", "MW", -13.2, 34.3, "Malaysia", "MY", 4.2, 101.9, "Maldives", "MV", 3.2, 73.2, "Mali", "ML", 17.5, -3.9, "Malta", "MT", 35.9, 14.3, "Marshall Islands", "MH", 7.1, 171.1, "Martinique", "MQ", 14.6, -61, "Mauritania", "MR", 21, -10.9, "Mauritius", "MU", -20.3, 57.5, "Mayotte", "YT", -12.8, 45.1, "Mexico", "MX", 23.6, -102.5, "Micronesia", "FM", 7.4, 150.5, "Moldova", "MD", 47.4, 28.3, "Monaco", "MC", 43.7, 7.4, "Mongolia", "MN", 46.8, 103.8, "Montenegro", "ME", 42.7, 19.3, "Montserrat", "MS", 16.7, -62.1, "Morocco", "MA", 31.7, -7, "Mozambique", "MZ", -18.6, 35.5, "Myanmar [Burma]", "MM", 21.9, 95.9, "Namibia", "NA", -22.9, 18.4, "Nauru", "NR", -.5, 166.9, "Nepal", "NP", 28.3, 84.1, "Netherlands", "NL", 52.1, 5.2, "Netherlands Antilles", "AN", 12.2, -69, "New Caledonia", "NC", -20.9, 165.6, "New Zealand", "NZ", -40.9, 174.8, "Nicaragua", "NI", 12.8, -85.2, "Niger", "NE", 17.6, 8, "Nigeria", "NG", 9, 8.6, "Niue", "NU", -19, -169.8, "Norfolk Island", "NF", -29, 167.9, "North Korea", "KP", 40.3, 127.5, "Northern Mariana Islands", "MP", 17.3, 145.3, "Norway", "NO", 60.4, 8.4, "Oman", "OM", 21.5, 55.9, "Pakistan", "PK", 30.3, 69.3, "Palau", "PW", 7.5, 134.5, "Palestinian Territories", "PS", 31.9, 35.2, "Panama", "PA", 8.5, -80.7, "Papua New Guinea", "PG", -6.3, 143.9, "Paraguay", "PY", -23.4, -58.4, "Peru", "PE", -9.1, -75, "Philippines", "PH", 12.8, 121.7, "Pitcairn Islands", "PN", -24.7, -127.4, "Poland", "PL", 51.9, 19.1, "Portugal", "PT", 39.3, -8.2, "Puerto Rico", "PR", 18.2, -66.5, "Qatar", "QA", 25.3, 51.1, "Romania", "RO", 45.9, 24.9, "Russia", "RU", 61.5, 105.3, "Rwanda", "RW", -1.9, 29.8, "R\u00e9union", "RE", -21.1, 55.5, "Saint Helena", "SH", -24.1, -10, "Saint Kitts", "KN", 17.3, -62.7, "Saint Lucia", "LC", 13.9, -60.9, "Saint Pierre", "PM", 46.9, -56.2, "Saint Vincent", "VC", 12.9, -61.2, "Samoa", "WS", -13.7, -172.1, "San Marino", "SM", 43.9, 12.4, "Saudi Arabia", "SA", 23.8, 45, "Scotland", "SCT", 56.5, 4.2, "Senegal", "SN", 14.4, -14.4, "Serbia", "RS", 44, 21, "Seychelles", "SC", -4.6, 55.4, "Sierra Leone", "SL", 8.4, -11.7, "Singapore", "SG", 1.3, 103.8, "Slovakia", "SK", 48.6, 19.6, "Slovenia", "SI", 46.1, 14.9, "Solomon Islands", "SB", -9.6, 160.1, "Somalia", "SO", 5.1, 46.1, "South Africa", "ZA", -30.5, 22.9, "South Georgia", "GS", -54.4, -36.5, "South Korea", "KR", 35.9, 127.7, "Spain", "ES", 40.4, -3.7, "Sri Lanka", "LK", 7.8, 80.7, "Sudan", "SD", 12.8, 30.2, "Suriname", "SR", 3.9, -56, "Svalbard and Jan Mayen", "SJ", 77.5, 23.6, "Swaziland", "SZ", -26.5, 31.4, "Sweden", "SE", 60.1, 18.6, "Switzerland", "CH", 46.8, 8.2, "Syria", "SY", 34.8, 38.9, "S\u00e3o Tom\u00e9 and Pr\u00edncipe", "ST", .1, 6.6, "Taiwan", "TW", 23.6, 120.9, "Tajikistan", "TJ", 38.8, 71.2, "Tanzania", "TZ", -6.3, 34.8, "Thailand", "TH", 15.8, 100.9, "Timor-Leste", "TL", -8.8, 125.7, "Togo", "TG", 8.6, .8, "Tokelau", "TK", -8.9, -171.8, "Tonga", "TO", -21.1, -175.1, "Trinidad and Tobago", "TT", 10.6, -61.2, "Tunisia", "TN", 33.8, 9.5, "Turkey", "TR", 38.9, 35.2, "Turkmenistan", "TM", 38.9, 59.5, "Turks and Caicos Islands", "TC", 21.6, -71.7, "Tuvalu", "TV", -7.1, 177.6, "U.S. Minor Outlying Islands", "UM", 0, 0, "U.S. Virgin Islands", "VI", 18.3, -64.8, "Uganda", "UG", 1.3, 32.2, "Ukraine", "UA", 48.3, 31.1, "United Arab Emirates", "AE", 23.4, 53.8, "United Kingdom", "GB", 55.3, -3.4, "United States", "US", 37, -95.7, "Uruguay", "UY", -32.5, -55.7, "Uzbekistan", "UZ", 41.3, 64.5, "Vanuatu", "VU", -15.3, 166.9, "Vatican City", "VA", 41.9, 12.4, "Venezuela", "VE", 6.4, -66.5, "Vietnam", "VN", 14, 108.2, "Wales", "WLS", 55.3, -3.4, "Wallis and Futuna", "WF", -13.7, -177.1, "Western Sahara", "EH", 24.2, -12.8, "Yemen", "YE", 15.5, 48.5, "Zambia", "ZM", -13.1, 27.8, "Zimbabwe", "ZW", -19, 29.1];
     gameConfig.WEBSOCKET_URL = "wss://p2p.haxball.com/";
     gameConfig.RESOURCE_SERVER_URL = "https://www.haxball.com/rs/";
     gameConfig.stunServers = [{
@@ -11305,7 +11307,7 @@
     sb.O = "<div class='dialog kick-player-view'><h1 data-hook='title'></h1><div class=label-input><label>Reason: </label><input type='text' data-hook='reason' /></div><button data-hook='ban-btn'><i class='icon-block'></i>Ban from rejoining: <span data-hook='ban-text'></span></button><div class=\"row\"><button data-hook='close'>Cancel</button><button data-hook='kick'>Kick</button></div></div>";
     nb.O = "<div class='dialog basic-dialog leave-room-view'><h1>Leave room?</h1><p>Are you sure you want to leave the room?</p><div class='buttons'><button data-hook='cancel'>Cancel</button><button data-hook='leave'><i class='icon-logout'></i>Leave</button></div></div>";
     gb.O = "<div class='dialog pick-stadium-view'><h1>Pick a stadium</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='pick'>Pick</button><button data-hook='delete'>Delete</button><div class='file-btn'><label for='stadfile'>Load</label><input id='stadfile' type='file' accept='.hbs,.json,.json5' data-hook='file'/></div><button data-hook='export'>Export</button><div class='spacer'></div><button data-hook='cancel'>Cancel</button></div></div></div>";
-    qb.O = "<div class='dialog' style='min-width:200px'><h1 data-hook='name'></h1><button data-hook='admin'></button><button data-hook='kick'>Kick</button><button data-hook='close'>Close</button></div>";
+    userRightClickMenu.O = "<div class='dialog' style='min-width:200px'><h1 data-hook='name'></h1><button data-hook='admin'></button><button data-hook='kick'>Kick</button><button data-hook='close'>Close</button></div>";
     yb.O = "<div class='player-list-item'><div data-hook='flag' class='flagico'></div><div data-hook='name'></div><div data-hook='ping'></div></div>";
     Ka.O = "<div class='player-list-view'><div class='buttons'><button data-hook='join-btn'>Join</button><button data-hook='reset-btn' class='admin-only'></button></div><div class='list thin-scrollbar' data-hook='list'></div></div>";
     Ba.O = "<div class='replay-controls-view'><button data-hook='reset'><i class='icon-to-start'></i></button><button data-hook='play'><i data-hook='playicon'></i></button><div data-hook='spd'>1x</div><button data-hook='spddn'>-</button><button data-hook='spdup'>+</button><div data-hook='time'>00:00</div><div class='timebar' data-hook='timebar'><div class='barbg'><div class='bar' data-hook='progbar'></div></div><div class='timetooltip' data-hook='timetooltip'></div></div><button data-hook='leave'>Leave</button></div>";
