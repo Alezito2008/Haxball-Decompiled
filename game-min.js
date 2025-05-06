@@ -1457,7 +1457,7 @@
             this.l = new ua(a.xc);
             window.top.document.body.classList.add("hb-playing");
             this.Uh = new Wb(this.l,a.U.oa(a.xc).D);
-            this.Uh.Hi(a.U);
+            this.Uh.gameEventAnnouncer(a.U);
             this.l.Ka.El = BindEventHandler(this, this.oq);
             this.l.Ka.wg = BindEventHandler(this, this.nq);
             window.document.addEventListener("keydown", BindEventHandler(this, this.Fa));
@@ -1738,7 +1738,7 @@
             this.za = a;
             this.l = new ua(a.xc);
             let b = new Wb(this.l);
-            b.Hi(a.U);
+            b.gameEventAnnouncer(a.U);
             window.document.addEventListener("keydown", BindEventHandler(this, this.Fa));
             window.document.addEventListener("keyup", BindEventHandler(this, this.ld));
             let c = this;
@@ -1760,7 +1760,7 @@
             ;
             this.se.Dq = function() {
                 c.l.we(null == a.U.M);
-                b.Hi(a.U)
+                b.gameEventAnnouncer(a.U)
             }
             ;
             this.se.Dl = function() {
@@ -5427,11 +5427,11 @@
     class Wb {
         constructor(a, b) {
             this.di = null;
-            this.l = a;
+            this.logger = a;
             null != b && (this.di = "@" + aa.replace(b, " ", "_"))
         }
         jj(a) {
-            let b = this.l.Ka.Fc
+            let b = this.logger.Ka.Fc
               , c = []
               , d = 0;
             for (a = a.K; d < a.length; ) {
@@ -5444,35 +5444,39 @@
             }
             b.Zj = c
         }
-        Hi(a) {
-            function b(d) {
-                return null == d ? "" : " by " + d.D
+        gameEventAnnouncer(gameEventHandler) {
+            function b(playerData) {
+                return null == playerData ? "" : " by " + playerData.D
             }
-            this.jj(a);
-            let c = this;
-            a.Sl = function(d) {
-                c.l.Ka.Hb("" + d.D + " has joined");
+            this.jj(gameEventHandler);
+            let gameContext = this;
+            // join event
+            gameEventHandler.Sl = function(playerInfo) {
+                // playerInfo.D = name
+                // playerInfo.Zb = avatar
+                // playerInfo.country = country code
+                gameContext.logger.Ka.Hb("" + playerInfo.D + " has joined");
                 gameConfig.Qa.md(gameConfig.Qa.Gp);
-                c.jj(a)
-            }
-            ;
-            a.Tl = function(d, e, f, g) {
-                D.h(c.xq, d.Z);
-                null == e ? d = "" + d.D + " has left" : (Xb.h(c.wq, d.Z, e, null != g ? g.D : null, f),
-                d = "" + d.D + " was " + (f ? "banned" : "kicked") + b(g) + ("" != e ? " (" + e + ")" : ""));
-                c.l.Ka.Hb(d);
+                gameContext.jj(gameEventHandler)
+            };
+            // leave event
+            gameEventHandler.Tl = function(targetPlayer, e, actionType, g) {
+                D.h(gameContext.xq, targetPlayer.Z);
+                null == e ? targetPlayer = "" + targetPlayer.D + " has left" : (Xb.h(gameContext.wq, targetPlayer.Z, e, null != g ? g.D : null, actionType),
+                targetPlayer = "" + targetPlayer.D + " was " + (actionType ? "banned" : "kicked") + b(g) + ("" != e ? " (" + e + ")" : ""));
+                gameContext.logger.Ka.Hb(targetPlayer);
                 gameConfig.Qa.md(gameConfig.Qa.Mp);
-                c.jj(a)
-            }
-            ;
-            a.Ql = function(d, e) {
-                let f = null != c.di && -1 != e.indexOf(c.di);
-                c.l.Ka.da("" + d.D + ": " + e, f ? "highlight" : null);
+                gameContext.jj(gameEventHandler)
+            };
+
+            gameEventHandler.Ql = function(d, e) {
+                let f = null != gameContext.di && -1 != e.indexOf(gameContext.di);
+                gameContext.logger.Ka.da("" + d.D + ": " + e, f ? "highlight" : null);
                 gameConfig.j.configSoundHighlight.v() && f ? gameConfig.Qa.md(gameConfig.Qa.Tk) : gameConfig.j.configSoundChat.v() && gameConfig.Qa.md(gameConfig.Qa.ik)
-            }
-            ;
-            a.tm = function(d, e, f, g) {
-                c.l.Ka.Xp(d, e, f);
+            };
+
+            gameEventHandler.tm = function(d, e, f, g) {
+                gameContext.logger.Ka.Xp(d, e, f);
                 if (gameConfig.j.configSoundChat.v())
                     switch (g) {
                     case 1:
@@ -5483,70 +5487,77 @@
                     }
             }
             ;
-            a.zi = function() {
+            gameEventHandler.zi = function() {
                 gameConfig.Qa.md(gameConfig.Qa.Ip)
             }
             ;
-            a.dj = function(d) {
+            gameEventHandler.dj = function(d) {
                 gameConfig.Qa.md(gameConfig.Qa.op);
-                let e = c.l.ib.gb.Cd;
+                let e = gameContext.logger.ib.gb.Cd;
                 e.Pa(d == u.ia ? e.nr : e.io)
-            }
-            ;
-            a.ej = function(d) {
-                let e = c.l.ib.gb.Cd;
+            };
+            // on game finished
+            gameEventHandler.ej = function(d) {
+                let e = gameContext.logger.ib.gb.Cd;
                 e.Pa(d == u.ia ? e.pr : e.jo);
-                c.l.Ka.Hb("" + d.D + " team won the match")
-            }
-            ;
-            a.Ll = function(d, e, f) {
-                e && !f && c.l.Ka.Hb("Game paused" + b(d))
-            }
-            ;
-            a.fj = function() {
-                let d = c.l.ib.gb.Cd;
+                gameContext.logger.Ka.Hb("" + d.D + " team won the match")
+            };
+
+            // on game pause
+            gameEventHandler.Ll = function(d, e, f) {
+                e && !f && gameContext.logger.Ka.Hb("Game paused" + b(d))
+            };
+
+            gameEventHandler.fj = function() {
+                let d = gameContext.logger.ib.gb.Cd;
                 d.Pa(d.ms)
-            }
-            ;
-            a.aj = function(d) {
-                c.l.we(!1);
-                c.l.ib.gb.Cd.uo();
-                c.l.Ka.Hb("Game started" + b(d))
-            }
-            ;
-            a.Kf = function(d) {
-                null != d && c.l.Ka.Hb("Game stopped" + b(d))
-            }
-            ;
-            a.Zi = function(d, e) {
+            };
+
+            // on game start
+            gameEventHandler.aj = function(d) {
+                gameContext.logger.we(!1);
+                gameContext.logger.ib.gb.Cd.uo();
+                gameContext.logger.Ka.Hb("Game started" + b(d))
+            };
+
+            // on game stop
+            gameEventHandler.Kf = function(d) {
+                null != d && gameContext.logger.Ka.Hb("Game stopped" + b(d))
+            };
+
+            // on load stadium
+            gameEventHandler.Zi = function(d, e) {
                 if (!e.cf()) {
                     let f = aa.hh(e.lk(), 8);
-                    c.l.Ka.Hb('Stadium "' + e.D + '" (' + f + ") loaded" + b(d))
+                    gameContext.logger.Ka.Hb('Stadium "' + e.D + '" (' + f + ") loaded" + b(d))
                 }
-            }
-            ;
-            a.Rl = function(d) {
+            };
+
+            gameEventHandler.Rl = function(d) {
                 let e = window.performance.now();
                 9E3 > e - d.un || (d.un = e,
-                c.l.Ka.Hb("" + d.D + " " + (d.Td ? "has desynchronized" : "is back in sync")))
-            }
-            ;
-            a.Wl = function(d, e, f) {
-                null != a.M && c.l.Ka.Hb("" + e.D + " was moved to " + f.D + b(d))
-            }
-            ;
-            a.yi = function(d, e) {
+                gameContext.logger.Ka.Hb("" + d.D + " " + (d.Td ? "has desynchronized" : "is back in sync")))
+            };
+
+            // on team join
+            gameEventHandler.Wl = function(d, targetPlayer, f) {
+                null != gameEventHandler.M && gameContext.logger.Ka.Hb("" + targetPlayer.D + " was moved to " + f.D + b(d))
+            };
+
+            // on admin change
+            gameEventHandler.yi = function(eventMessage, e) {
                 let f = e.D;
-                d = (e.fb ? "" + f + " was given admin rights" : "" + f + "'s admin rights were taken away") + b(d);
-                c.l.Ka.Hb(d)
-            }
-            ;
-            a.Vl = function(d, e) {
-                c.l.ib.gb.vp(d, e)
-            }
-            ;
-            a.al = function(d, e, f, g) {
-                c.l.Ka.Hb("Kick Rate Limit set to (min: " + e + ", rate: " + f + ", burst: " + g + ")" + b(d))
+                eventMessage = (e.fb ? "" + f + " was given admin rights" : "" + f + "'s admin rights were taken away") + b(eventMessage);
+                gameContext.logger.Ka.Hb(eventMessage)
+            };
+
+            gameEventHandler.Vl = function(d, e) {
+                gameContext.logger.ib.gb.vp(d, e)
+            };
+
+            // on kick rate limit change
+            gameEventHandler.al = function(d, e, f, g) {
+                gameContext.logger.Ka.Hb("Kick Rate Limit set to (min: " + e + ", rate: " + f + ", burst: " + g + ")" + b(d))
             }
         }
         xs(a) {
