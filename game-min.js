@@ -66,7 +66,7 @@
             this.Xg();
             this.xi.onclick = function() {
                 null != b.lb && b.lb.Xd().then(function(e) {
-                    RoomCreator.createRoom(b.Cg, e)
+                    D.h(b.Cg, e)
                 })
             }
             ;
@@ -101,10 +101,10 @@
                             var g = f.result;
                             let h = new q;
                             h.el(g);
-                            RoomCreator.createRoom(b.Cg, h)
+                            D.h(b.Cg, h)
                         } catch (h) {
                             g = v.Mb(h).Fb(),
-                            g instanceof SyntaxError ? RoomCreator.createRoom(b.vi, "SyntaxError in line: " + integerUtils.Je(g.lineNumber)) : g instanceof Sa ? RoomCreator.createRoom(b.vi, g.eq) : RoomCreator.createRoom(b.vi, "Error loading stadium file.")
+                            g instanceof SyntaxError ? D.h(b.vi, "SyntaxError in line: " + integerUtils.Je(g.lineNumber)) : g instanceof Sa ? D.h(b.vi, g.eq) : D.h(b.vi, "Error loading stadium file.")
                         }
                     }
                     ;
@@ -823,7 +823,7 @@
                     g = g.item(0);
                     var h = new FileReader;
                     h.onload = function() {
-                        RoomCreator.createRoom(e.jt, h.result)
+                        D.h(e.jt, h.result)
                     }
                     ;
                     h.readAsArrayBuffer(g)
@@ -842,7 +842,7 @@
             }
             ;
             this.tn.onclick = function() {
-                null != e.Wd && RoomCreator.createRoom(e.zn, e.Wd.rt)
+                null != e.Wd && D.h(e.zn, e.Wd.rt)
             }
             ;
             this.on()
@@ -892,7 +892,7 @@
                     continue;
                 let n = new matchDetails(k);
                 n.TableBody.ondblclick = function() {
-                    RoomCreator.createRoom(g.zn, k)
+                    D.h(g.zn, k)
                 }
                 ;
                 n.TableBody.onclick = function() {
@@ -928,11 +928,11 @@
             let a = dOMManipulator.MapDataHooks(this.f)
               , b = this;
             a.get("cancel").onclick = function() {
-                RoomCreator.createRoom(b.rb, !1)
+                D.h(b.rb, !1)
             }
             ;
             a.get("leave").onclick = function() {
-                RoomCreator.createRoom(b.rb, !0)
+                D.h(b.rb, !0)
             }
         }
     }
@@ -2131,7 +2131,7 @@
         }
         zo(a) {
             a = (new J(new DataView(a))).N();
-            RoomCreator.createRoom(this.Qo, this.Ok() != a)
+            D.h(this.Qo, this.Ok() != a)
         }
         Im(a) {
             this.nm = a
@@ -2419,7 +2419,7 @@
                 }
                 ;
                 c.Cg = function(d) {
-                    RoomCreator.createRoom(b.Cg, d);
+                    D.h(b.Cg, d);
                     b.ab(null)
                 }
                 ;
@@ -2730,11 +2730,11 @@
             }
             ;
             this.hi.onclick = function() {
-                RoomCreator.createRoom(c.sq, a)
+                D.h(c.sq, a)
             }
             ;
             this.Li.onclick = function() {
-                RoomCreator.createRoom(c.oe, a)
+                D.h(c.oe, a)
             }
         }
         A(a, b, c, d) {
@@ -2754,7 +2754,7 @@
                 f = this.Fd.get(e.Z),
                 null == f && (f = new yb(e),
                 f.wf = function(h) {
-                    RoomCreator.createRoom(g.wf, h)
+                    D.h(g.wf, h)
                 }
                 ,
                 this.Fd.set(e.Z, f),
@@ -2956,7 +2956,7 @@
         tq(a) {
             this.InputCommands.has(a) || (this.InputCommands.add(a),
             this.A(),
-            RoomCreator.createRoom(this.xl, a))
+            D.h(this.xl, a))
         }
         jq(a) {
             this.InputCommands.delete(a) && this.A()
@@ -3139,7 +3139,7 @@
         }
         static Uo() {
             let a = gameConfig.j.configPlayerName.v()
-              , b = new Bb("" + a + "'s room");
+              , b = new roomCreatorMenu("" + a + "'s room");
             C.Na(b.f);
             b.ti = function() {
                 B.xb()
@@ -3723,11 +3723,11 @@
             this.nl(this.Lf, this.ml());
             this.nl(this.Ef, this.ml());
             this.Lf.onchange = function() {
-                RoomCreator.createRoom(f.Kq, f.Lf.selectedIndex)
+                D.h(f.Kq, f.Lf.selectedIndex)
             }
             ;
             this.Ef.onchange = function() {
-                RoomCreator.createRoom(f.Cq, f.Ef.selectedIndex)
+                D.h(f.Cq, f.Ef.selectedIndex)
             }
             ;
             this.Rm.onclick = function() {
@@ -3747,7 +3747,7 @@
             }
             ;
             this.gl.onclick = function() {
-                RoomCreator.createRoom(f.Jq, !f.ji)
+                D.h(f.Jq, !f.ji)
             }
             ;
             this.qm.onclick = function() {
@@ -3782,7 +3782,7 @@
             }
             ;
             b.oe = function(e) {
-                RoomCreator.createRoom(d.oe, e)
+                D.h(d.oe, e)
             }
             ;
             b.sq = function(e) {
@@ -3790,7 +3790,7 @@
             }
             ;
             b.wf = function(e) {
-                RoomCreator.createRoom(d.wf, e)
+                D.h(d.wf, e)
             }
         }
         ml() {
@@ -3896,8 +3896,8 @@
             this.og.value = a)
         }
     }
-    class RoomCreator {
-        static createRoom(a, b) {
+    class D {
+        static h(a, b) {
             null != a && a(b)
         }
     }
@@ -4169,14 +4169,14 @@
                 ca.lr = d.render(ca.Kg, {
                     sitekey: a,
                     callback: function(e) {
-                        RoomCreator.createRoom(ca.fm, e)
+                        D.h(ca.fm, e)
                     },
                     theme: "dark"
                 }));
                 d.reset(ca.lr);
                 ca.fm = function(e) {
                     window.setTimeout(function() {
-                        RoomCreator.createRoom(c.Wa, e)
+                        D.h(c.Wa, e)
                     }, 1E3);
                     ca.fm = null
                 }
@@ -4386,7 +4386,7 @@
                   , n = window.document.createElement("button");
                 n.textContent = k;
                 n.onclick = function() {
-                    RoomCreator.createRoom(g.Wa, l)
+                    D.h(g.Wa, l)
                 }
                 ;
                 d.appendChild(n)
@@ -4827,7 +4827,7 @@
             ;
             this.f.oncontextmenu = function(d) {
                 d.preventDefault();
-                RoomCreator.createRoom(c.wf, c.ba)
+                D.h(c.wf, c.ba)
             }
             ;
             this.Dm(a.fb)
@@ -5461,7 +5461,7 @@
             };
             // leave event
             gameEventHandler.Tl = function(targetPlayer, e, actionType, g) {
-                RoomCreator.createRoom(gameContext.xq, targetPlayer.Z);
+                D.h(gameContext.xq, targetPlayer.Z);
                 null == e ? targetPlayer = "" + targetPlayer.D + " has left" : (Xb.h(gameContext.wq, targetPlayer.Z, e, null != g ? g.D : null, actionType),
                 targetPlayer = "" + targetPlayer.D + " was " + (actionType ? "banned" : "kicked") + b(g) + ("" != e ? " (" + e + ")" : ""));
                 gameContext.logger.Ka.Hb(targetPlayer);
@@ -7971,26 +7971,26 @@
             this.jf = a)
         }
     }
-    class Bb {
-        constructor(a) {
-            this.f = dOMManipulator.CreateElementFromHTML(Bb.O);
+    class roomCreatorMenu {
+        constructor(defaultRoomName) {
+            this.f = dOMManipulator.CreateElementFromHTML(roomCreatorMenu.O);
             var roomCreationMenuButtons = dOMManipulator.MapDataHooks(this.f);
             this.cancelButton = roomCreationMenuButtons.get("cancel");
             this.createRoomButton = roomCreationMenuButtons.get("create");
             this.roomNameInput = roomCreationMenuButtons.get("name");
             this.passwordInput = roomCreationMenuButtons.get("pass");
             this.maxPlayersInput = roomCreationMenuButtons.get("max-pl");
-            this.isUnlistedCheckbox = roomCreationMenuButtons.get("unlisted");
+            this.roomUnlistedCheckbox = roomCreationMenuButtons.get("unlisted");
             this.roomNameInput.maxLength = 40;
-            this.roomNameInput.value = a;
+            this.roomNameInput.value = defaultRoomName;
             let context = this;
             this.roomNameInput.oninput = function() {
-                context.A()
+                context.updateRoomName()
             }
             ;
-            this.PasswordInput.maxLength = 30;
-            this.isUnlistedCheckbox.onclick = function() {
-                context.UpdateRoomVisibility(!context.isRoomVisible)
+            this.passwordInput.maxLength = 30;
+            this.roomUnlistedCheckbox.onclick = function() {
+                context.SetRoomVisibility(!context.isRoomVisible)
             }
             ;
             this.cancelButton.onclick = function() {
@@ -7998,36 +7998,36 @@
             }
             ;
             this.createRoomButton.onclick = function() {
-                if (context.IsRoomNameValid()) {
-                    let roomPassword = context.PasswordInput.value;
-                    roomPassword == "" && (roomPassword = null);
-                    RoomCreator.createRoom(context.rq, {
+                if (context.ValidateRoomNameLength()) {
+                    let d = context.passwordInput.value;
+                    "" == d && (d = null);
+                    D.h(context.rq, {
                         name: context.roomNameInput.value,
-                        password: roomPassword,
-                        maxPlayerCount: context.maxPlayersInput.selectedIndex + 2,
+                        password: d,
+                        playerLimit: context.maxPlayersInput.selectedIndex + 2,
                         isRoomVisible: context.isRoomVisible
                     })
                 }
             }
             ;
-            for (a = 2; 21 > a; )
+            for (defaultRoomName = 2; 21 > defaultRoomName; )
                 roomCreationMenuButtons = window.document.createElement("option"),
-                roomCreationMenuButtons.textContent = "" + a++,
+                roomCreationMenuButtons.textContent = "" + defaultRoomName++,
                 this.maxPlayersInput.appendChild(roomCreationMenuButtons);
             this.maxPlayersInput.selectedIndex = 10;
-            this.UpdateRoomVisibility(false);
-            this.A()
+            this.SetRoomVisibility(false);
+            this.updateRoomName()
         }
-        UpdateRoomVisibility(a) {
+        SetRoomVisibility(a) {
             this.isRoomVisible = a;
-            this.isUnlistedCheckbox.textContent = "Show in room list: " + (a ? "No" : "Yes")
+            this.roomUnlistedCheckbox.textContent = "Show in room list: " + (a ? "No" : "Yes")
         }
-        IsRoomNameValid() {
-            let a = this.roomNameInput.value;
-            return 40 >= a.length ? 0 < a.length : !1
+        ValidateRoomNameLength() {
+            let roomName = this.roomNameInput.value;
+            return 40 >= roomName.length ? 0 < roomName.length : !1
         }
-        A() {
-            this.createRoomButton.disabled = !this.IsRoomNameValid()
+        updateRoomName() {
+            this.createRoomButton.disabled = !this.ValidateRoomNameLength()
         }
     }
     class A {
@@ -8922,7 +8922,7 @@
             }
             ;
             this.kickButton.onclick = function() {
-                RoomCreator.createRoom(menu.ui, menu.playerId)
+                D.h(menu.ui, menu.playerId)
             }
             ;
             this.closeButton.onclick = function() {
@@ -9109,12 +9109,12 @@
                     }
                     ;
                     h.tf = function() {
-                        3 != d.yd && RoomCreator.createRoom(d.uf, ja.Tf("Connection closed"));
+                        3 != d.yd && D.h(d.uf, ja.Tf("Connection closed"));
                         d.terminateConnection()
                     }
                     ;
                     h = window.setTimeout(function() {
-                        RoomCreator.createRoom(d.uf, ja.Tf("Game state timeout"));
+                        D.h(d.uf, ja.Tf("Game state timeout"));
                         d.terminateConnection()
                     }, 1E4);
                     d.Be = h;
@@ -9149,7 +9149,7 @@
                         default:
                             h = ja.Tf(k)
                         }
-                        RoomCreator.createRoom(d.uf, h);
+                        D.h(d.uf, h);
                         d.terminateConnection(k)
                     }
                 }
@@ -9327,7 +9327,7 @@
                 ++d;
                 if (f > a)
                     break;
-                f < a ? RoomCreator.createRoom(this.Cl, -1) : RoomCreator.createRoom(this.Cl, c);
+                f < a ? D.h(this.Cl, -1) : D.h(this.Cl, c);
                 ++b
             }
             this.Ti.splice(0, b)
@@ -9408,7 +9408,7 @@
             }
             ;
             this.Oc.yg = function(c) {
-                RoomCreator.createRoom(b.yg, c)
+                D.h(b.yg, c)
             }
             ;
             this.Oc.vf = function(c, d) {
@@ -9505,7 +9505,7 @@
                 a.tf = function() {
                     stringUtils.remove(c.cc, b);
                     c.We.delete(b.ba);
-                    RoomCreator.createRoom(c.qq, b.ba)
+                    D.h(c.qq, b.ba)
                 }
                 ;
                 a = A.ka(1 + b.Ve.byteLength);
@@ -9785,7 +9785,7 @@
         apply(a) {
             let b = a.oa(this.P);
             null != b && this.kh != b.Td && (b.Td = this.kh,
-            RoomCreator.createRoom(a.Rl, b))
+            D.h(a.Rl, b))
         }
         wa(a) {
             a.m(this.kh ? 1 : 0)
@@ -10689,7 +10689,7 @@
     });
     Z.b = !0;
     H.b = !0;
-    RoomCreator.b = !0;
+    D.b = !0;
     za.b = !0;
     hc.b = !0;
     Xb.b = !0;
@@ -10979,9 +10979,9 @@
     Object.assign(ub.prototype, {
         g: ub
     });
-    Bb.b = !0;
-    Object.assign(Bb.prototype, {
-        g: Bb
+    roomCreatorMenu.b = !0;
+    Object.assign(roomCreatorMenu.prototype, {
+        g: roomCreatorMenu
     });
     ab.b = !0;
     Object.assign(ab.prototype, {
@@ -11300,7 +11300,7 @@
     $a.O = "<div class='chatbox-view'><div class='chatbox-view-contents'><div data-hook='drag' class='drag'></div><div data-hook='log' class='log subtle-thin-scrollbar'><div data-hook='log-contents' class='log-contents'><p>Controls:<br/>Move: WASD or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div></div><div class='autocompletebox' data-hook='autocompletebox'></div><div class='input'><input data-hook='input' type='text' /></div></div></div>";
     nameInputForm.O = "<div class='choose-nickname-view'><img src=\"images/haxball.png\" /><div class='dialog'><h1>Choose nickname</h1><div class='label-input'><label>Nick:</label><input data-hook='input' type='text' /></div><button data-hook='ok'>Ok</button></div></div>";
     ub.O = "<div class='connecting-view'><div class='dialog'><h1>Connecting</h1><div class='connecting-view-log' data-hook='log'></div><button data-hook='cancel'>Cancel</button></div></div>";
-    Bb.O = "<div class='create-room-view'><div class='dialog'><h1>Create room</h1><div class='label-input'><label>Room name:</label><input data-hook='name' required /></div><div class='label-input'><label>Password:</label><input data-hook='pass' /></div><div class='label-input'><label>Max players:</label><select data-hook='max-pl'></select></div><button data-hook='unlisted'></button><div class='row'><button data-hook='cancel'>Cancel</button><button data-hook='create'>Create</button></div></div></div>";
+    roomCreatorMenu.O = "<div class='create-room-view'><div class='dialog'><h1>Create room</h1><div class='label-input'><label>Room name:</label><input data-hook='name' required /></div><div class='label-input'><label>Password:</label><input data-hook='pass' /></div><div class='label-input'><label>Max players:</label><select data-hook='max-pl'></select></div><button data-hook='unlisted'></button><div class='row'><button data-hook='cancel'>Cancel</button><button data-hook='create'>Create</button></div></div></div>";
     ab.O = "<div class='disconnected-view'><div class='dialog basic-dialog'><h1>Disconnected</h1><p data-hook='reason'></p><div class='buttons'><button data-hook='ok'>Ok</button><button data-hook='replay'>Save replay</button></div></div></div>";
     jb.O = "<div class='game-state-view'><div class='bar-container'><div class='bar'><div class='scoreboard'><div class='teamicon red'></div><div class='score' data-hook='red-score'>0</div><div>-</div><div class='score' data-hook='blue-score'>0</div><div class='teamicon blue'></div></div><div class=\"fps-limit-fix\"></div><div data-hook='timer'></div></div></div><div class='canvas' data-hook='canvas'></div></div>";
     ua.O = "<div class='game-view' tabindex='-1'><div class='gameplay-section' data-hook='gameplay'></div><div class='top-section' data-hook='top-section'></div><div class='bottom-section'><div data-hook='stats'></div><div data-hook='chatbox'></div><div class='bottom-spacer'></div></div><div class='buttons'><div class='sound-button-container' data-hook=\"sound\"><div class='sound-slider' data-hook='sound-slider'><div class='sound-slider-bar-bg' data-hook='sound-bar-bg'><div class='sound-slider-bar' data-hook='sound-bar'></div></div></div><button data-hook='sound-btn'><i class='icon-volume-up' data-hook='sound-icon'></i></button></div><button data-hook='menu'><i class='icon-menu'></i>Menu<span class='tooltip'>Toggle room menu [Escape]</span></button><button data-hook='settings'><i class='icon-cog'></i></button></div><div data-hook='popups'></div></div>";
