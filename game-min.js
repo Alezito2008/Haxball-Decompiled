@@ -104,7 +104,7 @@
                             D.h(b.Cg, h)
                         } catch (h) {
                             g = v.Mb(h).Fb(),
-                            g instanceof SyntaxError ? D.h(b.vi, "SyntaxError in line: " + Q.Je(g.lineNumber)) : g instanceof Sa ? D.h(b.vi, g.eq) : D.h(b.vi, "Error loading stadium file.")
+                            g instanceof SyntaxError ? D.h(b.vi, "SyntaxError in line: " + utils.Je(g.lineNumber)) : g instanceof Sa ? D.h(b.vi, g.eq) : D.h(b.vi, "Error loading stadium file.")
                         }
                     }
                     ;
@@ -537,7 +537,7 @@
             return a
         }
     }
-    class Q {
+    class utils {
         static Je(a) {
             return w.Pe(a, "")
         }
@@ -1294,7 +1294,7 @@
         }
         static pl(a) {
             a = a / 1E3 | 0;
-            return (a / 60 | 0) + ":" + aa.Of(Q.Je(a % 60))
+            return (a / 60 | 0) + ":" + aa.Of(utils.Je(a % 60))
         }
     }
     class ta {
@@ -1444,7 +1444,7 @@
             this.Ni = this.zm = !1;
             this.Bd = 0;
             let b = this;
-            this.dg = new Vb(a,function(d) {
+            this.dg = new CommandManager(a,function(d) {
                 b.l.Ka.Hb(d)
             }
             );
@@ -2031,10 +2031,10 @@
         ag(a, b, c) {
             if (b.fa != c) {
                 b.fa = c;
-                O.remove(this.K, b);
+                stringUtils.remove(this.K, b);
                 this.K.push(b);
                 if (null != this.M) {
-                    null != b.I && (O.remove(this.M.va.H, b.I),
+                    null != b.I && (stringUtils.remove(this.M.va.H, b.I),
                     b.I = null);
                     this.M.Wk(b);
                     let d = 0
@@ -2725,7 +2725,7 @@
             this.f.ondrop = function(d) {
                 d.preventDefault();
                 d = d.dataTransfer.getData("player");
-                null != d && (d = Q.parseInt(d),
+                null != d && (d = utils.parseInt(d),
                 null != d && za.h(c.Ag, d, a))
             }
             ;
@@ -3538,79 +3538,79 @@
             this.ua.Vb(b, a)
         }
     }
-    class Vb {
+    class CommandManager {
         constructor(a, b) {
-            this.za = a;
-            this.da = b
+            this.roomManager = a;
+            this.displayChatMessage = b
         }
-        xf(a) {
-            if ("/" != a.charAt(0))
-                return !1;
-            if (1 == a.length)
-                return !0;
-            a = aa.st(O.substr(a, 1, null)).split(" ");
-            let b = a[0]
+        xf(commandArguments) {
+            if ("/" != commandArguments.charAt(0))
+                return false;
+            if (commandArguments.length == 1)
+                return true;
+            commandArguments = aa.st(stringUtils.substr(commandArguments, 1, null)).split(" ");
+            let command = commandArguments[0]
               , c = this;
-            switch (b) {
+            switch (command) {
             case "avatar":
-                2 == a.length && (this.Em(a[1]),
-                this.da("Avatar set"));
+                commandArguments.length == 2 && (this.setAvatar(commandArguments[1]),
+                this.displayChatMessage("Avatar set"));
                 break;
             case "checksum":
-                var d = this.za.U.T;
-                a = d.D;
-                d.cf() ? this.da('Current stadium is original: "' + a + '"') : (d = aa.hh(d.lk(), 8),
-                this.da('Stadium: "' + a + '" (checksum: ' + d + ")"));
+                var d = this.roomManager.U.T;
+                commandArguments = d.D;
+                d.cf() ? this.displayChatMessage('Current stadium is original: "' + commandArguments + '"') : (d = aa.hh(d.lk(), 8),
+                this.displayChatMessage('Stadium: "' + commandArguments + '" (checksum: ' + d + ")"));
                 break;
             case "clear_avatar":
-                this.Em(null);
-                this.da("Avatar cleared");
+                this.setAvatar(null);
+                this.displayChatMessage("Avatar cleared");
                 break;
             case "clear_bans":
-                null == this.ce ? this.da("Only the host can clear bans") : (this.ce(),
-                this.da("All bans have been cleared"));
+                null == this.ce ? this.displayChatMessage("Only the host can clear bans") : (this.ce(),
+                this.displayChatMessage("All bans have been cleared"));
                 break;
             case "clear_password":
-                null == this.Rg ? this.da("Only the host can change the password") : (this.Rg(null),
-                this.da("Password cleared"));
+                null == this.Rg ? this.displayChatMessage("Only the host can change the password") : (this.Rg(null),
+                this.displayChatMessage("Password cleared"));
                 break;
             case "colors":
                 try {
-                    d = Vb.Mq(a),
-                    this.za.ta(d)
+                    d = CommandManager.Mq(commandArguments),
+                    this.roomManager.ta(d)
                 } catch (g) {
-                    a = v.Mb(g).Fb(),
-                    "string" == typeof a && this.da(a)
+                    commandArguments = v.Mb(g).Fb(),
+                    "string" == typeof commandArguments && this.displayChatMessage(commandArguments)
                 }
                 break;
             case "extrapolation":
-                2 == a.length ? (a = Q.parseInt(a[1]),
-                null != a && -200 <= a && 1E3 >= a ? (m.j.Ad.ha(a),
-                this.za.Fm(a),
-                this.da("Extrapolation set to " + a + " msec")) : this.da("Extrapolation must be a value between -200 and 1000 milliseconds")) : this.da("Extrapolation requires a value in milliseconds.");
+                2 == commandArguments.length ? (commandArguments = utils.parseInt(commandArguments[1]),
+                null != commandArguments && -200 <= commandArguments && 1E3 >= commandArguments ? (m.j.Ad.ha(commandArguments),
+                this.roomManager.Fm(commandArguments),
+                this.displayChatMessage("Extrapolation set to " + commandArguments + " msec")) : this.displayChatMessage("Extrapolation must be a value between -200 and 1000 milliseconds")) : this.displayChatMessage("Extrapolation requires a value in milliseconds.");
                 break;
             case "handicap":
-                2 == a.length ? (a = Q.parseInt(a[1]),
-                null != a && 0 <= a && 300 >= a ? (this.za.Vr(a),
-                this.da("Ping handicap set to " + a + " msec")) : this.da("Ping handicap must be a value between 0 and 300 milliseconds")) : this.da("Ping handicap requires a value in milliseconds.");
+                commandArguments.length == 2 ? (commandArguments = utils.parseInt(commandArguments[1]),
+                null != commandArguments && 0 <= commandArguments && 300 >= commandArguments ? (this.roomManager.Vr(commandArguments),
+                this.displayChatMessage("Ping handicap set to " + commandArguments + " msec")) : this.displayChatMessage("Ping handicap must be a value between 0 and 300 milliseconds")) : this.displayChatMessage("Ping handicap requires a value in milliseconds.");
                 break;
             case "kick_ratelimit":
-                if (4 > a.length)
-                    this.da("Usage: /kick_ratelimit <min> <rate> <burst>");
+                if (4 > commandArguments.length)
+                    this.displayChatMessage("Usage: /kick_ratelimit <min> <rate> <burst>");
                 else {
-                    d = Q.parseInt(a[1]);
-                    var e = Q.parseInt(a[2]);
-                    a = Q.parseInt(a[3]);
-                    null == d || null == e || null == a ? this.da("Invalid arguments") : this.za.ta(Pa.qa(d, e, a))
+                    d = utils.parseInt(commandArguments[1]);
+                    var e = utils.parseInt(commandArguments[2]);
+                    commandArguments = utils.parseInt(commandArguments[3]);
+                    null == d || null == e || null == commandArguments ? this.displayChatMessage("Invalid arguments") : this.roomManager.ta(Pa.qa(d, e, commandArguments))
                 }
                 break;
             case "recaptcha":
                 if (null == this.Hm)
-                    this.da("Only the host can set recaptcha mode");
+                    this.displayChatMessage("Only the host can set recaptcha mode");
                 else
                     try {
-                        if (2 == a.length) {
-                            switch (a[1]) {
+                        if (2 == commandArguments.length) {
+                            switch (commandArguments[1]) {
                             case "off":
                                 e = !1;
                                 break;
@@ -3621,36 +3621,39 @@
                                 throw v.C(null);
                             }
                             this.Hm(e);
-                            this.da("Room join Recaptcha " + (e ? "enabled" : "disabled"))
+                            this.displayChatMessage("Room join Recaptcha " + (e ? "enabled" : "disabled"))
                         } else
                             throw v.C(null);
                     } catch (g) {
-                        this.da("Usage: /recaptcha <on|off>")
+                        this.displayChatMessage("Usage: /recaptcha <on|off>")
                     }
                 break;
             case "set_password":
-                2 == a.length && (null == this.Rg ? this.da("Only the host can change the password") : (this.Rg(a[1]),
-                this.da("Password set")));
+                2 == commandArguments.length && (null == this.Rg ? this.displayChatMessage("Only the host can change the password") : (this.Rg(commandArguments[1]),
+                this.displayChatMessage("Password set")));
                 break;
             case "store":
-                let f = this.za.U.T;
-                f.cf() ? this.da("Can't store default stadium.") : ib.qt().then(function() {
+                let f = this.roomManager.U.T;
+                f.cf() ? this.displayChatMessage("Can't store default stadium.") : ib.qt().then(function() {
                     return ib.add(f)
                 }).then(function() {
-                    c.da("Stadium stored")
+                    c.displayChatMessage("Stadium stored")
                 }, function() {
-                    c.da("Couldn't store stadium")
+                    c.displayChatMessage("Couldn't store stadium")
                 });
                 break;
+            case "test":
+                this.displayChatMessage("Test Command");
+                break;
             default:
-                this.da('Unrecognized command: "' + b + '"')
+                this.displayChatMessage('Unrecognized command: "' + command + '"')
             }
             return !0
         }
-        Em(a) {
+        setAvatar(a) {
             null != a && (a = ha.Xc(a, 2));
             m.j.Ah.ha(a);
-            this.za.ta(Qa.qa(a))
+            this.roomManager.ta(Qa.qa(a))
         }
         static Mq(a) {
             if (3 > a.length)
@@ -3674,14 +3677,14 @@
             }
             if ("clear" == a[2])
                 return b;
-            c.sd = 256 * Q.parseInt(a[2]) / 360 | 0;
-            c.pd = Q.parseInt("0x" + a[3]);
+            c.sd = 256 * utils.parseInt(a[2]) / 360 | 0;
+            c.pd = utils.parseInt("0x" + a[3]);
             if (4 < a.length) {
                 c.hb = [];
                 let d = 4
                   , e = a.length;
                 for (; d < e; )
-                    c.hb.push(Q.parseInt("0x" + a[d++]))
+                    c.hb.push(utils.parseInt("0x" + a[d++]))
             }
             return b
         }
@@ -3979,7 +3982,7 @@
                 return new ta(g,configInstance,function(k) {
                     let l = h;
                     try {
-                        null != k && (l = Q.parseInt(k))
+                        null != k && (l = utils.parseInt(k))
                     } catch (n) {}
                     return l
                 }
@@ -4348,7 +4351,7 @@
         static J(a, b) {
             if (null == a || w.Sn(a, b))
                 return a;
-            throw v.C("Cannot cast " + Q.Je(a) + " to " + Q.Je(b));
+            throw v.C("Cannot cast " + utils.Je(a) + " to " + utils.Je(b));
         }
         static Nj(a) {
             a = w.Vn.call(a).slice(8, -1);
@@ -4388,7 +4391,7 @@
             e.textContent = a
         }
     }
-    class O {
+    class stringUtils {
         static tj(a, b) {
             a = a.charCodeAt(b);
             if (a == a)
@@ -4815,7 +4818,7 @@
             this.Fg.textContent = "" + this.zb;
             let c = this;
             this.f.ondragstart = function(d) {
-                d.dataTransfer.setData("player", Q.Je(c.ba))
+                d.dataTransfer.setData("player", utils.Je(c.ba))
             }
             ;
             this.f.oncontextmenu = function(d) {
@@ -5182,7 +5185,7 @@
     }
     class ha {
         static Xc(a, b) {
-            return a.length <= b ? a : O.substr(a, 0, b)
+            return a.length <= b ? a : stringUtils.substr(a, 0, b)
         }
         static Ms(a) {
             let b = ""
@@ -5614,7 +5617,7 @@
                     ++ea;
                     let xc = window.document.createElement("div");
                     var S = V;
-                    V.startsWith("Key") && (S = O.substr(V, 3, null));
+                    V.startsWith("Key") && (S = stringUtils.substr(V, 3, null));
                     xc.textContent = S;
                     F.appendChild(xc);
                     S = window.document.createElement("i");
@@ -5771,7 +5774,7 @@
               , N = l.get("chatfocusheight-range");
             d();
             N.oninput = function() {
-                m.j.Hh.ha(Q.parseInt(N.value));
+                m.j.Hh.ha(utils.parseInt(N.value));
                 d()
             }
             ;
@@ -7047,7 +7050,7 @@
             if ("transparent" == a)
                 return -1;
             if ("string" == typeof a)
-                return Q.parseInt("0x" + Q.Je(a));
+                return utils.parseInt("0x" + utils.Je(a));
             if (a instanceof Array)
                 return ((a[0] | 0) << 16) + ((a[1] | 0) << 8) + (a[2] | 0);
             throw v.C("Bad color");
@@ -7795,10 +7798,10 @@
             this.kj(null)
         }
         oo(a, b) {
-            b = this.rr.exec(O.substr(a, 0, b));
+            b = this.rr.exec(stringUtils.substr(a, 0, b));
             if (null != b) {
                 var c = b[0]
-                  , d = O.substr(c, 1, null).split("")
+                  , d = stringUtils.substr(c, 1, null).split("")
                   , e = dc.ap
                   , f = Array(d.length);
                 let g = 0
@@ -7836,7 +7839,7 @@
         }
         Gk(a) {
             a = this.Yk ? "#" + a.ba : "@" + aa.replace(a.D, " ", "_");
-            this.Aq(O.substr(this.lm, 0, this.Ii) + a + " " + O.substr(this.lm, this.Ii + this.Er, null), this.Ii + a.length + 1)
+            this.Aq(stringUtils.substr(this.lm, 0, this.Ii) + a + " " + stringUtils.substr(this.lm, this.Ii + this.Er, null), this.Ii + a.length + 1)
         }
         kj(a) {
             var b = null != a && 0 != a.length;
@@ -8126,7 +8129,7 @@
             let c = a.length
               , d = 0;
             for (; d < c; )
-                b += A.$o(O.tj(a, d++), this.s, b);
+                b += A.$o(stringUtils.tj(a, d++), this.s, b);
             this.a = b
         }
         nb(a) {
@@ -8213,7 +8216,7 @@
               , c = a.length
               , d = 0;
             for (; d < c; )
-                b += A.lo(O.tj(a, d++));
+                b += A.lo(stringUtils.tj(a, d++));
             return b
         }
         static mo(a) {
@@ -8223,7 +8226,7 @@
     }
     class aa {
         static Zs(a, b) {
-            a = O.tj(a, b);
+            a = stringUtils.tj(a, b);
             return 8 < a && 14 > a ? !0 : 32 == a
         }
         static st(a) {
@@ -8231,7 +8234,7 @@
               , c = 0;
             for (; c < b && aa.Zs(a, b - c - 1); )
                 ++c;
-            return 0 < c ? O.substr(a, 0, b - c) : a
+            return 0 < c ? stringUtils.substr(a, 0, b - c) : a
         }
         static Of(a) {
             var b;
@@ -8704,12 +8707,12 @@
             null == c && (c = -1);
             if (this.r.global) {
                 this.r.lastIndex = b;
-                this.r.pc = this.r.exec(0 > c ? a : O.substr(a, 0, b + c));
+                this.r.pc = this.r.exec(0 > c ? a : stringUtils.substr(a, 0, b + c));
                 if (b = null != this.r.pc)
                     this.r.ph = a;
                 return b
             }
-            if (c = this.match(0 > c ? O.substr(a, b, null) : O.substr(a, b, c)))
+            if (c = this.match(0 > c ? stringUtils.substr(a, b, null) : stringUtils.substr(a, b, c)))
                 this.r.ph = a,
                 this.r.pc.index += b;
             return c
@@ -9483,7 +9486,7 @@
                 }
                 ;
                 a.tf = function() {
-                    O.remove(c.cc, b);
+                    stringUtils.remove(c.cc, b);
                     c.We.delete(b.ba);
                     D.h(c.qq, b.ba)
                 }
@@ -9612,7 +9615,7 @@
         Rk(a, b) {
             pa.console.log(b);
             this.We.delete(a.ba);
-            O.remove(this.cc, a);
+            stringUtils.remove(this.cc, a);
             a.Lg && null != this.yl && this.yl(a.ba);
             a.ua.la()
         }
@@ -10153,8 +10156,8 @@
                 var b = a.oa(this.Z);
                 if (null != b) {
                     var c = a.oa(this.P);
-                    O.remove(a.K, b);
-                    null != a.M && O.remove(a.M.va.H, b.I);
+                    stringUtils.remove(a.K, b);
+                    null != a.M && stringUtils.remove(a.M.va.H, b.I);
                     Xb.h(a.Tl, b, this.qd, this.ah, c)
                 }
             }
@@ -10434,10 +10437,10 @@
     Object.assign(mc.prototype, {
         g: mc
     });
-    O.b = !0;
+    stringUtils.b = !0;
     Math.b = !0;
     Ac.b = !0;
-    Q.b = !0;
+    utils.b = !0;
     aa.b = !0;
     ha.b = !0;
     zc.b = !0;
@@ -10678,9 +10681,9 @@
         g: pb
     });
     Dc.b = !0;
-    Vb.b = !0;
-    Object.assign(Vb.prototype, {
-        g: Vb
+    CommandManager.b = !0;
+    Object.assign(CommandManager.prototype, {
+        g: CommandManager
     });
     Ra.b = !0;
     Ca.b = !0;
@@ -11075,7 +11078,7 @@
     });
     w.b = !0;
     pa.Jj |= 0;
-    "undefined" != typeof performance && "function" == typeof performance.now && (O.now = performance.now.bind(performance));
+    "undefined" != typeof performance && "function" == typeof performance.now && (stringUtils.now = performance.now.bind(performance));
     null == String.fromCodePoint && (String.fromCodePoint = function(a) {
         return 65536 > a ? String.fromCharCode(a) : String.fromCharCode((a >> 10) + 55232) + String.fromCharCode((a & 1023) + 56320)
     }
