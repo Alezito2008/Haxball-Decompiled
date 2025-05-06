@@ -1,3 +1,20 @@
+// override push
+const originalPush = Array.prototype.push;
+
+// Array.prototype.push = function(...args) {
+//     if (args.length === 1) {
+//         const result = originalPush.apply(this, args);
+//         if (result == 2) {
+//             console.log("push [Player]");
+//             console.log("Array (constructor):", this.constructor.name);
+//             console.log("Array:", this);
+//             console.log("New length:", result);
+//             console.trace()
+//         }
+//         return result;
+//     }
+//     return originalPush.apply(this, args);
+// };
 /*
  HaxBall © Mario Carbajal - All rights reserved.
  8be54ed5
@@ -175,7 +192,7 @@
     class jb {
         constructor() {
             this.Rb = -1;
-            this.gb = new T(gameConfig.j.configLowLatencyCanvas.v());
+            this.gb = new T(gameConfig.j.configLowLatencyCanvas.getAvatar());
             this.Wc = new ic;
             this.f = dOMManipulator.CreateElementFromHTML(jb.O);
             let a = dOMManipulator.MapDataHooks(this.f);
@@ -185,7 +202,7 @@
             dOMManipulator.replaceWith(a.get("canvas"), this.gb.na)
         }
         A(a) {
-            var b = gameConfig.j.configLowLatencyCanvas.v();
+            var b = gameConfig.j.configLowLatencyCanvas.getAvatar();
             if (this.gb.Fp != b) {
                 let c = this.gb.na;
                 this.gb = new T(b);
@@ -718,12 +735,12 @@
         static xj(a) {
             C.Ys() && C.Ss(function() {
                 Jc.xj();
-                let b = null == gameConfig.j.configGeo.v() ? la.lp().then(function(d) {
+                let b = null == gameConfig.j.configGeo.getAvatar() ? la.lp().then(function(d) {
                     gameConfig.j.configGeo.saveAvatar(d)
                 }, function() {}) : Promise.resolve(null)
                   , c = Z.v("res.dat", "arraybuffer").then(function(d) {
                     d = new JSZip(d);
-                    gameConfig.Qa = new jc(d);
+                    gameConfig.Qa = new AudioManager(d);
                     return Promise.all([gameConfig.Qa.Xo, C.ih(d.file("images/grass.png").asArrayBuffer()).then(function(e) {
                         return gameConfig.qp = e
                     }), C.ih(d.file("images/concrete.png").asArrayBuffer()).then(function(e) {
@@ -1306,7 +1323,7 @@
             null != b && (d = b.getItem(a));
             this.hn = c(d)
         }
-        v() {
+        getAvatar() {
             return this.hn
         }
         saveAvatar(a) {
@@ -1445,7 +1462,7 @@
             this.Bd = 0;
             let b = this;
             this.dg = new CommandManager(a,function(d) {
-                b.l.Ka.Hb(d)
+                b.l.Ka.CreateNotice(d)
             }
             );
             this.za = a;
@@ -1568,10 +1585,10 @@
             this.lj = window.setInterval(function() {
                 a.A()
             }, 50);
-            var c = gameConfig.j.configExtrapolation.v();
+            var c = gameConfig.j.configExtrapolation.getAvatar();
             c = -200 > c ? -200 : 1E3 < c ? 1E3 : c;
-            0 != c && (a.Fm(gameConfig.j.configExtrapolation.v()),
-            this.l.Ka.Hb("Extrapolation set to " + c + " msec"))
+            0 != c && (a.Fm(gameConfig.j.configExtrapolation.getAvatar()),
+            this.l.Ka.CreateNotice("Extrapolation set to " + c + " msec"))
         }
         ls() {
             this.Nd = new pc(this.za,3)
@@ -1621,7 +1638,7 @@
         }
         Rc() {
             var a = window.performance.now();
-            1 == gameConfig.j.configFPSLimit.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
+            1 == gameConfig.j.configFPSLimit.getAvatar() && 28.333333333333336 > a - this.hd || (this.hd = a,
             this.Bd++,
             a = this.za.U.oa(this.za.xc),
             null != a && (this.Ni = a.fb),
@@ -1657,7 +1674,7 @@
         }
         Fa(a) {
             var b = gameConfig.j.configViewMode;
-            let c = null != gameConfig.j.GetPlayerKeys.v().v(a.code);
+            let c = null != gameConfig.j.GetPlayerKeys.getAvatar().v(a.code);
             switch (a.keyCode) {
             case 9:
             case 13:
@@ -1751,7 +1768,7 @@
                 c.l.Jf.Gm(c.Bd);
                 c.Bd = 0
             }, 1E3);
-            this.Jm(gameConfig.j.configViewMode.v());
+            this.Jm(gameConfig.j.configViewMode.getAvatar());
             this.l.f.classList.add("replayer");
             this.se = new Ba(a);
             this.se.Eq = function() {
@@ -1789,14 +1806,14 @@
         Rc() {
             this.se.A();
             let a = window.performance.now();
-            1 == gameConfig.j.configFPSLimit.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
+            1 == gameConfig.j.configFPSLimit.getAvatar() && 28.333333333333336 > a - this.hd || (this.hd = a,
             this.Bd++,
-            this.Jm(gameConfig.j.configViewMode.v()),
+            this.Jm(gameConfig.j.configViewMode.getAvatar()),
             0 < this.za.Pd || this.l.A(this.za))
         }
         Fa(a) {
             var b = gameConfig.j.configViewMode;
-            let c = null != gameConfig.j.GetPlayerKeys.v().v(a.code);
+            let c = null != gameConfig.j.GetPlayerKeys.getAvatar().v(a.code);
             switch (a.keyCode) {
             case 27:
                 this.l.Zk() ? this.l.ab(null) : (b = this.l,
@@ -1835,9 +1852,9 @@
             this.W.ld(a)
         }
         Jm() {
-            let a = gameConfig.j.configViewMode.v()
+            let a = gameConfig.j.configViewMode.getAvatar()
               , b = this.l.ib.gb;
-            b.te = gameConfig.j.configResolutionScale.v();
+            b.te = gameConfig.j.configResolutionScale.getAvatar();
             b.Wg = 35;
             0 >= a ? b.Ld = 610 : (b.Ld = 0,
             b.Ig = 1 + .25 * (a - 1))
@@ -1897,9 +1914,9 @@
         }
         A(a, b) {
             if (null != a.I) {
-                let c = gameConfig.j.configTeamColors.v() ? b.mb[a.fa.ba] : a.fa.Um
+                let c = gameConfig.j.configTeamColors.getAvatar() ? b.mb[a.fa.ba] : a.fa.Um
                   , d = null != a.Sd ? a.Sd : a.Zb
-                  , e = gameConfig.j.configShowAvatars.v() && null != d;
+                  , e = gameConfig.j.configShowAvatars.getAvatar() && null != d;
                 if (!tb.so(this.mb, c) || !e && a.Nb != this.Ch || e && this.Zf != d)
                     tb.Io(this.mb, c),
                     e ? (this.Zf = d,
@@ -2109,7 +2126,7 @@
             for (var d = this.K; d.length > c; )
                 d.pop();
             for (d = 0; d < c; ) {
-                let e = new ya;
+                let e = new Player;
                 e.xa(a, b);
                 this.K[d++] = e
             }
@@ -2325,7 +2342,7 @@
             this.fo = b.get("sound-bar-bg");
             let c = this;
             b.get("sound-btn").onclick = function() {
-                gameConfig.j.configSoundMain.saveAvatar(!gameConfig.j.configSoundMain.v());
+                gameConfig.j.configSoundMain.saveAvatar(!gameConfig.j.configSoundMain.getAvatar());
                 c.A()
             }
             ;
@@ -2358,8 +2375,8 @@
             this.A()
         }
         A() {
-            let a = gameConfig.j.configSoundVolume.v()
-              , b = !gameConfig.j.configSoundMain.v();
+            let a = gameConfig.j.configSoundVolume.getAvatar()
+              , b = !gameConfig.j.configSoundMain.getAvatar();
             if (this.Lp != a || this.Kp != b)
                 this.Lp = a,
                 (this.Kp = b) && (a = 0),
@@ -2452,11 +2469,11 @@
             this.od && this.Xa.A(a.U, a.U.oa(a.xc));
             H.h(this.Xl);
             this.si.disabled = null == a.U.M;
-            let b = gameConfig.j.configViewMode.v()
+            let b = gameConfig.j.configViewMode.getAvatar()
               , c = this.ib.gb;
-            c.te = gameConfig.j.configResolutionScale.v();
-            this.Ur(gameConfig.j.configChatOpacity.v());
-            this.Tr("full" == gameConfig.j.configChatBGMode.v());
+            c.te = gameConfig.j.configResolutionScale.getAvatar();
+            this.Ur(gameConfig.j.configChatOpacity.getAvatar());
+            this.Tr("full" == gameConfig.j.configChatBGMode.getAvatar());
             this.cs(0 == b);
             let d = this.Ka.f.getBoundingClientRect().height;
             0 == b ? (c.Ig = 1,
@@ -2528,18 +2545,18 @@
             this.rd = a.rd;
             this.Wm = window.performance.now();
             let b = null
-              , c = this;
+              , context = this;
             b = function() {
-                var e = c.mr - c.ns();
-                0 >= e ? c.la() : (window.clearTimeout(c.Zm),
+                var e = context.mr - context.ns();
+                0 >= e ? context.la() : (window.clearTimeout(context.Zm),
                 e = window.setTimeout(b, e + 1E3),
-                c.Zm = e)
+                context.Zm = e)
             }
             ;
             b();
             this.Sa.oniceconnectionstatechange = function() {
-                let e = c.Sa.iceConnectionState;
-                "closed" != e && "failed" != e || c.la()
+                let e = context.Sa.iceConnectionState;
+                "closed" != e && "failed" != e || context.la()
             }
             ;
             a = 0;
@@ -2548,12 +2565,12 @@
                 let e = d[a];
                 ++a;
                 e.onmessage = function(f) {
-                    c.Ed && (c.Wm = window.performance.now(),
-                    null != c.zg && c.zg(f.data))
+                    context.Ed && (context.Wm = window.performance.now(),
+                    null != context.zg && context.zg(f.data))
                 }
                 ;
                 e.onclose = function() {
-                    c.la()
+                    context.la()
                 }
             }
         }
@@ -2945,12 +2962,12 @@
         }
         Fa(a) {
             var b = a.code;
-            b = gameConfig.j.GetPlayerKeys.v().v(b);
+            b = gameConfig.j.GetPlayerKeys.getAvatar().v(b);
             null != b && (a.preventDefault(),
             this.tq(b))
         }
         ld(a) {
-            a = gameConfig.j.GetPlayerKeys.v().v(a.code);
+            a = gameConfig.j.GetPlayerKeys.getAvatar().v(a.code);
             null != a && this.jq(a)
         }
         tq(a) {
@@ -3006,7 +3023,7 @@
             B.Pp()
         }
         static Pp() {
-            let a = gameConfig.j.configPlayerAuthKey.v();
+            let a = gameConfig.j.configPlayerAuthKey.getAvatar();
             null == a ? U.ep().then(function(b) {
                 B.Xe = b;
                 gameConfig.j.configPlayerAuthKey.saveAvatar(b.ts())
@@ -3019,7 +3036,7 @@
             return null != a ? null != a.getItem("crappy_router") : !1
         }
         static Ek(a) {
-            let b = new nameInputForm(gameConfig.j.configPlayerName.v());
+            let b = new nameInputForm(gameConfig.j.configPlayerName.getAvatar());
             b.Bl = function(c) {
                 gameConfig.j.configPlayerName.saveAvatar(c);
                 gameConfig.Qa.rm();
@@ -3138,7 +3155,7 @@
             return "" + pa.location.origin + "/play?c=" + a + (b ? "&p=1" : "")
         }
         static Uo() {
-            let a = gameConfig.j.configPlayerName.v()
+            let a = gameConfig.j.configPlayerName.getAvatar()
               , b = new roomCreatorMenu("" + a + "'s room");
             C.Na(b.f);
             b.ti = function() {
@@ -3167,11 +3184,11 @@
                   , f = gameConfig.j.Wh()
                   , g = new xa;
                 g.lc = c.name;
-                let h = new ya;
+                let h = new Player;
                 h.D = a;
                 h.fb = !0;
                 h.country = f.ub;
-                h.Zb = gameConfig.j.configAvatar.v();
+                h.Zb = gameConfig.j.configAvatar.getAvatar();
                 g.K.push(h);
                 let k = new Zb({
                     iceServers: gameConfig.stunServers,
@@ -3293,9 +3310,9 @@
                 let d = B.hp()
                   , e = new xa
                   , f = A.ka();
-                f.oc(gameConfig.j.configPlayerName.v());
+                f.oc(gameConfig.j.configPlayerName.getAvatar());
                 f.oc(gameConfig.j.Wh().ub);
-                f.Eb(gameConfig.j.configAvatar.v());
+                f.Eb(gameConfig.j.configAvatar.getAvatar());
                 let g = new Oa(a,{
                     iceServers: gameConfig.stunServers,
                     Aj: gameConfig.WEBSOCKET_URL,
@@ -4045,7 +4062,7 @@
             }()
         }
         Wh() {
-            return null != this.configGeoOverride.v() ? this.configGeoOverride.v() : null != this.configGeo.v() ? this.configGeo.v() : new la
+            return null != this.configGeoOverride.getAvatar() ? this.configGeoOverride.getAvatar() : null != this.configGeo.getAvatar() ? this.configGeo.getAvatar() : new la
         }
     }
     class Fc {
@@ -4092,7 +4109,7 @@
             0 >= this.qh && .05 > this.He && (window.clearInterval(this.uh),
             this.uh = null,
             this.He = 0);
-            a = gameConfig.j.configSoundCrowd.v() ? this.He : 0;
+            a = gameConfig.j.configSoundCrowd.getAvatar() ? this.He : 0;
             this.fh.gain.value = a
         }
         Fj(a) {
@@ -5200,12 +5217,12 @@
             return b
         }
     }
-    class jc {
+    class AudioManager {
         constructor(a) {
-            function b(d) {
+            function loadAudioFile(d) {
                 return new Promise(function(e) {
                     let f = a.file(d).asArrayBuffer();
-                    c.c.decodeAudioData(f, e, function() {
+                    audioLoader.c.decodeAudioData(f, e, function() {
                         e(null)
                     })
                 }
@@ -5215,23 +5232,23 @@
             this.qg = this.c.createGain();
             this.Gi();
             this.qg.connect(this.c.destination);
-            let c = this;
-            this.Xo = Promise.all([b("sounds/chat.wav").then(function(d) {
-                return c.ik = d
-            }), b("sounds/highlight.wav").then(function(d) {
-                return c.Tk = d
-            }), b("sounds/kick.wav").then(function(d) {
-                return c.Ip = d
-            }), b("sounds/goal.wav").then(function(d) {
-                return c.op = d
-            }), b("sounds/join.wav").then(function(d) {
-                return c.Gp = d
-            }), b("sounds/leave.wav").then(function(d) {
-                return c.Mp = d
-            }), b("sounds/crowd.ogg").then(function(d) {
-                c.No = d;
-                c.sk = new vc(c.No,c.c);
-                c.sk.connect(c.qg)
+            let audioLoader = this;
+            this.Xo = Promise.all([loadAudioFile("sounds/chat.wav").then(function(d) {
+                return audioLoader.ik = d
+            }), loadAudioFile("sounds/highlight.wav").then(function(d) {
+                return audioLoader.Tk = d
+            }), loadAudioFile("sounds/kick.wav").then(function(d) {
+                return audioLoader.Ip = d
+            }), loadAudioFile("sounds/goal.wav").then(function(d) {
+                return audioLoader.op = d
+            }), loadAudioFile("sounds/join.wav").then(function(d) {
+                return audioLoader.Gp = d
+            }), loadAudioFile("sounds/leave.wav").then(function(d) {
+                return audioLoader.Mp = d
+            }), loadAudioFile("sounds/crowd.ogg").then(function(d) {
+                audioLoader.No = d;
+                audioLoader.sk = new vc(audioLoader.No,audioLoader.c);
+                audioLoader.sk.connect(audioLoader.qg)
             })])
         }
         rm() {
@@ -5244,8 +5261,8 @@
             b.start()
         }
         Gi() {
-            let a = gameConfig.j.configSoundVolume.v();
-            gameConfig.j.configSoundMain.v() || (a = 0);
+            let a = gameConfig.j.configSoundVolume.getAvatar();
+            gameConfig.j.configSoundMain.getAvatar() || (a = 0);
             this.qg.gain.value = a
         }
     }
@@ -5373,9 +5390,9 @@
             this.f.style.height = a + "px"
         }
         pk() {
-            let a = gc(gameConfig.j.configChatHeight.v());
+            let a = gc(gameConfig.j.configChatHeight.getAvatar());
             if (this.fi) {
-                let b = gc(gameConfig.j.configChatFocusHeight.v());
+                let b = gc(gameConfig.j.configChatFocusHeight.getAvatar());
                 a <= b && (a = b)
             } else
                 this.bf && (a = 0);
@@ -5411,14 +5428,14 @@
             for (a = b ? 50 : 100; this.ki.childElementCount > a; )
                 this.ki.firstElementChild.remove()
         }
-        da(a, b) {
+        createParagraph(paragraphText, className) {
             let c = window.document.createElement("p");
-            null != b && (c.className = b);
-            c.textContent = a;
+            null != className && (c.className = className);
+            c.textContent = paragraphText;
             this.hl(c)
         }
-        Hb(a) {
-            this.da(a, "notice")
+        CreateNotice(message) {
+            this.createParagraph(message, "notice")
         }
         static Ep(a) {
             return a.parentElement.querySelector(":hover") == a
@@ -5445,7 +5462,7 @@
             b.Zj = c
         }
         gameEventAnnouncer(gameEventHandler) {
-            function b(playerData) {
+            function formatTargetByPlayer(playerData) {
                 return null == playerData ? "" : " by " + playerData.D
             }
             this.jj(gameEventHandler);
@@ -5463,7 +5480,7 @@
             gameEventHandler.Tl = function(targetPlayer, e, actionType, g) {
                 D.h(gameContext.xq, targetPlayer.Z);
                 null == e ? targetPlayer = "" + targetPlayer.D + " has left" : (Xb.h(gameContext.wq, targetPlayer.Z, e, null != g ? g.D : null, actionType),
-                targetPlayer = "" + targetPlayer.D + " was " + (actionType ? "banned" : "kicked") + b(g) + ("" != e ? " (" + e + ")" : ""));
+                targetPlayer = "" + targetPlayer.D + " was " + (actionType ? "banned" : "kicked") + formatTargetByPlayer(g) + ("" != e ? " (" + e + ")" : ""));
                 gameContext.logger.Ka.Hb(targetPlayer);
                 gameConfig.Qa.md(gameConfig.Qa.Mp);
                 gameContext.jj(gameEventHandler)
@@ -5472,12 +5489,12 @@
             gameEventHandler.Ql = function(d, e) {
                 let f = null != gameContext.di && -1 != e.indexOf(gameContext.di);
                 gameContext.logger.Ka.da("" + d.D + ": " + e, f ? "highlight" : null);
-                gameConfig.j.configSoundHighlight.v() && f ? gameConfig.Qa.md(gameConfig.Qa.Tk) : gameConfig.j.configSoundChat.v() && gameConfig.Qa.md(gameConfig.Qa.ik)
+                gameConfig.j.configSoundHighlight.getAvatar() && f ? gameConfig.Qa.md(gameConfig.Qa.Tk) : gameConfig.j.configSoundChat.getAvatar() && gameConfig.Qa.md(gameConfig.Qa.ik)
             };
 
             gameEventHandler.tm = function(d, e, f, g) {
                 gameContext.logger.Ka.Xp(d, e, f);
-                if (gameConfig.j.configSoundChat.v())
+                if (gameConfig.j.configSoundChat.getAvatar())
                     switch (g) {
                     case 1:
                         gameConfig.Qa.md(gameConfig.Qa.ik);
@@ -5505,7 +5522,7 @@
 
             // on game pause
             gameEventHandler.Ll = function(d, e, f) {
-                e && !f && gameContext.logger.Ka.Hb("Game paused" + b(d))
+                e && !f && gameContext.logger.Ka.Hb("Game paused" + formatTargetByPlayer(d))
             };
 
             gameEventHandler.fj = function() {
@@ -5517,19 +5534,19 @@
             gameEventHandler.aj = function(d) {
                 gameContext.logger.we(!1);
                 gameContext.logger.ib.gb.Cd.uo();
-                gameContext.logger.Ka.Hb("Game started" + b(d))
+                gameContext.logger.Ka.Hb("Game started" + formatTargetByPlayer(d))
             };
 
             // on game stop
             gameEventHandler.Kf = function(d) {
-                null != d && gameContext.logger.Ka.Hb("Game stopped" + b(d))
+                null != d && gameContext.logger.Ka.Hb("Game stopped" + formatTargetByPlayer(d))
             };
 
             // on load stadium
             gameEventHandler.Zi = function(d, e) {
                 if (!e.cf()) {
                     let f = aa.hh(e.lk(), 8);
-                    gameContext.logger.Ka.Hb('Stadium "' + e.D + '" (' + f + ") loaded" + b(d))
+                    gameContext.logger.Ka.Hb('Stadium "' + e.D + '" (' + f + ") loaded" + formatTargetByPlayer(d))
                 }
             };
 
@@ -5541,13 +5558,13 @@
 
             // on team join
             gameEventHandler.Wl = function(d, targetPlayer, f) {
-                null != gameEventHandler.M && gameContext.logger.Ka.Hb("" + targetPlayer.D + " was moved to " + f.D + b(d))
+                null != gameEventHandler.M && gameContext.logger.Ka.Hb("" + targetPlayer.D + " was moved to " + f.D + formatTargetByPlayer(d))
             };
 
             // on admin change
             gameEventHandler.yi = function(eventMessage, e) {
                 let f = e.D;
-                eventMessage = (e.fb ? "" + f + " was given admin rights" : "" + f + "'s admin rights were taken away") + b(eventMessage);
+                eventMessage = (e.fb ? "" + f + " was given admin rights" : "" + f + "'s admin rights were taken away") + formatTargetByPlayer(eventMessage);
                 gameContext.logger.Ka.Hb(eventMessage)
             };
 
@@ -5557,7 +5574,7 @@
 
             // on kick rate limit change
             gameEventHandler.al = function(d, e, f, g) {
-                gameContext.logger.Ka.Hb("Kick Rate Limit set to (min: " + e + ", rate: " + f + ", burst: " + g + ")" + b(d))
+                gameContext.logger.Ka.Hb("Kick Rate Limit set to (min: " + e + ", rate: " + f + ", burst: " + g + ")" + formatTargetByPlayer(d))
             }
         }
         xs(a) {
@@ -5678,12 +5695,12 @@
                 }
             }
             function d() {
-                let y = gameConfig.j.configChatFocusHeight.v();
+                let y = gameConfig.j.configChatFocusHeight.getAvatar();
                 K.textContent = "" + y;
                 N.value = "" + y
             }
             function e() {
-                let y = gameConfig.j.configChatOpacity.v();
+                let y = gameConfig.j.configChatOpacity.getAvatar();
                 t.textContent = "" + y;
                 z.value = "" + y
             }
@@ -5801,8 +5818,8 @@
             let Db = null
               , Mc = this;
             Db = function() {
-                let y = gameConfig.j.configGeoOverride.v();
-                c("loc", "Detected location", gameConfig.j.configGeo.v());
+                let y = gameConfig.j.configGeoOverride.getAvatar();
+                c("loc", "Detected location", gameConfig.j.configGeo.getAvatar());
                 c("loc-ovr", "Location override", y);
                 let F = l.get("loc-ovr-btn");
                 F.disabled = !a;
@@ -5819,7 +5836,7 @@
             }
             ;
             Db();
-            let Lb = gameConfig.j.GetPlayerKeys.v()
+            let Lb = gameConfig.j.GetPlayerKeys.getAvatar()
               , yc = l.get("presskey")
               , ConfigureKeyBindings = null
               , inputSectionElement = l.get("inputsec");
@@ -5979,7 +5996,7 @@
             H.h(this.rb)
         }
     }
-    class ya {
+    class Player {
         constructor() {
             this.Cc = -1;
             this.Cn = null;
@@ -6014,50 +6031,52 @@
             a.m(this.fa.ba);
             a.oj(null == this.I ? -1 : this.I.Il)
         }
-        xa(a, b) {
-            this.fb = 0 != a.F();
-            this.Nb = a.N();
-            this.Zb = a.Ab();
-            this.Sd = a.Ab();
-            this.Td = 0 != a.F();
-            this.country = a.Ab();
-            this.gh = a.N();
-            this.D = a.Ab();
-            this.W = a.N();
-            this.Z = a.Bb();
-            this.Yb = 0 != a.F();
-            this.Bc = a.Di();
-            this.Zc = a.F();
-            let c = a.zf();
+        xa(playerInfo, b) {
+            this.fb = 0 != playerInfo.F();
+            this.Nb = playerInfo.N();
+            this.Zb = playerInfo.Ab();
+            this.Sd = playerInfo.Ab();
+            this.Td = 0 != playerInfo.F();
+            this.country = playerInfo.Ab();
+            this.gh = playerInfo.N();
+            this.D = playerInfo.Ab();
+            this.W = playerInfo.N();
+            this.Z = playerInfo.Bb();
+            this.Yb = 0 != playerInfo.F();
+            this.Bc = playerInfo.Di();
+            this.Zc = playerInfo.F();
+            let c = playerInfo.zf();
             this.fa = 1 == c ? u.ia : 2 == c ? u.Da : u.Oa;
-            a = a.Di();
-            this.I = 0 > a ? null : b[a]
+            playerInfo = playerInfo.Di();
+            this.I = 0 > playerInfo ? null : b[playerInfo]
         }
+
         Ws() {
-            let a = qa.Cc
-              , b = this.Cn;
-            this.Cc != a && (null == b && (this.Cn = b = new ya),
+            let a = qa.Cc;
+            let NewPlayer = this.Cn;
+            this.Cc != a && (null == NewPlayer && (this.Cn = NewPlayer = new Player),
             this.Cc = a,
-            ya.Ns(b, this));
-            return b
+            Player.CopyProperties(NewPlayer, this));
+            return NewPlayer
         }
-        static Ns(a, b) {
-            a.fb = b.fb;
-            a.Nb = b.Nb;
-            a.Zb = b.Zb;
-            a.Sd = b.Sd;
-            a.Td = b.Td;
-            a.country = b.country;
-            a.gh = b.gh;
-            a.zb = b.zb;
-            a.D = b.D;
-            a.W = b.W;
-            a.Z = b.Z;
-            a.Yb = b.Yb;
-            a.Bc = b.Bc;
-            a.Zc = b.Zc;
-            a.I = null == b.I ? null : b.I.uc();
-            a.fa = b.fa
+
+        static CopyProperties(target, source) {
+            target.fb = source.fb;
+            target.Nb = source.Nb;
+            target.Zb = source.Zb;
+            target.Sd = source.Sd;
+            target.Td = source.Td;
+            target.country = source.country;
+            target.gh = source.gh;
+            target.zb = source.zb;
+            target.D = source.D;
+            target.W = source.W;
+            target.Z = source.Z;
+            target.Yb = source.Yb;
+            target.Bc = source.Bc;
+            target.Zc = source.Zc;
+            target.I = null == source.I ? null : source.I.uc();
+            target.fa = source.fa
         }
     }
     class Cb {
@@ -8563,7 +8582,7 @@
             T.Wi(this.c, !0)
         }
         wr(a, b) {
-            let c = gameConfig.j.configShowIndicators.v()
+            let c = gameConfig.j.configShowIndicators.getAvatar()
               , d = 0;
             for (a = a.K; d < a.length; ) {
                 let f = a[d];
@@ -10023,7 +10042,7 @@
         }
         apply(a) {
             if (0 == this.P) {
-                var b = new ya;
+                var b = new Player;
                 b.Z = this.Z;
                 b.D = this.name;
                 b.country = this.uj;
@@ -10749,9 +10768,9 @@
     });
     Pb.b = !0;
     ib.b = !0;
-    jc.b = !0;
-    Object.assign(jc.prototype, {
-        g: jc
+    AudioManager.b = !0;
+    Object.assign(AudioManager.prototype, {
+        g: AudioManager
     });
     vc.b = !0;
     Object.assign(vc.prototype, {
@@ -10795,10 +10814,10 @@
     Object.assign(xa.prototype, {
         g: xa
     });
-    ya.b = !0;
-    ya.ad = [Ia];
-    Object.assign(ya.prototype, {
-        g: ya
+    Player.b = !0;
+    Player.ad = [Ia];
+    Object.assign(Player.prototype, {
+        g: Player
     });
     Da.b = !0;
     Da.ja = p;
