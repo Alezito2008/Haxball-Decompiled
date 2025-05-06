@@ -175,7 +175,7 @@
     class jb {
         constructor() {
             this.Rb = -1;
-            this.gb = new T(m.j.li.v());
+            this.gb = new T(m.j.configLowLatencyCanvas.v());
             this.Wc = new ic;
             this.f = dOMManipulator.CreateElementFromHTML(jb.O);
             let a = dOMManipulator.MapDataHooks(this.f);
@@ -185,7 +185,7 @@
             dOMManipulator.replaceWith(a.get("canvas"), this.gb.na)
         }
         A(a) {
-            var b = m.j.li.v();
+            var b = m.j.configLowLatencyCanvas.v();
             if (this.gb.Fp != b) {
                 let c = this.gb.na;
                 this.gb = new T(b);
@@ -718,8 +718,8 @@
         static xj(a) {
             C.Ys() && C.Ss(function() {
                 Jc.xj();
-                let b = null == m.j.$e.v() ? la.lp().then(function(d) {
-                    m.j.$e.ha(d)
+                let b = null == m.j.configGeo.v() ? la.lp().then(function(d) {
+                    m.j.configGeo.saveAvatar(d)
                 }, function() {}) : Promise.resolve(null)
                   , c = Z.v("res.dat", "arraybuffer").then(function(d) {
                     d = new JSZip(d);
@@ -1309,7 +1309,7 @@
         v() {
             return this.hn
         }
-        ha(a) {
+        saveAvatar(a) {
             this.hn = a;
             if (null != this.mi)
                 try {
@@ -1568,9 +1568,9 @@
             this.lj = window.setInterval(function() {
                 a.A()
             }, 50);
-            var c = m.j.Ad.v();
+            var c = m.j.configExtrapolation.v();
             c = -200 > c ? -200 : 1E3 < c ? 1E3 : c;
-            0 != c && (a.Fm(m.j.Ad.v()),
+            0 != c && (a.Fm(m.j.configExtrapolation.v()),
             this.l.Ka.Hb("Extrapolation set to " + c + " msec"))
         }
         ls() {
@@ -1621,7 +1621,7 @@
         }
         Rc() {
             var a = window.performance.now();
-            1 == m.j.Rh.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
+            1 == m.j.configFPSLimit.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
             this.Bd++,
             a = this.za.U.oa(this.za.xc),
             null != a && (this.Ni = a.fb),
@@ -1656,7 +1656,7 @@
             }
         }
         Fa(a) {
-            var b = m.j.Rd;
+            var b = m.j.configViewMode;
             let c = null != m.j.GetPlayerKeys.v().v(a.code);
             switch (a.keyCode) {
             case 9:
@@ -1672,28 +1672,28 @@
                 a.preventDefault();
                 break;
             case 48:
-                c ? this.W.Fa(a) : b.ha(0);
+                c ? this.W.Fa(a) : b.saveAvatar(0);
                 break;
             case 49:
-                c ? this.W.Fa(a) : b.ha(1);
+                c ? this.W.Fa(a) : b.saveAvatar(1);
                 break;
             case 50:
-                c ? this.W.Fa(a) : b.ha(2);
+                c ? this.W.Fa(a) : b.saveAvatar(2);
                 break;
             case 51:
-                c ? this.W.Fa(a) : b.ha(3);
+                c ? this.W.Fa(a) : b.saveAvatar(3);
                 break;
             case 52:
-                c ? this.W.Fa(a) : b.ha(4);
+                c ? this.W.Fa(a) : b.saveAvatar(4);
                 break;
             case 53:
-                c ? this.W.Fa(a) : b.ha(5);
+                c ? this.W.Fa(a) : b.saveAvatar(5);
                 break;
             case 54:
-                c ? this.W.Fa(a) : b.ha(6);
+                c ? this.W.Fa(a) : b.saveAvatar(6);
                 break;
             case 55:
-                c ? this.W.Fa(a) : b.ha(7);
+                c ? this.W.Fa(a) : b.saveAvatar(7);
                 break;
             case 80:
                 this.an();
@@ -1751,7 +1751,7 @@
                 c.l.Jf.Gm(c.Bd);
                 c.Bd = 0
             }, 1E3);
-            this.Jm(m.j.Rd.v());
+            this.Jm(m.j.configViewMode.v());
             this.l.f.classList.add("replayer");
             this.se = new Ba(a);
             this.se.Eq = function() {
@@ -1789,13 +1789,13 @@
         Rc() {
             this.se.A();
             let a = window.performance.now();
-            1 == m.j.Rh.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
+            1 == m.j.configFPSLimit.v() && 28.333333333333336 > a - this.hd || (this.hd = a,
             this.Bd++,
-            this.Jm(m.j.Rd.v()),
+            this.Jm(m.j.configViewMode.v()),
             0 < this.za.Pd || this.l.A(this.za))
         }
         Fa(a) {
-            var b = m.j.Rd;
+            var b = m.j.configViewMode;
             let c = null != m.j.GetPlayerKeys.v().v(a.code);
             switch (a.keyCode) {
             case 27:
@@ -1804,28 +1804,28 @@
                 a.preventDefault();
                 break;
             case 48:
-                c ? this.W.Fa(a) : b.ha(0);
+                c ? this.W.Fa(a) : b.saveAvatar(0);
                 break;
             case 49:
-                c ? this.W.Fa(a) : b.ha(1);
+                c ? this.W.Fa(a) : b.saveAvatar(1);
                 break;
             case 50:
-                c ? this.W.Fa(a) : b.ha(2);
+                c ? this.W.Fa(a) : b.saveAvatar(2);
                 break;
             case 51:
-                c ? this.W.Fa(a) : b.ha(3);
+                c ? this.W.Fa(a) : b.saveAvatar(3);
                 break;
             case 52:
-                c ? this.W.Fa(a) : b.ha(4);
+                c ? this.W.Fa(a) : b.saveAvatar(4);
                 break;
             case 53:
-                c ? this.W.Fa(a) : b.ha(5);
+                c ? this.W.Fa(a) : b.saveAvatar(5);
                 break;
             case 54:
-                c ? this.W.Fa(a) : b.ha(6);
+                c ? this.W.Fa(a) : b.saveAvatar(6);
                 break;
             case 55:
-                c ? this.W.Fa(a) : b.ha(7);
+                c ? this.W.Fa(a) : b.saveAvatar(7);
                 break;
             default:
                 this.W.Fa(a)
@@ -1835,9 +1835,9 @@
             this.W.ld(a)
         }
         Jm() {
-            let a = m.j.Rd.v()
+            let a = m.j.configViewMode.v()
               , b = this.l.ib.gb;
-            b.te = m.j.Mi.v();
+            b.te = m.j.configResolutionScale.v();
             b.Wg = 35;
             0 >= a ? b.Ld = 610 : (b.Ld = 0,
             b.Ig = 1 + .25 * (a - 1))
@@ -1897,9 +1897,9 @@
         }
         A(a, b) {
             if (null != a.I) {
-                let c = m.j.Vm.v() ? b.mb[a.fa.ba] : a.fa.Um
+                let c = m.j.configTeamColors.v() ? b.mb[a.fa.ba] : a.fa.Um
                   , d = null != a.Sd ? a.Sd : a.Zb
-                  , e = m.j.Km.v() && null != d;
+                  , e = m.j.configShowAvatars.v() && null != d;
                 if (!tb.so(this.mb, c) || !e && a.Nb != this.Ch || e && this.Zf != d)
                     tb.Io(this.mb, c),
                     e ? (this.Zf = d,
@@ -2325,7 +2325,7 @@
             this.fo = b.get("sound-bar-bg");
             let c = this;
             b.get("sound-btn").onclick = function() {
-                m.j.xe.ha(!m.j.xe.v());
+                m.j.configSoundMain.saveAvatar(!m.j.configSoundMain.v());
                 c.A()
             }
             ;
@@ -2337,8 +2337,8 @@
                         g = (g.clientY - h.top) / h.height
                     }
                     g = 1 - g;
-                    m.j.Yi.ha(1 < g ? 1 : 0 > g ? 0 : g);
-                    m.j.xe.ha(!0);
+                    m.j.configSoundVolume.saveAvatar(1 < g ? 1 : 0 > g ? 0 : g);
+                    m.j.configSoundMain.saveAvatar(!0);
                     c.A()
                 }
                 e(d);
@@ -2358,8 +2358,8 @@
             this.A()
         }
         A() {
-            let a = m.j.Yi.v()
-              , b = !m.j.xe.v();
+            let a = m.j.configSoundVolume.v()
+              , b = !m.j.configSoundMain.v();
             if (this.Lp != a || this.Kp != b)
                 this.Lp = a,
                 (this.Kp = b) && (a = 0),
@@ -2452,11 +2452,11 @@
             this.od && this.Xa.A(a.U, a.U.oa(a.xc));
             H.h(this.Xl);
             this.si.disabled = null == a.U.M;
-            let b = m.j.Rd.v()
+            let b = m.j.configViewMode.v()
               , c = this.ib.gb;
-            c.te = m.j.Mi.v();
-            this.Ur(m.j.Ih.v());
-            this.Tr("full" == m.j.jk.v());
+            c.te = m.j.configResolutionScale.v();
+            this.Ur(m.j.configChatOpacity.v());
+            this.Tr("full" == m.j.configChatBGMode.v());
             this.cs(0 == b);
             let d = this.Ka.f.getBoundingClientRect().height;
             0 == b ? (c.Ig = 1,
@@ -3006,10 +3006,10 @@
             B.Pp()
         }
         static Pp() {
-            let a = m.j.Yj.v();
+            let a = m.j.configPlayerAuthKey.v();
             null == a ? U.ep().then(function(b) {
                 B.Xe = b;
-                m.j.Yj.ha(b.ts())
+                m.j.configPlayerAuthKey.saveAvatar(b.ts())
             }).catch(function() {}) : U.cp(a).then(function(b) {
                 return B.Xe = b
             }).catch(function() {})
@@ -3019,9 +3019,9 @@
             return null != a ? null != a.getItem("crappy_router") : !1
         }
         static Ek(a) {
-            let b = new nameInputForm(m.j.pe.v());
+            let b = new nameInputForm(m.j.configPlayerName.v());
             b.Bl = function(c) {
-                m.j.pe.ha(c);
+                m.j.configPlayerName.saveAvatar(c);
                 m.Qa.rm();
                 a()
             }
@@ -3138,7 +3138,7 @@
             return "" + pa.location.origin + "/play?c=" + a + (b ? "&p=1" : "")
         }
         static Uo() {
-            let a = m.j.pe.v()
+            let a = m.j.configPlayerName.v()
               , b = new Bb("" + a + "'s room");
             C.Na(b.f);
             b.ti = function() {
@@ -3171,7 +3171,7 @@
                 h.D = a;
                 h.fb = !0;
                 h.country = f.ub;
-                h.Zb = m.j.Ah.v();
+                h.Zb = m.j.configAvatar.v();
                 g.K.push(h);
                 let k = new Zb({
                     iceServers: m.kg,
@@ -3293,9 +3293,9 @@
                 let d = B.hp()
                   , e = new xa
                   , f = A.ka();
-                f.oc(m.j.pe.v());
+                f.oc(m.j.configPlayerName.v());
                 f.oc(m.j.Wh().ub);
-                f.Eb(m.j.Ah.v());
+                f.Eb(m.j.configAvatar.v());
                 let g = new Oa(a,{
                     iceServers: m.kg,
                     Aj: m.Hs,
@@ -3553,7 +3553,7 @@
               , c = this;
             switch (command) {
             case "avatar":
-                commandArguments.length == 2 && (this.setAvatar(commandArguments[1]),
+                commandArguments.length == 2 && (this.setAvatarCommand(commandArguments[1]),
                 this.displayChatMessage("Avatar set"));
                 break;
             case "checksum":
@@ -3563,7 +3563,7 @@
                 this.displayChatMessage('Stadium: "' + commandArguments + '" (checksum: ' + d + ")"));
                 break;
             case "clear_avatar":
-                this.setAvatar(null);
+                this.setAvatarCommand(null);
                 this.displayChatMessage("Avatar cleared");
                 break;
             case "clear_bans":
@@ -3585,7 +3585,7 @@
                 break;
             case "extrapolation":
                 2 == commandArguments.length ? (commandArguments = utils.parseInt(commandArguments[1]),
-                null != commandArguments && -200 <= commandArguments && 1E3 >= commandArguments ? (m.j.Ad.ha(commandArguments),
+                null != commandArguments && -200 <= commandArguments && 1E3 >= commandArguments ? (m.j.configExtrapolation.saveAvatar(commandArguments),
                 this.roomManager.Fm(commandArguments),
                 this.displayChatMessage("Extrapolation set to " + commandArguments + " msec")) : this.displayChatMessage("Extrapolation must be a value between -200 and 1000 milliseconds")) : this.displayChatMessage("Extrapolation requires a value in milliseconds.");
                 break;
@@ -3650,10 +3650,10 @@
             }
             return !0
         }
-        setAvatar(a) {
-            null != a && (a = ha.Xc(a, 2));
-            m.j.Ah.ha(a);
-            this.roomManager.ta(Qa.qa(a))
+        setAvatarCommand(avatarString) {
+            null != avatarString && (avatarString = stringUtils2.substr(avatarString, 3));
+            m.j.configAvatar.saveAvatar(avatarString);
+            this.roomManager.ta(Qa.qa(avatarString))
         }
         static Mq(a) {
             if (3 > a.length)
@@ -3993,7 +3993,7 @@
             }
             function e(g, h, k) {
                 return new ta(g,configInstance,function(l) {
-                    return null == l ? h : ha.Xc(l, k)
+                    return null == l ? h : stringUtils2.substr(l, k)
                 }
                 ,function(l) {
                     return l
@@ -4001,29 +4001,29 @@
                 )
             }
             let configInstance = Cc.pn();
-            this.pe = e("player_name", "", 25);
-            this.Rd = d("view_mode", -1);
-            this.Rh = d("fps_limit", 0);
-            this.Ah = e("avatar", null, 2);
+            this.configPlayerName = e("player_name", "", 25);
+            this.configViewMode = d("view_mode", -1);
+            this.configFPSLimit = d("fps_limit", 0);
+            this.configAvatar = e("avatar", null, 2);
             e("rctoken", null, 1024);
-            this.Vm = b("team_colors", true);
-            this.Uk = b("show_indicators", true);
-            this.Yi = c("sound_volume", 1);
-            this.xe = b("sound_main", true);
-            this.Xi = b("sound_chat", true);
-            this.Nm = b("sound_highlight", true);
-            this.Mm = b("sound_crowd", true);
-            this.Yj = e("player_auth_key", null, 1024);
-            this.Ad = d("extrapolation", 0);
-            this.Mi = c("resolution_scale", 1);
-            this.Km = b("show_avatars", true);
-            this.kk = d("chat_height", 160);
-            this.Hh = d("chat_focus_height", 140);
-            this.Ih = c("chat_opacity", .8);
-            this.jk = e("chat_bg_mode", "compact", 50);
-            this.li = b("low_latency_canvas", !0);
-            this.$e = a("geo");
-            this.af = a("geo_override");
+            this.configTeamColors = b("team_colors", true);
+            this.configShowIndicators = b("show_indicators", true);
+            this.configSoundVolume = c("sound_volume", 1);
+            this.configSoundMain = b("sound_main", true);
+            this.configSoundChat = b("sound_chat", true);
+            this.configSoundHighlight = b("sound_highlight", true);
+            this.configSoundCrowd = b("sound_crowd", true);
+            this.configPlayerAuthKey = e("player_auth_key", null, 1024);
+            this.configExtrapolation = d("extrapolation", 0);
+            this.configResolutionScale = c("resolution_scale", 1);
+            this.configShowAvatars = b("show_avatars", true);
+            this.configChatHeight = d("chat_height", 160);
+            this.configChatFocusHeight = d("chat_focus_height", 140);
+            this.configChatOpacity = c("chat_opacity", .8);
+            this.configChatBGMode = e("chat_bg_mode", "compact", 50);
+            this.configLowLatencyCanvas = b("low_latency_canvas", true);
+            this.configGeo = a("geo");
+            this.configGeoOverride = a("geo_override");
             this.GetPlayerKeys = function() {
                 return new ta("player_keys",configInstance,function(inputValue) {
                     if (null == inputValue)
@@ -4045,7 +4045,7 @@
             }()
         }
         Wh() {
-            return null != this.af.v() ? this.af.v() : null != this.$e.v() ? this.$e.v() : new la
+            return null != this.configGeoOverride.v() ? this.configGeoOverride.v() : null != this.configGeo.v() ? this.configGeo.v() : new la
         }
     }
     class Fc {
@@ -4092,7 +4092,7 @@
             0 >= this.qh && .05 > this.He && (window.clearInterval(this.uh),
             this.uh = null,
             this.He = 0);
-            a = m.j.Mm.v() ? this.He : 0;
+            a = m.j.configSoundCrowd.v() ? this.He : 0;
             this.fh.gain.value = a
         }
         Fj(a) {
@@ -4601,7 +4601,7 @@
             }
         }
         $h(a) {
-            let b = a.jb(), c = ha.Ms(a.sb(a.F())), d, e, f;
+            let b = a.jb(), c = stringUtils2.Ms(a.sb(a.F())), d, e, f;
             try {
                 a = new J(new DataView(pako.inflateRaw(a.sb()).buffer),!1);
                 d = 0 != a.F();
@@ -5141,6 +5141,7 @@
         }
         static lp() {
             return Z.Nk(m.Se + "api/geo").then(function(a) {
+                console.log('URL: ', m.Se)
                 return la.gg(a)
             })
         }
@@ -5151,8 +5152,8 @@
     class Sb {
         constructor() {}
         gk() {
-            this.D = ha.Xc(this.D, 40);
-            this.ub = ha.Xc(this.ub, 3)
+            this.D = stringUtils2.substr(this.D, 40);
+            this.ub = stringUtils2.substr(this.ub, 3)
         }
         ga(a) {
             this.gk();
@@ -5183,8 +5184,8 @@
             this.gk()
         }
     }
-    class ha {
-        static Xc(a, b) {
+    class stringUtils2 {
+        static substr(a, b) {
             return a.length <= b ? a : stringUtils.substr(a, 0, b)
         }
         static Ms(a) {
@@ -5240,8 +5241,8 @@
             b.start()
         }
         Gi() {
-            let a = m.j.Yi.v();
-            m.j.xe.v() || (a = 0);
+            let a = m.j.configSoundVolume.v();
+            m.j.configSoundMain.v() || (a = 0);
             this.qg.gain.value = a
         }
     }
@@ -5279,7 +5280,7 @@
             a.get("drag").onmousedown = function(c) {
                 function d(h) {
                     h.preventDefault();
-                    m.j.kk.ha(gc(gc(e + (f - h.y))));
+                    m.j.configChatHeight.saveAvatar(gc(gc(e + (f - h.y))));
                     context.chatbarInput.blur();
                     context.bf = !1;
                     context.Af()
@@ -5369,9 +5370,9 @@
             this.f.style.height = a + "px"
         }
         pk() {
-            let a = gc(m.j.kk.v());
+            let a = gc(m.j.configChatHeight.v());
             if (this.fi) {
-                let b = gc(m.j.Hh.v());
+                let b = gc(m.j.configChatFocusHeight.v());
                 a <= b && (a = b)
             } else
                 this.bf && (a = 0);
@@ -5464,12 +5465,12 @@
             a.Ql = function(d, e) {
                 let f = null != c.di && -1 != e.indexOf(c.di);
                 c.l.Ka.da("" + d.D + ": " + e, f ? "highlight" : null);
-                m.j.Nm.v() && f ? m.Qa.md(m.Qa.Tk) : m.j.Xi.v() && m.Qa.md(m.Qa.ik)
+                m.j.configSoundHighlight.v() && f ? m.Qa.md(m.Qa.Tk) : m.j.configSoundChat.v() && m.Qa.md(m.Qa.ik)
             }
             ;
             a.tm = function(d, e, f, g) {
                 c.l.Ka.Xp(d, e, f);
-                if (m.j.Xi.v())
+                if (m.j.configSoundChat.v())
                     switch (g) {
                     case 1:
                         m.Qa.md(m.Qa.ik);
@@ -5624,7 +5625,7 @@
                     S.className = "icon-cancel";
                     S.onclick = function() {
                         Lb.sr(V);
-                        m.j.GetPlayerKeys.ha(Lb);
+                        m.j.GetPlayerKeys.saveAvatar(Lb);
                         xc.remove()
                     }
                     ;
@@ -5641,7 +5642,7 @@
                         V.stopPropagation();
                         V = V.code;
                         null == Lb.v(V) && (Lb.Pa(V, y),
-                        m.j.GetPlayerKeys.ha(Lb),
+                        m.j.GetPlayerKeys.saveAvatar(Lb),
                         Ic())
                     }
                 }
@@ -5663,12 +5664,12 @@
                 }
             }
             function d() {
-                let y = m.j.Hh.v();
+                let y = m.j.configChatFocusHeight.v();
                 K.textContent = "" + y;
                 N.value = "" + y
             }
             function e() {
-                let y = m.j.Ih.v();
+                let y = m.j.configChatOpacity.v();
                 t.textContent = "" + y;
                 z.value = "" + y
             }
@@ -5732,24 +5733,24 @@
             h("misc");
             h("input");
             k(n[na.ym]);
-            g("tsound-main", m.j.xe, function() {
+            g("tsound-main", m.j.configSoundMain, function() {
                 m.Qa.Gi()
             });
-            g("tsound-chat", m.j.Xi);
-            g("tsound-highlight", m.j.Nm);
-            g("tsound-crowd", m.j.Mm);
-            f("viewmode", m.j.Rd, function(y) {
+            g("tsound-chat", m.j.configSoundChat);
+            g("tsound-highlight", m.j.configSoundHighlight);
+            g("tsound-crowd", m.j.configSoundCrowd);
+            f("viewmode", m.j.configViewMode, function(y) {
                 return y - 1
             }, function(y) {
                 return y + 1
             });
-            f("fps", m.j.Rh, function(y) {
+            f("fps", m.j.configFPSLimit, function(y) {
                 return y
             }, function(y) {
                 return y
             });
             let r = [1, .75, .5, .25];
-            f("resscale", m.j.Mi, function(y) {
+            f("resscale", m.j.configResolutionScale, function(y) {
                 return r[y]
             }, function(y) {
                 let F = 0
@@ -5758,15 +5759,15 @@
                     ++F;
                 return F
             });
-            g("tvideo-lowlatency", m.j.li);
-            g("tvideo-teamcol", m.j.Vm);
-            g("tvideo-showindicators", m.j.Uk);
-            g("tvideo-showavatars", m.j.Km);
+            g("tvideo-lowlatency", m.j.configLowLatencyCanvas);
+            g("tvideo-teamcol", m.j.configTeamColors);
+            g("tvideo-showindicators", m.j.configShowIndicators);
+            g("tvideo-showavatars", m.j.configShowAvatars);
             let t = l.get("chatopacity-value")
               , z = l.get("chatopacity-range");
             e();
             z.oninput = function() {
-                m.j.Ih.ha(parseFloat(z.value));
+                m.j.configChatOpacity.saveAvatar(parseFloat(z.value));
                 e()
             }
             ;
@@ -5774,11 +5775,11 @@
               , N = l.get("chatfocusheight-range");
             d();
             N.oninput = function() {
-                m.j.Hh.ha(utils.parseInt(N.value));
+                m.j.configChatFocusHeight.saveAvatar(utils.parseInt(N.value));
                 d()
             }
             ;
-            f("chatbgmode", m.j.jk, function(y) {
+            f("chatbgmode", m.j.configChatBGMode, function(y) {
                 return 0 == y ? "full" : "compact"
             }, function(y) {
                 return "full" == y ? 0 : 1
@@ -5786,8 +5787,8 @@
             let Db = null
               , Mc = this;
             Db = function() {
-                let y = m.j.af.v();
-                c("loc", "Detected location", m.j.$e.v());
+                let y = m.j.configGeoOverride.v();
+                c("loc", "Detected location", m.j.configGeo.v());
                 c("loc-ovr", "Location override", y);
                 let F = l.get("loc-ovr-btn");
                 F.disabled = !a;
@@ -5797,7 +5798,7 @@
                 }
                 ) : (F.textContent = "Remove override",
                 F.onclick = function() {
-                    m.j.af.ha(null);
+                    m.j.configGeoOverride.saveAvatar(null);
                     Db()
                 }
                 )
@@ -5960,7 +5961,7 @@
             b.ub = Ra.eb[(a << 2) + 1].toLowerCase();
             b.Jc = Ra.eb[(a << 2) + 2];
             b.Mc = Ra.eb[(a << 2) + 3];
-            m.j.af.ha(b);
+            m.j.configGeoOverride.saveAvatar(b);
             H.h(this.rb)
         }
     }
@@ -8548,7 +8549,7 @@
             T.Wi(this.c, !0)
         }
         wr(a, b) {
-            let c = m.j.Uk.v()
+            let c = m.j.configShowIndicators.v()
               , d = 0;
             for (a = a.K; d < a.length; ) {
                 let f = a[d];
@@ -9790,7 +9791,7 @@
             0 == this.P && Xb.h(a.tm, this.$c, this.color, this.style, this.Jn)
         }
         wa(a) {
-            a.oc(ha.Xc(this.$c, 1E3));
+            a.oc(stringUtils2.substr(this.$c, 1E3));
             a.R(this.color);
             a.m(this.style);
             a.m(this.Jn)
@@ -9895,7 +9896,7 @@
         }
         xa(a) {
             this.ac = a.Ab();
-            null != this.ac && (this.ac = ha.Xc(this.ac, 2))
+            null != this.ac && (this.ac = stringUtils2.substr(this.ac, 2))
         }
         static qa(a) {
             let b = new Qa;
@@ -10052,7 +10053,7 @@
         xa(a) {
             this.ac = a.Ab();
             this.Ke = a.N();
-            null != this.ac && (this.ac = ha.Xc(this.ac, 2))
+            null != this.ac && (this.ac = stringUtils2.substr(this.ac, 2))
         }
     }
     class Za extends p {
@@ -10092,7 +10093,7 @@
             null != b && za.h(a.Ql, b, this.$c)
         }
         wa(a) {
-            a.oc(ha.Xc(this.$c, 140))
+            a.oc(stringUtils2.substr(this.$c, 140))
         }
         xa(a) {
             this.$c = a.kc();
@@ -10163,7 +10164,7 @@
             }
         }
         wa(a) {
-            null != this.qd && (this.qd = ha.Xc(this.qd, 100));
+            null != this.qd && (this.qd = stringUtils2.substr(this.qd, 100));
             a.R(this.Z);
             a.Eb(this.qd);
             a.m(this.ah ? 1 : 0)
@@ -10442,7 +10443,7 @@
     Ac.b = !0;
     utils.b = !0;
     aa.b = !0;
-    ha.b = !0;
+    stringUtils2.b = !0;
     zc.b = !0;
     Object.assign(zc.prototype, {
         g: zc
