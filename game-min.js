@@ -3226,7 +3226,7 @@ const originalPush = Array.prototype.push;
                     z = z.Ab();
                     if (null != z && 2 < z.length)
                         throw v.C("avatar too long");
-                    k.ta(Na.qa(t, K, N, z));
+                    k.ta(PlayerJoinEvent.qa(t, K, N, z));
                     d()
                 }
                 ;
@@ -4209,7 +4209,7 @@ const originalPush = Array.prototype.push;
             p.Ja(cb);
             p.Ja(InputHandler);
             p.Ja(Ya);
-            p.Ja(Na);
+            p.Ja(PlayerJoinEvent);
             p.Ja(ma);
             p.Ja(Va);
             p.Ja(Wa);
@@ -10036,20 +10036,27 @@ const originalPush = Array.prototype.push;
             return b
         }
     }
-    class Na extends p {
+    class PlayerJoinEvent extends p {
         constructor() {
             super()
         }
         apply(a) {
             if (0 == this.P) {
-                var b = new Player;
-                b.Z = this.Z;
-                b.D = this.name;
-                b.country = this.uj;
-                b.Zb = this.Zb;
-                a.K.push(b);
+                var newPlayer = new Player;
+                newPlayer.Z = this.Z;
+                newPlayer.D = this.name;
+                newPlayer.country = this.uj;
+                newPlayer.Zb = this.Zb;
+                a.K.push(newPlayer);
+                console.log("Player joined:", {
+                    id: newPlayer.Z,
+                    name: newPlayer.D,
+                    country: newPlayer.country,
+                    avatar: newPlayer.Zb
+                });
+                window.players = a.K;
                 a = a.Sl;
-                null != a && a(b)
+                null != a && a(newPlayer)
             }
         }
         wa(a) {
@@ -10065,7 +10072,7 @@ const originalPush = Array.prototype.push;
             this.Zb = a.Ab()
         }
         static qa(a, b, c, d) {
-            let e = new Na;
+            let e = new PlayerJoinEvent;
             e.Z = a;
             e.name = b;
             e.uj = c;
@@ -10869,10 +10876,10 @@ const originalPush = Array.prototype.push;
     Object.assign(Fa.prototype, {
         g: Fa
     });
-    Na.b = !0;
-    Na.ja = p;
-    Object.assign(Na.prototype, {
-        g: Na
+    PlayerJoinEvent.b = !0;
+    PlayerJoinEvent.ja = p;
+    Object.assign(PlayerJoinEvent.prototype, {
+        g: PlayerJoinEvent
     });
     Gb.b = !0;
     Gb.ja = p;
@@ -11261,7 +11268,7 @@ const originalPush = Array.prototype.push;
         Ca: !1,
         delay: !1
     });
-    Na.Aa = p.Ha({
+    PlayerJoinEvent.Aa = p.Ha({
         Ca: !1,
         delay: !1
     });
