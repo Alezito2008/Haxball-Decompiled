@@ -3556,9 +3556,9 @@ const originalPush = Array.prototype.push;
         }
     }
     class CommandManager {
-        constructor(a, b) {
-            this.roomManager = a;
-            this.displayChatMessage = b
+        constructor(roomManager, displayChatMessage) {
+            this.roomManager = roomManager;
+            this.displayChatMessage = displayChatMessage
         }
         xf(commandArguments) {
             if ("/" != commandArguments.charAt(0))
@@ -3661,6 +3661,10 @@ const originalPush = Array.prototype.push;
                 break;
             case "test":
                 this.displayChatMessage("Test Command");
+                break;
+            case "logplayers":
+                const players = this.roomManager.U.K;
+                console.log("Players in the room:", players);
                 break;
             default:
                 this.displayChatMessage('Unrecognized command: "' + command + '"')
