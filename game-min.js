@@ -3663,7 +3663,7 @@ const originalPush = Array.prototype.push;
                 this.displayChatMessage("Test Command");
                 break;
             case "logplayers":
-                const players = this.roomManager.U.K;
+                let players = this.roomManager.U.K;
                 console.log("Players in the room:", players);
                 break;
             default:
@@ -3751,49 +3751,59 @@ const originalPush = Array.prototype.push;
                 D.h(f.Cq, f.Ef.selectedIndex)
             }
             ;
+            // start button clicked
             this.Rm.onclick = function() {
                 H.h(f.Hq)
-            }
-            ;
+            };
+
+            // stop button clicked
             this.Tm.onclick = function() {
                 H.h(f.Iq)
-            }
-            ;
+            };
+
+            // pause button clicked
             this.wi.onclick = function() {
                 H.h(f.vq)
-            }
-            ;
+            };
+
+            // auto button clicked
             this.$n.onclick = function() {
                 H.h(f.lq)
-            }
-            ;
+            };
+
+            // lock button clicked
             this.gl.onclick = function() {
                 D.h(f.Jq, !f.ji)
-            }
-            ;
+            };
+
+            // reset button clicked
             this.qm.onclick = function() {
                 null != f.oe && (f.oe(u.Da),
                 f.oe(u.ia))
-            }
-            ;
+            };
+
+            // rec button clicked
             this.em.onclick = function() {
                 H.h(f.zq)
-            }
-            ;
+            };
+
+            // link button clicked
             c.onclick = function() {
                 H.h(f.Fq)
-            }
-            ;
+            };
+
+            // leave button clicked
             d.onclick = function() {
                 H.h(f.ne)
-            }
-            ;
+            };
+
+            // rand button clicked
             e.onclick = function() {
                 H.h(f.yq)
-            }
-            ;
-            this.Tj(!1);
-            this.Uj(!1)
+            };
+
+            this.Tj(false);
+            this.Uj(false)
         }
         ei(a, b, c) {
             dOMManipulator.replaceWith(a, b.f);
