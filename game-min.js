@@ -1462,7 +1462,7 @@ const originalPush = Array.prototype.push;
             this.Bd = 0;
             let b = this;
             this.dg = new CommandManager(a,function(d) {
-                b.l.Ka.CreateNotice(d)
+                b.l.Ka.Hb(d)
             }
             );
             this.za = a;
@@ -1588,7 +1588,7 @@ const originalPush = Array.prototype.push;
             var c = gameConfig.j.configExtrapolation.getAvatar();
             c = -200 > c ? -200 : 1E3 < c ? 1E3 : c;
             0 != c && (a.Fm(gameConfig.j.configExtrapolation.getAvatar()),
-            this.l.Ka.CreateNotice("Extrapolation set to " + c + " msec"))
+            this.l.Ka.Hb("Extrapolation set to " + c + " msec"))
         }
         ls() {
             this.Nd = new pc(this.za,3)
@@ -5434,7 +5434,7 @@ const originalPush = Array.prototype.push;
             c.textContent = paragraphText;
             this.hl(c)
         }
-        CreateNotice(message) {
+        Hb(message) {
             this.createParagraph(message, "notice")
         }
         static Ep(a) {
