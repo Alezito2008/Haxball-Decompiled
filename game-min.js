@@ -5443,14 +5443,14 @@ const originalPush = Array.prototype.push;
             for (a = b ? 50 : 100; this.ki.childElementCount > a; )
                 this.ki.firstElementChild.remove()
         }
-        createParagraph(paragraphText, className) {
+        da(paragraphText, className) {
             let c = window.document.createElement("p");
             null != className && (c.className = className);
             c.textContent = paragraphText;
             this.hl(c)
         }
         Hb(message) {
-            this.createParagraph(message, "notice")
+            this.da(message, "notice")
         }
         static Ep(a) {
             return a.parentElement.querySelector(":hover") == a
