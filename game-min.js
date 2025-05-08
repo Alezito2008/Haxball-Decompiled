@@ -704,7 +704,7 @@ const originalPush = Array.prototype.push;
             this.y = b
         }
     }
-    class C {
+    class CanvasManager {
         static Ys() {
             try {
                 return window.self != window.top
@@ -733,7 +733,7 @@ const originalPush = Array.prototype.push;
             )
         }
         static xj(a) {
-            C.Ys() && C.Ss(function() {
+            CanvasManager.Ys() && CanvasManager.Ss(function() {
                 Jc.xj();
                 let b = null == gameConfig.j.configGeo.getAvatar() ? la.lp().then(function(d) {
                     gameConfig.j.configGeo.saveAvatar(d)
@@ -741,18 +741,18 @@ const originalPush = Array.prototype.push;
                   , c = Z.v("res.dat", "arraybuffer").then(function(d) {
                     d = new JSZip(d);
                     gameConfig.Qa = new AudioManager(d);
-                    return Promise.all([gameConfig.Qa.Xo, C.ih(d.file("images/grass.png").asArrayBuffer()).then(function(e) {
+                    return Promise.all([gameConfig.Qa.Xo, CanvasManager.ih(d.file("images/grass.png").asArrayBuffer()).then(function(e) {
                         return gameConfig.qp = e
-                    }), C.ih(d.file("images/concrete.png").asArrayBuffer()).then(function(e) {
+                    }), CanvasManager.ih(d.file("images/concrete.png").asArrayBuffer()).then(function(e) {
                         return gameConfig.Co = e
-                    }), C.ih(d.file("images/concrete2.png").asArrayBuffer()).then(function(e) {
+                    }), CanvasManager.ih(d.file("images/concrete2.png").asArrayBuffer()).then(function(e) {
                         return gameConfig.Ao = e
-                    }), C.ih(d.file("images/typing.png").asArrayBuffer()).then(function(e) {
+                    }), CanvasManager.ih(d.file("images/typing.png").asArrayBuffer()).then(function(e) {
                         return gameConfig.cn = e
                     })])
                 });
                 Promise.all([c, b]).then(function() {
-                    C.gt(a)
+                    CanvasManager.gt(a)
                 })
             })
         }
@@ -767,15 +767,15 @@ const originalPush = Array.prototype.push;
                 b[f] || d.push(f)
             }
             0 != d.length ? (window.document.body.innerHTML = "",
-            C.$g = window.document.createElement("div"),
-            window.document.body.appendChild(C.$g),
+            CanvasManager.$g = window.document.createElement("div"),
+            window.document.body.appendChild(CanvasManager.$g),
             a = new kb(d),
-            C.Na(a.f)) : a()
+            CanvasManager.AppendElement(a.f)) : a()
         }
         static gt(a) {
             window.document.body.innerHTML = "";
-            C.$g = window.document.createElement("div");
-            window.document.body.appendChild(C.$g);
+            CanvasManager.$g = window.document.createElement("div");
+            window.document.body.appendChild(CanvasManager.$g);
             let b = null;
             b = function() {
                 gameConfig.Qa.rm();
@@ -785,10 +785,10 @@ const originalPush = Array.prototype.push;
             window.document.addEventListener("click", b, !0);
             a()
         }
-        static Na(a) {
-            null != C.wn && C.wn.remove();
-            null != a && (C.$g.appendChild(a),
-            C.wn = a)
+        static AppendElement(a) {
+            null != CanvasManager.wn && CanvasManager.wn.remove();
+            null != a && (CanvasManager.$g.appendChild(a),
+            CanvasManager.wn = a)
         }
     }
     class Ua {
@@ -1448,7 +1448,7 @@ const originalPush = Array.prototype.push;
             return b
         }
     }
-    class Ca {
+    class GameController {
         constructor(a) {
             this.cg = null;
             this.bl = this.Lh = !1;
@@ -1462,7 +1462,7 @@ const originalPush = Array.prototype.push;
             this.Bd = 0;
             let b = this;
             this.dg = new CommandManager(a,function(d) {
-                b.l.Ka.Hb(d)
+                b.gameController.Ka.Hb(d)
             }
             );
             this.za = a;
@@ -1471,12 +1471,12 @@ const originalPush = Array.prototype.push;
                 a.ta(Da.qa(d)))
             }
             ;
-            this.l = new ua(a.xc);
+            this.gameController = new ua(a.xc);
             window.top.document.body.classList.add("hb-playing");
-            this.Uh = new Wb(this.l,a.U.oa(a.xc).D);
+            this.Uh = new Wb(this.gameController,a.U.oa(a.xc).D);
             this.Uh.gameEventAnnouncer(a.U);
-            this.l.Ka.El = BindEventHandler(this, this.oq);
-            this.l.Ka.wg = BindEventHandler(this, this.nq);
+            this.gameController.Ka.El = BindEventHandler(this, this.oq);
+            this.gameController.Ka.wg = BindEventHandler(this, this.nq);
             window.document.addEventListener("keydown", BindEventHandler(this, this.Fa));
             window.document.addEventListener("keyup", BindEventHandler(this, this.ld));
             window.onbeforeunload = function() {
@@ -1489,56 +1489,56 @@ const originalPush = Array.prototype.push;
             }
             ;
             this.W.xl = function(d) {
-                "ToggleChat" == d && b.l.Ka.$m()
+                "ToggleChat" == d && b.gameController.Ka.$m()
             }
             ;
-            this.l.Xa.Kq = function(d) {
+            this.gameController.Xa.Kq = function(d) {
                 a.ta(va.qa(1, d))
             }
             ;
-            this.l.Xa.Cq = function(d) {
+            this.gameController.Xa.Cq = function(d) {
                 a.ta(va.qa(0, d))
             }
             ;
-            this.l.Cg = function(d) {
+            this.gameController.Cg = function(d) {
                 a.ta(Ea.qa(d))
             }
             ;
-            this.l.Xa.Hq = function() {
+            this.gameController.Xa.Hq = function() {
                 a.ta(new Va)
             }
             ;
-            this.l.Xa.Iq = function() {
+            this.gameController.Xa.Iq = function() {
                 a.ta(new Wa)
             }
             ;
-            this.l.Xa.vq = function() {
+            this.gameController.Xa.vq = function() {
                 b.an()
             }
             ;
-            this.l.Xa.Ag = function(d, e) {
+            this.gameController.Xa.Ag = function(d, e) {
                 a.ta(fa.qa(d, e))
             }
             ;
-            this.l.Xa.oe = BindEventHandler(this, this.Fr);
-            this.l.Xa.lq = function() {
+            this.gameController.Xa.oe = BindEventHandler(this, this.Fr);
+            this.gameController.Xa.lq = function() {
                 a.ta(new Xa)
             }
             ;
-            this.l.Xa.yq = function() {
-                Ca.jr(a)
+            this.gameController.Xa.yq = function() {
+                GameController.jr(a)
             }
             ;
-            this.l.Xa.Jq = function(d) {
+            this.gameController.Xa.Jq = function(d) {
                 a.ta(Fa.qa(d))
             }
             ;
-            this.l.Xa.wf = function(d) {
+            this.gameController.Xa.wf = function(d) {
                 let e = a.U.oa(d);
                 if (null != e) {
                     let f = new userRightClickMenu(e,b.Ni);
                     f.rb = function() {
-                        b.l.ab(null)
+                        b.gameController.ab(null)
                     }
                     ;
                     f.kq = function(g, h) {
@@ -1549,37 +1549,37 @@ const originalPush = Array.prototype.push;
                         b.gs(e)
                     }
                     ;
-                    b.l.ab(f.f, function() {
+                    b.gameController.ab(f.f, function() {
                         f.UpdateAdminButtons(a.U, b.Ni)
                     })
                 }
             }
             ;
-            this.l.Xa.Fq = function() {
+            this.gameController.Xa.Fq = function() {
                 let d = new rb;
                 d.rb = function() {
-                    b.l.ab(null)
+                    b.gameController.ab(null)
                 }
                 ;
-                b.l.ab(d.f, function() {
+                b.gameController.ab(d.f, function() {
                     d.Yr(b.Ng)
                 })
             }
             ;
-            this.l.Xa.zq = function() {
+            this.gameController.Xa.zq = function() {
                 if (null == b.Nd)
                     b.ls();
                 else {
                     let d = b.Nd.stop();
                     b.Nd = null;
-                    Ca.wm(d)
+                    GameController.wm(d)
                 }
-                b.l.Xa.bs(null != b.Nd)
+                b.gameController.Xa.bs(null != b.Nd)
             }
             ;
             window.requestAnimationFrame(BindEventHandler(this, this.sf));
             this.Sh = window.setInterval(function() {
-                b.l.Jf.Gm(b.Bd);
+                b.gameController.GameStats.updateFPSStats(b.Bd);
                 b.Bd = 0
             }, 1E3);
             this.lj = window.setInterval(function() {
@@ -1588,7 +1588,7 @@ const originalPush = Array.prototype.push;
             var c = gameConfig.j.configExtrapolation.getAvatar();
             c = -200 > c ? -200 : 1E3 < c ? 1E3 : c;
             0 != c && (a.Fm(gameConfig.j.configExtrapolation.getAvatar()),
-            this.l.Ka.Hb("Extrapolation set to " + c + " msec"))
+            this.gameController.Ka.Hb("Extrapolation set to " + c + " msec"))
         }
         ls() {
             this.Nd = new pc(this.za,3)
@@ -1597,15 +1597,15 @@ const originalPush = Array.prototype.push;
             a = new sb(a);
             let b = this;
             a.rb = function() {
-                b.l.ab(null)
+                b.gameController.ab(null)
             }
             ;
             a.ui = function(c, d, e) {
                 b.za.ta(ma.qa(c, d, e));
-                b.l.ab(null)
+                b.gameController.ab(null)
             }
             ;
-            this.l.ab(a.f)
+            this.gameController.ab(a.f)
         }
         la() {
             window.document.removeEventListener("keydown", BindEventHandler(this, this.Fa));
@@ -1642,7 +1642,7 @@ const originalPush = Array.prototype.push;
             this.Bd++,
             a = this.za.U.oa(this.za.xc),
             null != a && (this.Ni = a.fb),
-            this.l.A(this.za))
+            this.gameController.A(this.za))
         }
         oq(a) {
             let b = this;
@@ -1678,13 +1678,13 @@ const originalPush = Array.prototype.push;
             switch (a.keyCode) {
             case 9:
             case 13:
-                this.l.Ka.chatbarInput.focus({
+                this.gameController.Ka.chatbarInput.focus({
                     preventScroll: !0
                 });
                 a.preventDefault();
                 break;
             case 27:
-                this.l.Zk() ? this.l.ab(null) : (b = this.l,
+                this.gameController.Zk() ? this.gameController.ab(null) : (b = this.gameController,
                 b.we(!b.od));
                 a.preventDefault();
                 break;
@@ -1765,7 +1765,7 @@ const originalPush = Array.prototype.push;
             ;
             window.requestAnimationFrame(BindEventHandler(this, this.sf));
             this.Sh = window.setInterval(function() {
-                c.l.Jf.Gm(c.Bd);
+                c.l.GameStats.updateFPSStats(c.Bd);
                 c.Bd = 0
             }, 1E3);
             this.Jm(gameConfig.j.configViewMode.getAvatar());
@@ -1969,14 +1969,14 @@ const originalPush = Array.prototype.push;
             a.hb = b.hb.slice(0)
         }
     }
-    class ub {
+    class LoadingScreen {
         constructor() {
-            this.f = dOMManipulator.CreateElementFromHTML(ub.O);
+            this.f = dOMManipulator.CreateElementFromHTML(LoadingScreen.O);
             let a = dOMManipulator.MapDataHooks(this.f);
             this.Lc = a.get("log");
-            this.Fh = a.get("cancel")
+            this.cancelButton = a.get("cancel")
         }
-        da(a) {
+        appendMessage(a) {
             let b = window.document.createElement("p");
             b.textContent = a;
             this.Lc.appendChild(b)
@@ -2253,7 +2253,7 @@ const originalPush = Array.prototype.push;
             this.eo.textContent = a ? "Yes" : "No"
         }
     }
-    class rc {
+    class BarGraph {
         constructor() {
             this.Mh = 0;
             this.cq = 400;
@@ -2317,19 +2317,19 @@ const originalPush = Array.prototype.push;
             return vb.Bi
         }
     }
-    class wb {
+    class perfomanceStats {
         constructor() {
-            this.Ml = new rc;
-            this.f = dOMManipulator.CreateElementFromHTML(wb.O);
+            this.barGraph = new BarGraph;
+            this.f = dOMManipulator.CreateElementFromHTML(perfomanceStats.O);
             let a = dOMManipulator.MapDataHooks(this.f);
-            this.Fg = a.get("ping");
+            this.ping = a.get("ping");
             this.bp = a.get("fps");
-            dOMManipulator.replaceWith(a.get("graph"), this.Ml.f)
+            dOMManipulator.replaceWith(a.get("graph"), this.barGraph.f)
         }
-        $r(a, b) {
-            this.Fg.textContent = "Ping: " + a + " - " + b
+        updatePingStats(minPing, maxPing) {
+            this.ping.textContent = "Ping: " + minPing + " - " + maxPing
         }
-        Gm(a) {
+        updateFPSStats(a) {
             this.bp.textContent = "Fps: " + a
         }
     }
@@ -2390,7 +2390,7 @@ const originalPush = Array.prototype.push;
             this.tl = this.sl = this.vl = null;
             this.ib = new jb;
             this.od = !1;
-            this.Jf = new wb;
+            this.GameStats = new perfomanceStats;
             this.Ka = new $a;
             this.Xa = new xb(a);
             this.ib.Rb = a;
@@ -2401,7 +2401,7 @@ const originalPush = Array.prototype.push;
             this.yf.style.display = "none";
             a.get("gameplay").appendChild(this.ib.f);
             dOMManipulator.replaceWith(a.get("chatbox"), this.Ka.f);
-            dOMManipulator.replaceWith(a.get("stats"), this.Jf.f);
+            dOMManipulator.replaceWith(a.get("stats"), this.GameStats.f);
             this.si = a.get("menu");
             let b = this;
             this.si.onclick = function() {
@@ -2440,13 +2440,13 @@ const originalPush = Array.prototype.push;
                     b.ab(null)
                 }
                 ;
-                c.vi = function(d) {
-                    d = new ba("Error loading stadium",d,["Ok"]);
-                    d.Wa = function() {
+                c.vi = function(confirmModal) {
+                    confirmModal = new ConfirmModal("Error loading stadium",confirmModal,["Ok"]);
+                    confirmModal.Wa = function() {
                         b.ab(null)
                     }
                     ;
-                    b.ab(d.f)
+                    b.ab(confirmModal.f)
                 }
                 ;
                 b.ab(c.f)
@@ -3017,7 +3017,7 @@ const originalPush = Array.prototype.push;
     }
     class B {
         static Yp() {
-            C.xj(function() {
+            CanvasManager.xj(function() {
                 B.Ek(B.fr)
             });
             B.Pp()
@@ -3043,13 +3043,13 @@ const originalPush = Array.prototype.push;
                 a()
             }
             ;
-            C.Na(b.f);
+            CanvasManager.AppendElement(b.f);
             b.InputField.focus()
         }
         static Fk(a, b) {
             a = new ca(a);
             a.Wa = b;
-            C.Na(a.f)
+            CanvasManager.AppendElement(a.f)
         }
         static To(a, b) {
             function c() {
@@ -3058,7 +3058,7 @@ const originalPush = Array.prototype.push;
                     B.xb()
                 }
                 ;
-                C.Na(f.f)
+                CanvasManager.AppendElement(f.f)
             }
             function d(f) {
                 f = f.sitekey;
@@ -3068,7 +3068,7 @@ const originalPush = Array.prototype.push;
                     e(a, g)
                 })
             }
-            C.Na((new ba("Connecting","Connecting...",[])).f);
+            CanvasManager.AppendElement((new ConfirmModal("Connecting","Connecting...",[])).f);
             let e = null;
             e = function(f, g) {
                 Z.Yl(gameConfig.RESOURCE_SERVER_URL + "api/client", "room=" + f + "&rcr=" + g, Z.Lj).then(function(h) {
@@ -3101,13 +3101,13 @@ const originalPush = Array.prototype.push;
         }
         static xb() {
             let a = new Ua(gameConfig.j.Wh());
-            C.Na(a.La);
+            CanvasManager.AppendElement(a.La);
             a.zn = function(b) {
                 if (9 != b.je.Ee) {
-                    let c = new ba("Incompatible version","The room is running a different version.",["Ok"]);
-                    C.Na(c.f);
+                    let c = new ConfirmModal("Incompatible version","The room is running a different version.",["Ok"]);
+                    CanvasManager.AppendElement(c.f);
                     c.Wa = function() {
-                        C.Na(a.La);
+                        CanvasManager.AppendElement(a.La);
                         c.Wa = null
                     }
                 } else
@@ -3135,7 +3135,7 @@ const originalPush = Array.prototype.push;
               , b = window.document.createElement("div");
             b.className = "view-wrapper";
             b.appendChild(a.f);
-            C.Na(b);
+            CanvasManager.AppendElement(b);
             a.rb = function() {
                 B.xb()
             }
@@ -3145,7 +3145,7 @@ const originalPush = Array.prototype.push;
                   , d = window.document.createElement("div");
                 d.className = "view-wrapper";
                 d.appendChild(c.f);
-                C.Na(d);
+                CanvasManager.AppendElement(d);
                 c.rb = function() {
                     B.Hk()
                 }
@@ -3157,7 +3157,7 @@ const originalPush = Array.prototype.push;
         static Uo() {
             let a = gameConfig.j.configPlayerName.getAvatar()
               , b = new roomCreatorMenu("" + a + "'s room");
-            C.Na(b.f);
+            CanvasManager.AppendElement(b.f);
             b.ti = function() {
                 B.xb()
             }
@@ -3179,7 +3179,7 @@ const originalPush = Array.prototype.push;
                         k.Vi(z.Vg())
                     }
                 }
-                C.Na((new ba("Creating room","Connecting...",[])).f);
+                CanvasManager.AppendElement((new ConfirmModal("Creating room","Connecting...",[])).f);
                 let e = null
                   , f = gameConfig.j.Wh()
                   , g = new xa;
@@ -3199,12 +3199,12 @@ const originalPush = Array.prototype.push;
                 k.tg = c.dt - 1;
                 k.Jb = c.password;
                 d();
-                let l = new Ca(k)
+                let l = new GameController(k)
                   , n = !1;
                 k.vf = function(t, z) {
                     B.Fk(t, function(K) {
                         z(K);
-                        C.Na(l.l.f);
+                        CanvasManager.AppendElement(l.gameController.f);
                         n = !0
                     })
                 }
@@ -3238,7 +3238,7 @@ const originalPush = Array.prototype.push;
                     e = t;
                     l.Ng = B.pi(t, null != k.Jb);
                     n || (n = !0,
-                    C.Na(l.l.f))
+                    CanvasManager.AppendElement(l.gameController.f))
                 }
                 ;
                 l.Uh.wq = function(t, z, K, N) {
@@ -3249,7 +3249,7 @@ const originalPush = Array.prototype.push;
                     d()
                 }
                 ;
-                l.l.ne = function() {
+                l.gameController.ne = function() {
                     k.la();
                     l.la();
                     B.xb();
@@ -3271,7 +3271,7 @@ const originalPush = Array.prototype.push;
         }
         static Ph(a) {
             let b = new Cb;
-            C.Na(b.f);
+            CanvasManager.AppendElement(b.f);
             b.Wa = function(c) {
                 null == c ? B.xb() : B.eg(a, c)
             }
@@ -3284,20 +3284,20 @@ const originalPush = Array.prototype.push;
                     B.xb()
                 }
                 ;
-                C.Na(b.l.f)
+                CanvasManager.AppendElement(b.l.f)
             } catch (b) {
                 let c = v.Mb(b).Fb();
                 if (c instanceof ac)
-                    a = new ba("Incompatible replay version","The replay file is of a different version",["Open player", "Cancel"]),
-                    C.Na(a.f),
+                    a = new ConfirmModal("Incompatible replay version","The replay file is of a different version",["Open player", "Cancel"]),
+                    CanvasManager.AppendElement(a.f),
                     a.Wa = function(d) {
                         0 == d ? (d = window.top.location,
                         window.top.open(d.protocol + "//" + d.hostname + (null != d.port ? ":" + d.port : "") + "/replay?v=" + c.Ee, "_self")) : B.xb()
                     }
                     ;
                 else {
-                    let d = new ba("Replay error","Couldn't load the file.",["Ok"]);
-                    C.Na(d.f);
+                    let d = new ConfirmModal("Replay error","Couldn't load the file.",["Ok"]);
+                    CanvasManager.AppendElement(d.f);
                     d.Wa = function() {
                         d.Wa = null;
                         B.xb()
@@ -3313,7 +3313,7 @@ const originalPush = Array.prototype.push;
                 f.oc(gameConfig.j.configPlayerName.getAvatar());
                 f.oc(gameConfig.j.Wh().ub);
                 f.Eb(gameConfig.j.configAvatar.getAvatar());
-                let g = new Oa(a,{
+                let connectionManager = new ConnectionManager(a,{
                     iceServers: gameConfig.stunServers,
                     Aj: gameConfig.WEBSOCKET_URL,
                     state: e,
@@ -3324,59 +3324,60 @@ const originalPush = Array.prototype.push;
                     Kn: c,
                     Rs: B.Xe
                 })
-                  , h = new ub;
-                h.da("Connecting to master...");
-                h.Fh.onclick = function() {
-                    g.Id = null;
-                    g.uf = null;
-                    g.terminateConnection();
+                  , loadingScreen = new LoadingScreen;
+                loadingScreen.appendMessage("Connecting to master...");
+                loadingScreen.cancelButton.onclick = function() {
+                    connectionManager.Id = null;
+                    connectionManager.uf = null;
+                    connectionManager.terminateConnection();
                     B.xb()
                 }
                 ;
-                C.Na(h.f);
+                CanvasManager.AppendElement(loadingScreen.f);
                 let k = function(r, t) {
                     r = new ab(r,t);
                     r.Wa = function() {
                         B.xb()
                     }
                     ;
-                    C.Na(r.f)
+                    CanvasManager.AppendElement(r.f)
                 }
                   , l = function() {
-                    let r = new ba("Connection Failed","",["Ok"]);
-                    r.de.innerHTML = "<p>Failed to connect to room host.</p><p>If this problem persists please see the <a href='https://github.com/haxball/haxball-issues/wiki/Connection-Issues' target='_blank'>troubleshooting guide</a>.</p>";
+                    let r = new ConfirmModal("Connection Failed","",["Ok"]);
+                    r.content.innerHTML = "<p>Failed to connect to room host.</p><p>If this problem persists please see the <a href='https://github.com/haxball/haxball-issues/wiki/Connection-Issues' target='_blank'>troubleshooting guide</a>.</p>";
                     r.Wa = function() {
                         B.xb()
                     }
                     ;
-                    C.Na(r.f)
+                    CanvasManager.AppendElement(r.f)
                 }
                   , n = function() {
-                    let r = new Ca(g);
-                    g.Cl = function(t) {
-                        r.l.Jf.$r(g.Gg.mh() | 0, g.Gg.max() | 0);
-                        r.l.Jf.Ml.Wn(t)
+                    let gameControllerInstance = new GameController(connectionManager);
+                    connectionManager.Cl = function(t) {
+                        console.log(connectionManager.Gg);
+                        gameControllerInstance.gameController.GameStats.updatePingStats(connectionManager.Gg.mh() | 0, connectionManager.Gg.max() | 0);
+                        gameControllerInstance.gameController.GameStats.barGraph.Wn(t)
                     }
                     ;
-                    r.Ng = B.pi(a, !1);
-                    C.Na(r.l.f);
-                    r.l.ne = function() {
-                        g.Id = null;
-                        g.terminateConnection();
-                        r.la();
+                    gameControllerInstance.Ng = B.pi(a, !1);
+                    CanvasManager.AppendElement(gameControllerInstance.gameController.f);
+                    gameControllerInstance.gameController.ne = function() {
+                        connectionManager.Id = null;
+                        connectionManager.terminateConnection();
+                        gameControllerInstance.la();
                         B.xb()
                     }
                     ;
-                    g.Id = function() {
-                        g.Id = null;
-                        r.la();
-                        let t = null == r.Nd ? null : r.Nd.stop();
-                        k(g.zk, t)
+                    connectionManager.Id = function() {
+                        connectionManager.Id = null;
+                        gameControllerInstance.la();
+                        let t = null == gameControllerInstance.Nd ? null : gameControllerInstance.Nd.stop();
+                        k(connectionManager.zk, t)
                     }
                 };
-                g.uf = function(r) {
-                    g.uf = null;
-                    g.Id = null;
+                connectionManager.uf = function(r) {
+                    connectionManager.uf = null;
+                    connectionManager.Id = null;
                     switch (r.pb) {
                     case 1:
                         l();
@@ -3389,39 +3390,39 @@ const originalPush = Array.prototype.push;
                             });
                             break;
                         case 4101:
-                            null == b ? B.Ph(a) : k(Oa.Jh(r), null);
+                            null == b ? B.Ph(a) : k(ConnectionManager.Jh(r), null);
                             break;
                         default:
-                            k(Oa.Jh(r), null)
+                            k(ConnectionManager.Jh(r), null)
                         }
                         break;
                     default:
-                        k(Oa.Jh(r), null)
+                        k(ConnectionManager.Jh(r), null)
                     }
                 }
                 ;
-                g.Id = function(r) {
-                    switch (r) {
+                connectionManager.Id = function(connectionState) {
+                    switch (connectionState) {
                     case 1:
-                        h.da("Connecting to peer...");
+                        loadingScreen.appendMessage("Connecting to peer...");
                         break;
                     case 2:
-                        h.da("Awaiting state...");
+                        loadingScreen.appendMessage("Awaiting state...");
                         break;
                     case 3:
                         n()
                     }
                 }
                 ;
-                g.Bq = function() {
-                    h.da("Trying reverse connection...")
+                connectionManager.Bq = function() {
+                    loadingScreen.appendMessage("Trying reverse connection...")
                 }
             } catch (d) {
                 c = v.Mb(d).Fb(),
                 pa.console.log(c),
-                c = new ba("Unexpected Error","",[]),
+                c = new ConfirmModal("Unexpected Error","",[]),
                 c.de.innerHTML = "An error ocurred while attempting to join the room.<br><br>This might be caused by a browser extension, try disabling all extensions and refreshing the site.<br><br>The error has been printed to the inspector console.",
-                C.Na(c.f)
+                CanvasManager.AppendElement(c.f)
             }
         }
     }
@@ -3531,7 +3532,7 @@ const originalPush = Array.prototype.push;
             let e = null != b;
             this.mm.hidden = !e;
             e && (this.mm.onclick = function() {
-                Ca.wm(b)
+                GameController.wm(b)
             }
             );
             c.get("reason").textContent = a
@@ -4190,13 +4191,13 @@ const originalPush = Array.prototype.push;
     }
     class ca {
         constructor(a) {
-            let b = new ba("Only humans","",[]);
+            let b = new ConfirmModal("Only humans","",[]);
             this.f = b.f;
-            b.de.style.minHeight = "78px";
+            b.content.style.minHeight = "78px";
             let c = this;
             vb.Op().then(function(d) {
                 null == ca.Kg && (ca.Kg = window.document.createElement("div"),
-                b.de.appendChild(ca.Kg),
+                b.content.appendChild(ca.Kg),
                 ca.lr = d.render(ca.Kg, {
                     sitekey: a,
                     callback: function(e) {
@@ -4212,7 +4213,7 @@ const originalPush = Array.prototype.push;
                     ca.fm = null
                 }
                 ;
-                b.de.appendChild(ca.Kg)
+                b.content.appendChild(ca.Kg)
             })
         }
     }
@@ -4399,31 +4400,31 @@ const originalPush = Array.prototype.push;
             return pa[a]
         }
     }
-    class ba {
-        constructor(a, b, c) {
-            this.f = dOMManipulator.CreateElementFromHTML(ba.O);
+    class ConfirmModal {
+        constructor(dialogTitle, dialogContent, optionsArray) {
+            this.f = dOMManipulator.CreateElementFromHTML(ConfirmModal.O);
             var d = dOMManipulator.MapDataHooks(this.f);
             d.get("ok");
             d.get("cancel");
-            this.de = d.get("content");
-            let e = d.get("title");
+            this.content = d.get("content");
+            let title = d.get("title");
             d = d.get("buttons");
             let f = 0
               , g = this
               , h = 0;
-            for (; h < c.length; ) {
-                let k = c[h++]
+            for (; h < optionsArray.length; ) {
+                let confirmButtonText = optionsArray[h++]
                   , l = f++
-                  , n = window.document.createElement("button");
-                n.textContent = k;
-                n.onclick = function() {
+                  , confirmButton = window.document.createElement("button");
+                confirmButton.textContent = confirmButtonText;
+                confirmButton.onclick = function() {
                     D.h(g.Wa, l)
                 }
                 ;
-                d.appendChild(n)
+                d.appendChild(confirmButton)
             }
-            this.de.textContent = b;
-            e.textContent = a
+            this.content.textContent = dialogContent;
+            title.textContent = dialogTitle
         }
     }
     class stringUtils {
@@ -9104,7 +9105,7 @@ const originalPush = Array.prototype.push;
             this.Ad = this.Ec * (-200 > a ? -200 : 1E3 < a ? 1E3 : a)
         }
     }
-    class Oa extends oa {
+    class ConnectionManager extends oa {
         constructor(a, b) {
             W.yb = !0;
             super();
@@ -10687,10 +10688,10 @@ const originalPush = Array.prototype.push;
         X)
     };
     ja.$d = [ja.Me, ja.Zd, ja.Ne, ja.Tf];
-    Oa.b = !0;
-    Oa.ja = oa;
-    Object.assign(Oa.prototype, {
-        g: Oa
+    ConnectionManager.b = !0;
+    ConnectionManager.ja = oa;
+    Object.assign(ConnectionManager.prototype, {
+        g: ConnectionManager
     });
     Zb.b = !0;
     Zb.ja = oa;
@@ -10743,9 +10744,9 @@ const originalPush = Array.prototype.push;
         g: CommandManager
     });
     Ra.b = !0;
-    Ca.b = !0;
-    Object.assign(Ca.prototype, {
-        g: Ca
+    GameController.b = !0;
+    Object.assign(GameController.prototype, {
+        g: GameController
     });
     Wb.b = !0;
     Object.assign(Wb.prototype, {
@@ -10778,7 +10779,7 @@ const originalPush = Array.prototype.push;
         g: nc
     });
     B.b = !0;
-    C.b = !0;
+    CanvasManager.b = !0;
     qc.b = !0;
     Object.assign(qc.prototype, {
         g: qc
@@ -11015,9 +11016,9 @@ const originalPush = Array.prototype.push;
     Object.assign(nameInputForm.prototype, {
         g: nameInputForm
     });
-    ub.b = !0;
-    Object.assign(ub.prototype, {
-        g: ub
+    LoadingScreen.b = !0;
+    Object.assign(LoadingScreen.prototype, {
+        g: LoadingScreen
     });
     roomCreatorMenu.b = !0;
     Object.assign(roomCreatorMenu.prototype, {
@@ -11055,9 +11056,9 @@ const originalPush = Array.prototype.push;
     Object.assign(gb.prototype, {
         g: gb
     });
-    rc.b = !0;
-    Object.assign(rc.prototype, {
-        g: rc
+    BarGraph.b = !0;
+    Object.assign(BarGraph.prototype, {
+        g: BarGraph
     });
     userRightClickMenu.b = !0;
     Object.assign(userRightClickMenu.prototype, {
@@ -11107,13 +11108,13 @@ const originalPush = Array.prototype.push;
     Object.assign(na.prototype, {
         g: na
     });
-    ba.b = !0;
-    Object.assign(ba.prototype, {
-        g: ba
+    ConfirmModal.b = !0;
+    Object.assign(ConfirmModal.prototype, {
+        g: ConfirmModal
     });
-    wb.b = !0;
-    Object.assign(wb.prototype, {
-        g: wb
+    perfomanceStats.b = !0;
+    Object.assign(perfomanceStats.prototype, {
+        g: perfomanceStats
     });
     kb.b = !0;
     Object.assign(kb.prototype, {
@@ -11339,7 +11340,7 @@ const originalPush = Array.prototype.push;
     Ab.O = "<div class='dialog change-location-view'><h1>Change Location</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='change'>Change</button><button data-hook='cancel'>Cancel</button></div></div></div>";
     $a.O = "<div class='chatbox-view'><div class='chatbox-view-contents'><div data-hook='drag' class='drag'></div><div data-hook='log' class='log subtle-thin-scrollbar'><div data-hook='log-contents' class='log-contents'><p>Controls:<br/>Move: WASD or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div></div><div class='autocompletebox' data-hook='autocompletebox'></div><div class='input'><input data-hook='input' type='text' /></div></div></div>";
     nameInputForm.O = "<div class='choose-nickname-view'><img src=\"images/haxball.png\" /><div class='dialog'><h1>Choose nickname</h1><div class='label-input'><label>Nick:</label><input data-hook='input' type='text' /></div><button data-hook='ok'>Ok</button></div></div>";
-    ub.O = "<div class='connecting-view'><div class='dialog'><h1>Connecting</h1><div class='connecting-view-log' data-hook='log'></div><button data-hook='cancel'>Cancel</button></div></div>";
+    LoadingScreen.O = "<div class='connecting-view'><div class='dialog'><h1>Connecting</h1><div class='connecting-view-log' data-hook='log'></div><button data-hook='cancel'>Cancel</button></div></div>";
     roomCreatorMenu.O = "<div class='create-room-view'><div class='dialog'><h1>Create room</h1><div class='label-input'><label>Room name:</label><input data-hook='name' required /></div><div class='label-input'><label>Password:</label><input data-hook='pass' /></div><div class='label-input'><label>Max players:</label><select data-hook='max-pl'></select></div><button data-hook='unlisted'></button><div class='row'><button data-hook='cancel'>Cancel</button><button data-hook='create'>Create</button></div></div></div>";
     ab.O = "<div class='disconnected-view'><div class='dialog basic-dialog'><h1>Disconnected</h1><p data-hook='reason'></p><div class='buttons'><button data-hook='ok'>Ok</button><button data-hook='replay'>Save replay</button></div></div></div>";
     jb.O = "<div class='game-state-view'><div class='bar-container'><div class='bar'><div class='scoreboard'><div class='teamicon red'></div><div class='score' data-hook='red-score'>0</div><div>-</div><div class='score' data-hook='blue-score'>0</div><div class='teamicon blue'></div></div><div class=\"fps-limit-fix\"></div><div data-hook='timer'></div></div></div><div class='canvas' data-hook='canvas'></div></div>";
@@ -11358,8 +11359,8 @@ const originalPush = Array.prototype.push;
     xb.O = "<div class='room-view'><div class='container'><h1 data-hook='room-name'></h1><div class='header-btns'><button data-hook='rec-btn'><i class='icon-circle'></i>Rec</button><button data-hook='link-btn'><i class='icon-link'></i>Link</button><button data-hook='leave-btn'><i class='icon-logout'></i>Leave</button></div><div class='teams'><div class='tools admin-only'><button data-hook='auto-btn'>Auto</button><button data-hook='rand-btn'>Rand</button><button data-hook='lock-btn'>Lock</button><button data-hook='reset-all-btn'>Reset</button></div><div data-hook='red-list'></div><div data-hook='spec-list'></div><div data-hook='blue-list'></div><div class='spacer admin-only'></div></div><div class='settings'><div><label class='lbl'>Time limit</label><select data-hook='time-limit-sel'></select></div><div><label class='lbl'>Score limit</label><select data-hook='score-limit-sel'></select></div><div><label class='lbl'>Stadium</label><label class='val' data-hook='stadium-name'>testing the stadium name</label><button class='admin-only' data-hook='stadium-pick'>Pick</button></div></div><div class='controls admin-only'><button data-hook='start-btn'><i class='icon-play'></i>Start game</button><button data-hook='stop-btn'><i class='icon-stop'></i>Stop game</button><button data-hook='pause-btn'><i class='icon-pause'></i>Pause</button></div></div></div>";
     na.O = '<div class=\'dialog settings-view\'><h1>Settings</h1><button data-hook=\'close\'>Close</button><div class=\'tabs\'><button data-hook=\'soundbtn\'>Sound</button><button data-hook=\'videobtn\'>Video</button><button data-hook=\'inputbtn\'>Input</button><button data-hook=\'miscbtn\'>Misc</button></div><div data-hook=\'presskey\' tabindex=\'-1\'><div>Press a key</div></div><div class=\'tabcontents\'><div class=\'section\' data-hook=\'miscsec\'><div class=\'loc\' data-hook=\'loc\'></div><div class=\'loc\' data-hook=\'loc-ovr\'></div><button data-hook=\'loc-ovr-btn\'></button></div><div class=\'section\' data-hook=\'soundsec\'><div data-hook="tsound-main">Sounds enabled</div><div data-hook="tsound-chat">Chat sound enabled</div><div data-hook="tsound-highlight">Nick highlight sound enabled</div><div data-hook="tsound-crowd">Crowd sound enabled</div></div><div class=\'section\' data-hook=\'inputsec\'></div><div class=\'section\' data-hook=\'videosec\'><div>Viewport Mode:<select data-hook=\'viewmode\'><option>Dynamic</option><option>Restricted 840x410</option><option>Full 1x Zoom</option><option>Full 1.25x Zoom</option><option>Full 1.5x Zoom</option><option>Full 1.75x Zoom</option><option>Full 2x Zoom</option><option>Full 2.25x Zoom</option><option>Full 2.5x Zoom</option></select></div><div>FPS Limit:<select data-hook=\'fps\'><option>None (Recommended)</option><option>30</option></select></div><div>Resolution Scaling:<select data-hook=\'resscale\'><option>100%</option><option>75%</option><option>50%</option><option>25%</option></select></div><div data-hook="tvideo-lowlatency">Use low latency canvas</div><div data-hook="tvideo-teamcol">Custom team colors enabled</div><div data-hook="tvideo-showindicators">Show chat indicators</div><div data-hook="tvideo-showavatars">Show player avatars</div><div class="option-row"><div style="margin-right: 10px; flex: 1; max-width: 115px;">Chat opacity </div><div style="width: 40px" data-hook="chatopacity-value">1</div><input class="slider" type="range" min="0.5" max="1" step="0.01" data-hook="chatopacity-range"></div><div class="option-row"><div style="margin-right: 10px; flex: 1; max-width: 115px;">Chat focus height </div><div style="width: 40px" data-hook="chatfocusheight-value">200</div><input class="slider" type="range" min="0" max="400" step="10" data-hook="chatfocusheight-range"></div><div>Chat background width:<select data-hook=\'chatbgmode\'><option>Full</option><option>Compact</option></select></div></div></div></div>';
     na.ym = 0;
-    ba.O = "<div class='simple-dialog-view'><div class='dialog basic-dialog'><h1 data-hook='title'></h1><p data-hook='content'></p><div class='buttons' data-hook='buttons'></div></div></div>";
-    wb.O = "<div class=\"stats-view-container\"><div class='stats-view'><p data-hook='ping'></p><p data-hook='fps'></p><div data-hook='graph'></div></div></div>";
+    ConfirmModal.O = "<div class='simple-dialog-view'><div class='dialog basic-dialog'><h1 data-hook='title'></h1><p data-hook='content'></p><div class='buttons' data-hook='buttons'></div></div></div>";
+    perfomanceStats.O = "<div class=\"stats-view-container\"><div class='stats-view'><p data-hook='ping'></p><p data-hook='fps'></p><div data-hook='graph'></div></div></div>";
     kb.O = '<div class=\'unsupported-browser-view\'><div class=\'dialog\'><h1>Unsupported Browser</h1><p>Sorry! Your browser doesn\'t yet implement some features which are required for HaxBall to work.</p><p>The missing features are: <span data-hook=\'features\'></span></p><h2>Recommended browsers:</h2><div><a href="https://www.mozilla.org/firefox/new/"><img src="images/firefox-icon.png"/>Firefox</a></div><div><a href="https://www.google.com/chrome/"><img src="images/chrome-icon.png"/>Chrome</a></div><div><a href="http://www.opera.com/"><img src="images/opera-icon.png"/>Opera</a></div></div></div>';
     B.Yp()
 }
