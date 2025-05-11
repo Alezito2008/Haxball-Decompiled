@@ -65,10 +65,10 @@ const originalPush = Array.prototype.push;
             null != a && a(b, c, d)
         }
     }
-    class gb {
+    class PickStadiumView {
         constructor() {
             this.lb = null;
-            this.f = dOMManipulator.CreateElementFromHTML(gb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(PickStadiumView.htmlContent);
             let a = dOMManipulator.MapDataHooks(this.f)
               , b = this;
             a.get("cancel").onclick = function() {
@@ -189,12 +189,12 @@ const originalPush = Array.prototype.push;
     }
     class qa {
     }
-    class jb {
+    class GameStateView {
         constructor() {
             this.Rb = -1;
             this.gb = new T(gameConfig.j.configLowLatencyCanvas.getAvatar());
             this.Wc = new ic;
-            this.f = dOMManipulator.CreateElementFromHTML(jb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(GameStateView.htmlContent);
             let a = dOMManipulator.MapDataHooks(this.f);
             this.Tb = new Ob(a.get("red-score"),0);
             this.Ob = new Ob(a.get("blue-score"),0);
@@ -769,7 +769,7 @@ const originalPush = Array.prototype.push;
             0 != d.length ? (window.document.body.innerHTML = "",
             CanvasManager.$g = window.document.createElement("div"),
             window.document.body.appendChild(CanvasManager.$g),
-            a = new kb(d),
+            a = new UnsupportedBrowserView(d),
             CanvasManager.AppendElement(a.f)) : a()
         }
         static gt(a) {
@@ -791,7 +791,7 @@ const originalPush = Array.prototype.push;
             CanvasManager.wn = a)
         }
     }
-    class Ua {
+    class RoomListView {
         constructor(a) {
             function b(g, h) {
                 function k() {
@@ -813,7 +813,7 @@ const originalPush = Array.prototype.push;
             }
             this.vj = [];
             this.Vs = a;
-            this.La = dOMManipulator.CreateElementFromHTML(Ua.Ij);
+            this.La = dOMManipulator.CreateElementFromHTML(RoomListView.htmlContent);
             let c = dOMManipulator.MapDataHooks(this.La)
               , d = new lb(c);
             this.Ej = c.get("refresh");
@@ -881,7 +881,7 @@ const originalPush = Array.prototype.push;
                 return null
             })
               , d = this;
-            Ua.mt(c).then(a, a)
+            RoomListView.mt(c).then(a, a)
         }
         Dn(a) {
             this.vj = a;
@@ -939,9 +939,9 @@ const originalPush = Array.prototype.push;
             return Promise.race([b, a])
         }
     }
-    class nb {
+    class LeaveRoomView {
         constructor() {
-            this.f = dOMManipulator.CreateElementFromHTML(nb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(LeaveRoomView.htmlContent);
             let a = dOMManipulator.MapDataHooks(this.f)
               , b = this;
             a.get("cancel").onclick = function() {
@@ -1226,7 +1226,7 @@ const originalPush = Array.prototype.push;
             )
         }
     }
-    class Ba {
+    class ReplayControlsView {
         constructor(a) {
             function b() {
                 let t = g[f];
@@ -1234,7 +1234,7 @@ const originalPush = Array.prototype.push;
                 c.get("spd").textContent = t + "x"
             }
             this.lg = !1;
-            this.f = dOMManipulator.CreateElementFromHTML(Ba.O);
+            this.f = dOMManipulator.CreateElementFromHTML(ReplayControlsView.htmlContent);
             let c = dOMManipulator.MapDataHooks(this.f);
             this.Ji = a;
             let d = this;
@@ -1294,7 +1294,7 @@ const originalPush = Array.prototype.push;
             ;
             k.onmousemove = function(t) {
                 t = (t.pageX - k.offsetLeft) / k.clientWidth;
-                l.textContent = Ba.pl(a.Bf * a.vh * t);
+                l.textContent = ReplayControlsView.pl(a.Bf * a.vh * t);
                 return l.style.left = "calc(" + 100 * t + "% - 30px)"
             }
             ;
@@ -1304,7 +1304,7 @@ const originalPush = Array.prototype.push;
             }
         }
         A() {
-            this.ps.textContent = Ba.pl(this.Ji.Ub);
+            this.ps.textContent = ReplayControlsView.pl(this.Ji.Ub);
             this.ir.style.width = 100 * this.Ji.mp() + "%";
             !this.lg || 0 < this.Ji.Pd || (this.lg = !1,
             this.Dq())
@@ -1471,7 +1471,7 @@ const originalPush = Array.prototype.push;
                 a.ta(Da.qa(d)))
             }
             ;
-            this.gameController = new ua(a.xc);
+            this.gameController = new GameView(a.xc);
             window.top.document.body.classList.add("hb-playing");
             this.Uh = new Wb(this.gameController,a.U.oa(a.xc).D);
             this.Uh.gameEventAnnouncer(a.U);
@@ -1556,7 +1556,7 @@ const originalPush = Array.prototype.push;
             }
             ;
             this.gameController.Xa.Fq = function() {
-                let d = new rb;
+                let d = new RoomLinkView;
                 d.rb = function() {
                     b.gameController.ab(null)
                 }
@@ -1594,7 +1594,7 @@ const originalPush = Array.prototype.push;
             this.Nd = new pc(this.za,3)
         }
         gs(a) {
-            a = new sb(a);
+            a = new KickPlayerView(a);
             let b = this;
             a.rb = function() {
                 b.gameController.ab(null)
@@ -1753,7 +1753,7 @@ const originalPush = Array.prototype.push;
             this.W = new Ub;
             this.Bd = this.Re = 0;
             this.za = a;
-            this.l = new ua(a.xc);
+            this.l = new GameView(a.xc);
             let b = new Wb(this.l);
             b.gameEventAnnouncer(a.U);
             window.document.addEventListener("keydown", BindEventHandler(this, this.Fa));
@@ -1770,7 +1770,7 @@ const originalPush = Array.prototype.push;
             }, 1E3);
             this.Jm(gameConfig.j.configViewMode.getAvatar());
             this.l.f.classList.add("replayer");
-            this.se = new Ba(a);
+            this.se = new ReplayControlsView(a);
             this.se.Eq = function() {
                 b.xs(a.U)
             }
@@ -1969,9 +1969,9 @@ const originalPush = Array.prototype.push;
             a.hb = b.hb.slice(0)
         }
     }
-    class LoadingScreen {
+    class ConnectingView {
         constructor() {
-            this.f = dOMManipulator.CreateElementFromHTML(LoadingScreen.O);
+            this.f = dOMManipulator.CreateElementFromHTML(ConnectingView.htmlContent);
             let a = dOMManipulator.MapDataHooks(this.f);
             this.Lc = a.get("log");
             this.cancelButton = a.get("cancel")
@@ -2216,9 +2216,9 @@ const originalPush = Array.prototype.push;
     class lc {
         constructor() {}
     }
-    class sb {
+    class KickPlayerView {
         constructor(a) {
-            this.f = dOMManipulator.CreateElementFromHTML(sb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(KickPlayerView.htmlContent);
             let b = dOMManipulator.MapDataHooks(this.f);
             this.nf = b.get("title");
             this.Ei = b.get("reason");
@@ -2317,10 +2317,10 @@ const originalPush = Array.prototype.push;
             return vb.Bi
         }
     }
-    class perfomanceStats {
+    class PerfomanceStatsView {
         constructor() {
             this.barGraph = new BarGraph;
-            this.f = dOMManipulator.CreateElementFromHTML(perfomanceStats.O);
+            this.f = dOMManipulator.CreateElementFromHTML(PerfomanceStatsView.htmlContent);
             let a = dOMManipulator.MapDataHooks(this.f);
             this.ping = a.get("ping");
             this.bp = a.get("fps");
@@ -2385,16 +2385,16 @@ const originalPush = Array.prototype.push;
                 gameConfig.Qa.Gi()
         }
     }
-    class ua {
+    class GameView {
         constructor(a) {
             this.tl = this.sl = this.vl = null;
-            this.ib = new jb;
+            this.ib = new GameStateView;
             this.od = !1;
-            this.GameStats = new perfomanceStats;
+            this.GameStats = new PerfomanceStatsView;
             this.Ka = new $a;
-            this.Xa = new xb(a);
+            this.Xa = new RoomView(a);
             this.ib.Rb = a;
-            this.f = dOMManipulator.CreateElementFromHTML(ua.O);
+            this.f = dOMManipulator.CreateElementFromHTML(GameView.htmlContent);
             a = dOMManipulator.MapDataHooks(this.f);
             this.us = a.get("top-section");
             this.yf = a.get("popups");
@@ -2411,7 +2411,7 @@ const originalPush = Array.prototype.push;
             ;
             new sc(a.get("sound"));
             a.get("settings").onclick = function() {
-                let c = new na;
+                let c = new DialogSettingsView;
                 c.rb = function() {
                     b.ab(null)
                 }
@@ -2420,7 +2420,7 @@ const originalPush = Array.prototype.push;
             }
             ;
             this.Xa.ne = function() {
-                let c = new nb;
+                let c = new LeaveRoomView;
                 c.rb = function(d) {
                     b.ab(null);
                     d && H.h(b.ne)
@@ -2430,7 +2430,7 @@ const originalPush = Array.prototype.push;
             }
             ;
             this.Xa.Gq = function() {
-                let c = new gb;
+                let c = new PickStadiumView;
                 c.ti = function() {
                     b.ab(null)
                 }
@@ -2495,11 +2495,11 @@ const originalPush = Array.prototype.push;
             this.od ? this.us.appendChild(this.Xa.f) : this.Xa.f.remove())
         }
         Zk() {
-            return null != ua.Tq
+            return null != GameView.Tq
         }
         ab(a, b) {
             dOMManipulator.ClearChildElements(this.yf);
-            ua.Tq = a;
+            GameView.Tq = a;
             null != a ? (this.yf.style.display = "flex",
             this.yf.appendChild(a),
             this.Xl = b) : (this.yf.style.display = "none",
@@ -2723,10 +2723,10 @@ const originalPush = Array.prototype.push;
             return b
         }
     }
-    class Ka {
+    class PlayerListView {
         constructor(a) {
             this.Fd = new Map;
-            this.f = dOMManipulator.CreateElementFromHTML(Ka.O);
+            this.f = dOMManipulator.CreateElementFromHTML(PlayerListView.htmlContent);
             this.f.className += " " + a.Oo;
             let b = dOMManipulator.MapDataHooks(this.f);
             this.eb = b.get("list");
@@ -2769,7 +2769,7 @@ const originalPush = Array.prototype.push;
                 e = a[c],
                 ++c,
                 f = this.Fd.get(e.Z),
-                null == f && (f = new yb(e),
+                null == f && (f = new PlayerListItem(e),
                 f.wf = function(h) {
                     D.h(g.wf, h)
                 }
@@ -2918,7 +2918,7 @@ const originalPush = Array.prototype.push;
     }
     class matchDetails {
         constructor(matchData) {
-            this.TableBody = dOMManipulator.CreateElementFromHTML(matchDetails.Ij, "tbody");
+            this.TableBody = dOMManipulator.CreateElementFromHTML(matchDetails.htmlContent, "tbody");
             var tableBodyDOM = dOMManipulator.MapDataHooks(this.TableBody);
             let playerName = tableBodyDOM.get("name")
             let playersTable = tableBodyDOM.get("players")
@@ -3036,7 +3036,7 @@ const originalPush = Array.prototype.push;
             return null != a ? null != a.getItem("crappy_router") : !1
         }
         static Ek(a) {
-            let b = new nameInputForm(gameConfig.j.configPlayerName.getAvatar());
+            let b = new ChooseNicknameView(gameConfig.j.configPlayerName.getAvatar());
             b.Bl = function(c) {
                 gameConfig.j.configPlayerName.saveAvatar(c);
                 gameConfig.Qa.rm();
@@ -3053,7 +3053,7 @@ const originalPush = Array.prototype.push;
         }
         static To(a, b) {
             function c() {
-                let f = new ab("Failed",null);
+                let f = new DisconnectedView("Failed",null);
                 f.Wa = function() {
                     B.xb()
                 }
@@ -3100,7 +3100,7 @@ const originalPush = Array.prototype.push;
             null != b ? null != c ? B.Ph(b) : B.eg(b) : B.xb()
         }
         static xb() {
-            let a = new Ua(gameConfig.j.Wh());
+            let a = new RoomListView(gameConfig.j.Wh());
             CanvasManager.AppendElement(a.La);
             a.zn = function(b) {
                 if (9 != b.je.Ee) {
@@ -3131,7 +3131,7 @@ const originalPush = Array.prototype.push;
             }
         }
         static Hk() {
-            let a = new na(!0)
+            let a = new DialogSettingsView(!0)
               , b = window.document.createElement("div");
             b.className = "view-wrapper";
             b.appendChild(a.f);
@@ -3156,7 +3156,7 @@ const originalPush = Array.prototype.push;
         }
         static Uo() {
             let a = gameConfig.j.configPlayerName.getAvatar()
-              , b = new roomCreatorMenu("" + a + "'s room");
+              , b = new CreateRoomView("" + a + "'s room");
             CanvasManager.AppendElement(b.f);
             b.ti = function() {
                 B.xb()
@@ -3270,7 +3270,7 @@ const originalPush = Array.prototype.push;
             }
         }
         static Ph(a) {
-            let b = new Cb;
+            let b = new RoomPasswordView;
             CanvasManager.AppendElement(b.f);
             b.Wa = function(c) {
                 null == c ? B.xb() : B.eg(a, c)
@@ -3324,7 +3324,7 @@ const originalPush = Array.prototype.push;
                     Kn: c,
                     Rs: B.Xe
                 })
-                  , loadingScreen = new LoadingScreen;
+                  , loadingScreen = new ConnectingView;
                 loadingScreen.appendMessage("Connecting to master...");
                 loadingScreen.cancelButton.onclick = function() {
                     connectionManager.Id = null;
@@ -3335,7 +3335,7 @@ const originalPush = Array.prototype.push;
                 ;
                 CanvasManager.AppendElement(loadingScreen.f);
                 let k = function(r, t) {
-                    r = new ab(r,t);
+                    r = new DisconnectedView(r,t);
                     r.Wa = function() {
                         B.xb()
                     }
@@ -3518,9 +3518,9 @@ const originalPush = Array.prototype.push;
                 this.ya = new Vector2D(a / b,c / b)
         }
     }
-    class ab {
+    class DisconnectedView {
         constructor(a, b) {
-            this.f = dOMManipulator.CreateElementFromHTML(ab.O);
+            this.f = dOMManipulator.CreateElementFromHTML(DisconnectedView.htmlContent);
             let c = dOMManipulator.MapDataHooks(this.f);
             this.iq = c.get("ok");
             let d = this;
@@ -3711,13 +3711,13 @@ const originalPush = Array.prototype.push;
             return b
         }
     }
-    class xb {
+    class RoomView {
         constructor(a) {
             this.Ak = !1;
-            this.Om = new Ka(u.Oa);
-            this.ck = new Ka(u.Da);
-            this.gm = new Ka(u.ia);
-            this.f = dOMManipulator.CreateElementFromHTML(xb.O);
+            this.Om = new PlayerListView(u.Oa);
+            this.ck = new PlayerListView(u.Da);
+            this.gm = new PlayerListView(u.ia);
+            this.f = dOMManipulator.CreateElementFromHTML(RoomView.htmlContent);
             let b = dOMManipulator.MapDataHooks(this.f);
             this.lc = b.get("room-name");
             this.Rm = b.get("start-btn");
@@ -3901,10 +3901,10 @@ const originalPush = Array.prototype.push;
             this.wi.innerHTML = "<i class='icon-pause'></i>" + (this.Kl ? "Resume (P)" : "Pause (P)")
         }
     }
-    class rb {
+    class RoomLinkView {
         constructor() {
             this.Bk = null;
-            this.f = dOMManipulator.CreateElementFromHTML(rb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(RoomLinkView.htmlContent);
             var a = dOMManipulator.MapDataHooks(this.f);
             this.og = a.get("link");
             let b = a.get("copy");
@@ -3933,12 +3933,12 @@ const originalPush = Array.prototype.push;
             null != a && a(b)
         }
     }
-    class nameInputForm {
+    class ChooseNicknameView {
         constructor(userInput) {
             function validateInputAndSubmit() {
                 context.IsInputFieldValid() && null != context.Bl && context.Bl(context.InputField.value)
             }
-            this.f = dOMManipulator.CreateElementFromHTML(nameInputForm.O);
+            this.f = dOMManipulator.CreateElementFromHTML(ChooseNicknameView.htmlContent);
             let c = dOMManipulator.MapDataHooks(this.f);
             this.InputField = c.get("input");
             this.okButton = c.get("ok");
@@ -4095,9 +4095,9 @@ const originalPush = Array.prototype.push;
             this.y = b
         }
     }
-    class kb {
+    class UnsupportedBrowserView {
         constructor(a) {
-            this.f = dOMManipulator.CreateElementFromHTML(kb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(UnsupportedBrowserView.htmlContent);
             dOMManipulator.MapDataHooks(this.f).get("features").textContent = a.join(", ")
         }
     }
@@ -4402,7 +4402,7 @@ const originalPush = Array.prototype.push;
     }
     class ConfirmModal {
         constructor(dialogTitle, dialogContent, optionsArray) {
-            this.f = dOMManipulator.CreateElementFromHTML(ConfirmModal.O);
+            this.f = dOMManipulator.CreateElementFromHTML(ConfirmModal.htmlContent);
             var d = dOMManipulator.MapDataHooks(this.f);
             d.get("ok");
             d.get("cancel");
@@ -4838,12 +4838,12 @@ const originalPush = Array.prototype.push;
             return null
         }
     }
-    class yb {
+    class PlayerListItem {
         constructor(a) {
             this.D = a.D;
             this.zb = a.zb;
             this.ba = a.Z;
-            this.f = dOMManipulator.CreateElementFromHTML(yb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(PlayerListItem.htmlContent);
             let b = dOMManipulator.MapDataHooks(this.f);
             this.nf = b.get("name");
             this.Fg = b.get("ping");
@@ -5305,7 +5305,7 @@ const originalPush = Array.prototype.push;
     class $a {
         constructor() {
             this.bf = this.fi = !1;
-            this.f = dOMManipulator.CreateElementFromHTML($a.O);
+            this.f = dOMManipulator.CreateElementFromHTML($a.htmlContent);
             let a = dOMManipulator.MapDataHooks(this.f);
             this.Lc = a.get("log");
             this.ki = a.get("log-contents");
@@ -5649,7 +5649,7 @@ const originalPush = Array.prototype.push;
             0 < this.gameElements.length && this.gameElements[0].Rc(a, this.Wc)
         }
     }
-    class na {
+    class DialogSettingsView {
         constructor(a) {
             function b(y) {
                 let F = window.document.createElement("div");
@@ -5763,14 +5763,14 @@ const originalPush = Array.prototype.push;
                     let ea = n[L];
                     ++L;
                     let S = ea == y;
-                    S && (na.ym = F);
+                    S && (DialogSettingsView.ym = F);
                     ea.ph.classList.toggle("selected", S);
                     ea.kn.classList.toggle("selected", S);
                     ++F
                 }
             }
             null == a && (a = !1);
-            this.f = dOMManipulator.CreateElementFromHTML(na.O);
+            this.f = dOMManipulator.CreateElementFromHTML(DialogSettingsView.htmlContent);
             let l = dOMManipulator.MapDataHooks(this.f);
             this.wd = l.get("close");
             let n = [];
@@ -5778,7 +5778,7 @@ const originalPush = Array.prototype.push;
             h("video");
             h("misc");
             h("input");
-            k(n[na.ym]);
+            k(n[DialogSettingsView.ym]);
             g("tsound-main", gameConfig.j.configSoundMain, function() {
                 gameConfig.Qa.Gi()
             });
@@ -5954,7 +5954,7 @@ const originalPush = Array.prototype.push;
     class Ab {
         constructor() {
             this.Gf = null;
-            this.f = dOMManipulator.CreateElementFromHTML(Ab.O);
+            this.f = dOMManipulator.CreateElementFromHTML(Ab.htmlContent);
             var a = dOMManipulator.MapDataHooks(this.f);
             let b = this;
             a.get("cancel").onclick = function() {
@@ -6094,9 +6094,9 @@ const originalPush = Array.prototype.push;
             target.fa = source.fa
         }
     }
-    class Cb {
+    class RoomPasswordView {
         constructor() {
-            this.f = dOMManipulator.CreateElementFromHTML(Cb.O);
+            this.f = dOMManipulator.CreateElementFromHTML(RoomPasswordView.htmlContent);
             let a = dOMManipulator.MapDataHooks(this.f);
             this.Db = a.get("input");
             this.rf = a.get("ok");
@@ -8005,9 +8005,9 @@ const originalPush = Array.prototype.push;
             this.jf = a)
         }
     }
-    class roomCreatorMenu {
+    class CreateRoomView {
         constructor(defaultRoomName) {
-            this.f = dOMManipulator.CreateElementFromHTML(roomCreatorMenu.O);
+            this.f = dOMManipulator.CreateElementFromHTML(CreateRoomView.htmlContent);
             var roomCreationMenuButtons = dOMManipulator.MapDataHooks(this.f);
             this.cancelButton = roomCreationMenuButtons.get("cancel");
             this.createRoomButton = roomCreationMenuButtons.get("create");
@@ -8944,7 +8944,7 @@ const originalPush = Array.prototype.push;
     }
     class userRightClickMenu {
         constructor(a, b) {
-            this.f = dOMManipulator.CreateElementFromHTML(userRightClickMenu.O);
+            this.f = dOMManipulator.CreateElementFromHTML(userRightClickMenu.htmlContent);
             let c = dOMManipulator.MapDataHooks(this.f);
             this.playerName = c.get("name");
             this.giveAdminButton = c.get("admin");
@@ -11012,25 +11012,25 @@ const originalPush = Array.prototype.push;
     Object.assign(dc.prototype, {
         g: dc
     });
-    nameInputForm.b = !0;
-    Object.assign(nameInputForm.prototype, {
-        g: nameInputForm
+    ChooseNicknameView.b = !0;
+    Object.assign(ChooseNicknameView.prototype, {
+        g: ChooseNicknameView
     });
-    LoadingScreen.b = !0;
-    Object.assign(LoadingScreen.prototype, {
-        g: LoadingScreen
+    ConnectingView.b = !0;
+    Object.assign(ConnectingView.prototype, {
+        g: ConnectingView
     });
-    roomCreatorMenu.b = !0;
-    Object.assign(roomCreatorMenu.prototype, {
-        g: roomCreatorMenu
+    CreateRoomView.b = !0;
+    Object.assign(CreateRoomView.prototype, {
+        g: CreateRoomView
     });
-    ab.b = !0;
-    Object.assign(ab.prototype, {
-        g: ab
+    DisconnectedView.b = !0;
+    Object.assign(DisconnectedView.prototype, {
+        g: DisconnectedView
     });
-    jb.b = !0;
-    Object.assign(jb.prototype, {
-        g: jb
+    GameStateView.b = !0;
+    Object.assign(GameStateView.prototype, {
+        g: GameStateView
     });
     ic.b = !0;
     Object.assign(ic.prototype, {
@@ -11040,21 +11040,21 @@ const originalPush = Array.prototype.push;
     Object.assign(sc.prototype, {
         g: sc
     });
-    ua.b = !0;
-    Object.assign(ua.prototype, {
-        g: ua
+    GameView.b = !0;
+    Object.assign(GameView.prototype, {
+        g: GameView
     });
-    sb.b = !0;
-    Object.assign(sb.prototype, {
-        g: sb
+    KickPlayerView.b = !0;
+    Object.assign(KickPlayerView.prototype, {
+        g: KickPlayerView
     });
-    nb.b = !0;
-    Object.assign(nb.prototype, {
-        g: nb
+    LeaveRoomView.b = !0;
+    Object.assign(LeaveRoomView.prototype, {
+        g: LeaveRoomView
     });
-    gb.b = !0;
-    Object.assign(gb.prototype, {
-        g: gb
+    PickStadiumView.b = !0;
+    Object.assign(PickStadiumView.prototype, {
+        g: PickStadiumView
     });
     BarGraph.b = !0;
     Object.assign(BarGraph.prototype, {
@@ -11064,61 +11064,61 @@ const originalPush = Array.prototype.push;
     Object.assign(userRightClickMenu.prototype, {
         g: userRightClickMenu
     });
-    yb.b = !0;
-    Object.assign(yb.prototype, {
-        g: yb
+    PlayerListItem.b = !0;
+    Object.assign(PlayerListItem.prototype, {
+        g: PlayerListItem
     });
-    Ka.b = !0;
-    Object.assign(Ka.prototype, {
-        g: Ka
+    PlayerListView.b = !0;
+    Object.assign(PlayerListView.prototype, {
+        g: PlayerListView
     });
     ca.b = !0;
     Object.assign(ca.prototype, {
         g: ca
     });
-    Ba.b = !0;
-    Object.assign(Ba.prototype, {
-        g: Ba
+    ReplayControlsView.b = !0;
+    Object.assign(ReplayControlsView.prototype, {
+        g: ReplayControlsView
     });
-    rb.b = !0;
-    Object.assign(rb.prototype, {
-        g: rb
+    RoomLinkView.b = !0;
+    Object.assign(RoomLinkView.prototype, {
+        g: RoomLinkView
     });
     matchDetails.b = !0;
     Object.assign(matchDetails.prototype, {
         g: matchDetails
     });
-    Ua.b = !0;
-    Object.assign(Ua.prototype, {
-        g: Ua
+    RoomListView.b = !0;
+    Object.assign(RoomListView.prototype, {
+        g: RoomListView
     });
     lb.b = !0;
     Object.assign(lb.prototype, {
         g: lb
     });
-    Cb.b = !0;
-    Object.assign(Cb.prototype, {
-        g: Cb
+    RoomPasswordView.b = !0;
+    Object.assign(RoomPasswordView.prototype, {
+        g: RoomPasswordView
     });
-    xb.b = !0;
-    Object.assign(xb.prototype, {
-        g: xb
+    RoomView.b = !0;
+    Object.assign(RoomView.prototype, {
+        g: RoomView
     });
-    na.b = !0;
-    Object.assign(na.prototype, {
-        g: na
+    DialogSettingsView.b = !0;
+    Object.assign(DialogSettingsView.prototype, {
+        g: DialogSettingsView
     });
     ConfirmModal.b = !0;
     Object.assign(ConfirmModal.prototype, {
         g: ConfirmModal
     });
-    perfomanceStats.b = !0;
-    Object.assign(perfomanceStats.prototype, {
-        g: perfomanceStats
+    PerfomanceStatsView.b = !0;
+    Object.assign(PerfomanceStatsView.prototype, {
+        g: PerfomanceStatsView
     });
-    kb.b = !0;
-    Object.assign(kb.prototype, {
-        g: kb
+    UnsupportedBrowserView.b = !0;
+    Object.assign(UnsupportedBrowserView.prototype, {
+        g: UnsupportedBrowserView
     });
     v.b = !0;
     v.ja = Error;
@@ -11337,31 +11337,31 @@ const originalPush = Array.prototype.push;
     I.Nn = 5.934119456780721;
     messageCanvas.Ln = new Tb([0, 0, 2, 1, 0, .35, 1, 0, 1, 0, .7, 1, 0, 0, 0, 1]);
     messageCanvas.Mn = new Tb([0, -1, 3, 0, 0, .35, 0, 0, 0, 0, .65, 0, 0, 1, 3, 1]);
-    Ab.O = "<div class='dialog change-location-view'><h1>Change Location</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='change'>Change</button><button data-hook='cancel'>Cancel</button></div></div></div>";
-    $a.O = "<div class='chatbox-view'><div class='chatbox-view-contents'><div data-hook='drag' class='drag'></div><div data-hook='log' class='log subtle-thin-scrollbar'><div data-hook='log-contents' class='log-contents'><p>Controls:<br/>Move: WASD or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div></div><div class='autocompletebox' data-hook='autocompletebox'></div><div class='input'><input data-hook='input' type='text' /></div></div></div>";
-    nameInputForm.O = "<div class='choose-nickname-view'><img src=\"images/haxball.png\" /><div class='dialog'><h1>Choose nickname</h1><div class='label-input'><label>Nick:</label><input data-hook='input' type='text' /></div><button data-hook='ok'>Ok</button></div></div>";
-    LoadingScreen.O = "<div class='connecting-view'><div class='dialog'><h1>Connecting</h1><div class='connecting-view-log' data-hook='log'></div><button data-hook='cancel'>Cancel</button></div></div>";
-    roomCreatorMenu.O = "<div class='create-room-view'><div class='dialog'><h1>Create room</h1><div class='label-input'><label>Room name:</label><input data-hook='name' required /></div><div class='label-input'><label>Password:</label><input data-hook='pass' /></div><div class='label-input'><label>Max players:</label><select data-hook='max-pl'></select></div><button data-hook='unlisted'></button><div class='row'><button data-hook='cancel'>Cancel</button><button data-hook='create'>Create</button></div></div></div>";
-    ab.O = "<div class='disconnected-view'><div class='dialog basic-dialog'><h1>Disconnected</h1><p data-hook='reason'></p><div class='buttons'><button data-hook='ok'>Ok</button><button data-hook='replay'>Save replay</button></div></div></div>";
-    jb.O = "<div class='game-state-view'><div class='bar-container'><div class='bar'><div class='scoreboard'><div class='teamicon red'></div><div class='score' data-hook='red-score'>0</div><div>-</div><div class='score' data-hook='blue-score'>0</div><div class='teamicon blue'></div></div><div class=\"fps-limit-fix\"></div><div data-hook='timer'></div></div></div><div class='canvas' data-hook='canvas'></div></div>";
-    ua.O = "<div class='game-view' tabindex='-1'><div class='gameplay-section' data-hook='gameplay'></div><div class='top-section' data-hook='top-section'></div><div class='bottom-section'><div data-hook='stats'></div><div data-hook='chatbox'></div><div class='bottom-spacer'></div></div><div class='buttons'><div class='sound-button-container' data-hook=\"sound\"><div class='sound-slider' data-hook='sound-slider'><div class='sound-slider-bar-bg' data-hook='sound-bar-bg'><div class='sound-slider-bar' data-hook='sound-bar'></div></div></div><button data-hook='sound-btn'><i class='icon-volume-up' data-hook='sound-icon'></i></button></div><button data-hook='menu'><i class='icon-menu'></i>Menu<span class='tooltip'>Toggle room menu [Escape]</span></button><button data-hook='settings'><i class='icon-cog'></i></button></div><div data-hook='popups'></div></div>";
-    sb.O = "<div class='dialog kick-player-view'><h1 data-hook='title'></h1><div class=label-input><label>Reason: </label><input type='text' data-hook='reason' /></div><button data-hook='ban-btn'><i class='icon-block'></i>Ban from rejoining: <span data-hook='ban-text'></span></button><div class=\"row\"><button data-hook='close'>Cancel</button><button data-hook='kick'>Kick</button></div></div>";
-    nb.O = "<div class='dialog basic-dialog leave-room-view'><h1>Leave room?</h1><p>Are you sure you want to leave the room?</p><div class='buttons'><button data-hook='cancel'>Cancel</button><button data-hook='leave'><i class='icon-logout'></i>Leave</button></div></div>";
-    gb.O = "<div class='dialog pick-stadium-view'><h1>Pick a stadium</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='pick'>Pick</button><button data-hook='delete'>Delete</button><div class='file-btn'><label for='stadfile'>Load</label><input id='stadfile' type='file' accept='.hbs,.json,.json5' data-hook='file'/></div><button data-hook='export'>Export</button><div class='spacer'></div><button data-hook='cancel'>Cancel</button></div></div></div>";
-    userRightClickMenu.O = "<div class='dialog' style='min-width:200px'><h1 data-hook='name'></h1><button data-hook='admin'></button><button data-hook='kick'>Kick</button><button data-hook='close'>Close</button></div>";
-    yb.O = "<div class='player-list-item'><div data-hook='flag' class='flagico'></div><div data-hook='name'></div><div data-hook='ping'></div></div>";
-    Ka.O = "<div class='player-list-view'><div class='buttons'><button data-hook='join-btn'>Join</button><button data-hook='reset-btn' class='admin-only'></button></div><div class='list thin-scrollbar' data-hook='list'></div></div>";
-    Ba.O = "<div class='replay-controls-view'><button data-hook='reset'><i class='icon-to-start'></i></button><button data-hook='play'><i data-hook='playicon'></i></button><div data-hook='spd'>1x</div><button data-hook='spddn'>-</button><button data-hook='spdup'>+</button><div data-hook='time'>00:00</div><div class='timebar' data-hook='timebar'><div class='barbg'><div class='bar' data-hook='progbar'></div></div><div class='timetooltip' data-hook='timetooltip'></div></div><button data-hook='leave'>Leave</button></div>";
-    rb.O = "<div class='dialog basic-dialog room-link-view'><h1>Room link</h1><p>Use this url to link others directly into this room.</p><input data-hook='link' readonly></input><div class='buttons'><button data-hook='close'>Close</button><button data-hook='copy'>Copy to clipboard</button></div></div>";
-    matchDetails.Ij = "<tr><td><span data-hook='tag'></span><span data-hook='name'></span></td><td data-hook='players'></td><td data-hook='pass'></td><td><div data-hook='flag' class='flagico'></div><span data-hook='distance'></span></td></tr>";
-    Ua.Ij = "<div class='roomlist-view'><div class='notice' data-hook='notice' hidden><div data-hook='notice-contents'>Testing the notice.</div><div data-hook='notice-close'><i class='icon-cancel'></i></div></div><div class='dialog'><h1>Room list</h1><p>Tip: Join rooms near you to reduce lag.</p><div class='splitter'><div class='list'><table class='header'><colgroup><col><col><col><col></colgroup><thead><tr><td>Name</td><td>Players</td><td>Pass</td><td>Distance</td></tr></thead></table><div class='separator'></div><div class='content' data-hook='listscroll'><table><colgroup><col><col><col><col></colgroup><tbody data-hook='list'></tbody></table></div><div class='filters'><span class='bool' data-hook='fil-pass'>Show locked <i></i></span><span class='bool' data-hook='fil-full'>Show full <i></i></span><span class='bool' data-hook='fil-empty'>Show empty <i></i></span></div></div><div class='buttons'><button data-hook='refresh'><i class='icon-cw'></i><div>Refresh</div></button><button data-hook='join'><i class='icon-login'></i><div>Join Room</div></button><button data-hook='create'><i class='icon-plus'></i><div>Create Room</div></button><div class='spacer'></div><div class='file-btn'><label for='replayfile'><i class='icon-play'></i><div>Replays</div></label><input id='replayfile' type='file' accept='.hbr2' data-hook='replayfile'/></div><button data-hook='settings'><i class='icon-cog'></i><div>Settings</div></button><button data-hook='changenick'><i class='icon-cw'></i><div>Change Nick</div></button></div></div><p data-hook='count'></p></div></div>";
-    Cb.O = "<div class='room-password-view'><div class='dialog'><h1>Password required</h1><div class='label-input'><label>Password:</label><input data-hook='input' /></div><div class='buttons'><button data-hook='cancel'>Cancel</button><button data-hook='ok'>Ok</button></div></div></div>";
-    xb.O = "<div class='room-view'><div class='container'><h1 data-hook='room-name'></h1><div class='header-btns'><button data-hook='rec-btn'><i class='icon-circle'></i>Rec</button><button data-hook='link-btn'><i class='icon-link'></i>Link</button><button data-hook='leave-btn'><i class='icon-logout'></i>Leave</button></div><div class='teams'><div class='tools admin-only'><button data-hook='auto-btn'>Auto</button><button data-hook='rand-btn'>Rand</button><button data-hook='lock-btn'>Lock</button><button data-hook='reset-all-btn'>Reset</button></div><div data-hook='red-list'></div><div data-hook='spec-list'></div><div data-hook='blue-list'></div><div class='spacer admin-only'></div></div><div class='settings'><div><label class='lbl'>Time limit</label><select data-hook='time-limit-sel'></select></div><div><label class='lbl'>Score limit</label><select data-hook='score-limit-sel'></select></div><div><label class='lbl'>Stadium</label><label class='val' data-hook='stadium-name'>testing the stadium name</label><button class='admin-only' data-hook='stadium-pick'>Pick</button></div></div><div class='controls admin-only'><button data-hook='start-btn'><i class='icon-play'></i>Start game</button><button data-hook='stop-btn'><i class='icon-stop'></i>Stop game</button><button data-hook='pause-btn'><i class='icon-pause'></i>Pause</button></div></div></div>";
-    na.O = '<div class=\'dialog settings-view\'><h1>Settings</h1><button data-hook=\'close\'>Close</button><div class=\'tabs\'><button data-hook=\'soundbtn\'>Sound</button><button data-hook=\'videobtn\'>Video</button><button data-hook=\'inputbtn\'>Input</button><button data-hook=\'miscbtn\'>Misc</button></div><div data-hook=\'presskey\' tabindex=\'-1\'><div>Press a key</div></div><div class=\'tabcontents\'><div class=\'section\' data-hook=\'miscsec\'><div class=\'loc\' data-hook=\'loc\'></div><div class=\'loc\' data-hook=\'loc-ovr\'></div><button data-hook=\'loc-ovr-btn\'></button></div><div class=\'section\' data-hook=\'soundsec\'><div data-hook="tsound-main">Sounds enabled</div><div data-hook="tsound-chat">Chat sound enabled</div><div data-hook="tsound-highlight">Nick highlight sound enabled</div><div data-hook="tsound-crowd">Crowd sound enabled</div></div><div class=\'section\' data-hook=\'inputsec\'></div><div class=\'section\' data-hook=\'videosec\'><div>Viewport Mode:<select data-hook=\'viewmode\'><option>Dynamic</option><option>Restricted 840x410</option><option>Full 1x Zoom</option><option>Full 1.25x Zoom</option><option>Full 1.5x Zoom</option><option>Full 1.75x Zoom</option><option>Full 2x Zoom</option><option>Full 2.25x Zoom</option><option>Full 2.5x Zoom</option></select></div><div>FPS Limit:<select data-hook=\'fps\'><option>None (Recommended)</option><option>30</option></select></div><div>Resolution Scaling:<select data-hook=\'resscale\'><option>100%</option><option>75%</option><option>50%</option><option>25%</option></select></div><div data-hook="tvideo-lowlatency">Use low latency canvas</div><div data-hook="tvideo-teamcol">Custom team colors enabled</div><div data-hook="tvideo-showindicators">Show chat indicators</div><div data-hook="tvideo-showavatars">Show player avatars</div><div class="option-row"><div style="margin-right: 10px; flex: 1; max-width: 115px;">Chat opacity </div><div style="width: 40px" data-hook="chatopacity-value">1</div><input class="slider" type="range" min="0.5" max="1" step="0.01" data-hook="chatopacity-range"></div><div class="option-row"><div style="margin-right: 10px; flex: 1; max-width: 115px;">Chat focus height </div><div style="width: 40px" data-hook="chatfocusheight-value">200</div><input class="slider" type="range" min="0" max="400" step="10" data-hook="chatfocusheight-range"></div><div>Chat background width:<select data-hook=\'chatbgmode\'><option>Full</option><option>Compact</option></select></div></div></div></div>';
-    na.ym = 0;
-    ConfirmModal.O = "<div class='simple-dialog-view'><div class='dialog basic-dialog'><h1 data-hook='title'></h1><p data-hook='content'></p><div class='buttons' data-hook='buttons'></div></div></div>";
-    perfomanceStats.O = "<div class=\"stats-view-container\"><div class='stats-view'><p data-hook='ping'></p><p data-hook='fps'></p><div data-hook='graph'></div></div></div>";
-    kb.O = '<div class=\'unsupported-browser-view\'><div class=\'dialog\'><h1>Unsupported Browser</h1><p>Sorry! Your browser doesn\'t yet implement some features which are required for HaxBall to work.</p><p>The missing features are: <span data-hook=\'features\'></span></p><h2>Recommended browsers:</h2><div><a href="https://www.mozilla.org/firefox/new/"><img src="images/firefox-icon.png"/>Firefox</a></div><div><a href="https://www.google.com/chrome/"><img src="images/chrome-icon.png"/>Chrome</a></div><div><a href="http://www.opera.com/"><img src="images/opera-icon.png"/>Opera</a></div></div></div>';
+    Ab.htmlContent = "<div class='dialog change-location-view'><h1>Change Location</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='change'>Change</button><button data-hook='cancel'>Cancel</button></div></div></div>";
+    $a.htmlContent = "<div class='chatbox-view'><div class='chatbox-view-contents'><div data-hook='drag' class='drag'></div><div data-hook='log' class='log subtle-thin-scrollbar'><div data-hook='log-contents' class='log-contents'><p>Controls:<br/>Move: WASD or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div></div><div class='autocompletebox' data-hook='autocompletebox'></div><div class='input'><input data-hook='input' type='text' /></div></div></div>";
+    ChooseNicknameView.htmlContent = "<div class='choose-nickname-view'><img src=\"images/haxball.png\" /><div class='dialog'><h1>Choose nickname</h1><div class='label-input'><label>Nick:</label><input data-hook='input' type='text' /></div><button data-hook='ok'>Ok</button></div></div>";
+    ConnectingView.htmlContent = "<div class='connecting-view'><div class='dialog'><h1>Connecting</h1><div class='connecting-view-log' data-hook='log'></div><button data-hook='cancel'>Cancel</button></div></div>";
+    CreateRoomView.htmlContent = "<div class='create-room-view'><div class='dialog'><h1>Create room</h1><div class='label-input'><label>Room name:</label><input data-hook='name' required /></div><div class='label-input'><label>Password:</label><input data-hook='pass' /></div><div class='label-input'><label>Max players:</label><select data-hook='max-pl'></select></div><button data-hook='unlisted'></button><div class='row'><button data-hook='cancel'>Cancel</button><button data-hook='create'>Create</button></div></div></div>";
+    DisconnectedView.htmlContent = "<div class='disconnected-view'><div class='dialog basic-dialog'><h1>Disconnected</h1><p data-hook='reason'></p><div class='buttons'><button data-hook='ok'>Ok</button><button data-hook='replay'>Save replay</button></div></div></div>";
+    GameStateView.htmlContent = "<div class='game-state-view'><div class='bar-container'><div class='bar'><div class='scoreboard'><div class='teamicon red'></div><div class='score' data-hook='red-score'>0</div><div>-</div><div class='score' data-hook='blue-score'>0</div><div class='teamicon blue'></div></div><div class=\"fps-limit-fix\"></div><div data-hook='timer'></div></div></div><div class='canvas' data-hook='canvas'></div></div>";
+    GameView.htmlContent = "<div class='game-view' tabindex='-1'><div class='gameplay-section' data-hook='gameplay'></div><div class='top-section' data-hook='top-section'></div><div class='bottom-section'><div data-hook='stats'></div><div data-hook='chatbox'></div><div class='bottom-spacer'></div></div><div class='buttons'><div class='sound-button-container' data-hook=\"sound\"><div class='sound-slider' data-hook='sound-slider'><div class='sound-slider-bar-bg' data-hook='sound-bar-bg'><div class='sound-slider-bar' data-hook='sound-bar'></div></div></div><button data-hook='sound-btn'><i class='icon-volume-up' data-hook='sound-icon'></i></button></div><button data-hook='menu'><i class='icon-menu'></i>Menu<span class='tooltip'>Toggle room menu [Escape]</span></button><button data-hook='settings'><i class='icon-cog'></i></button></div><div data-hook='popups'></div></div>";
+    KickPlayerView.htmlContent = "<div class='dialog kick-player-view'><h1 data-hook='title'></h1><div class=label-input><label>Reason: </label><input type='text' data-hook='reason' /></div><button data-hook='ban-btn'><i class='icon-block'></i>Ban from rejoining: <span data-hook='ban-text'></span></button><div class=\"row\"><button data-hook='close'>Cancel</button><button data-hook='kick'>Kick</button></div></div>";
+    LeaveRoomView.htmlContent = "<div class='dialog basic-dialog leave-room-view'><h1>Leave room?</h1><p>Are you sure you want to leave the room?</p><div class='buttons'><button data-hook='cancel'>Cancel</button><button data-hook='leave'><i class='icon-logout'></i>Leave</button></div></div>";
+    PickStadiumView.htmlContent = "<div class='dialog pick-stadium-view'><h1>Pick a stadium</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='pick'>Pick</button><button data-hook='delete'>Delete</button><div class='file-btn'><label for='stadfile'>Load</label><input id='stadfile' type='file' accept='.hbs,.json,.json5' data-hook='file'/></div><button data-hook='export'>Export</button><div class='spacer'></div><button data-hook='cancel'>Cancel</button></div></div></div>";
+    userRightClickMenu.htmlContent = "<div class='dialog' style='min-width:200px'><h1 data-hook='name'></h1><button data-hook='admin'></button><button data-hook='kick'>Kick</button><button data-hook='close'>Close</button></div>";
+    PlayerListItem.htmlContent = "<div class='player-list-item'><div data-hook='flag' class='flagico'></div><div data-hook='name'></div><div data-hook='ping'></div></div>";
+    PlayerListView.htmlContent = "<div class='player-list-view'><div class='buttons'><button data-hook='join-btn'>Join</button><button data-hook='reset-btn' class='admin-only'></button></div><div class='list thin-scrollbar' data-hook='list'></div></div>";
+    ReplayControlsView.htmlContent = "<div class='replay-controls-view'><button data-hook='reset'><i class='icon-to-start'></i></button><button data-hook='play'><i data-hook='playicon'></i></button><div data-hook='spd'>1x</div><button data-hook='spddn'>-</button><button data-hook='spdup'>+</button><div data-hook='time'>00:00</div><div class='timebar' data-hook='timebar'><div class='barbg'><div class='bar' data-hook='progbar'></div></div><div class='timetooltip' data-hook='timetooltip'></div></div><button data-hook='leave'>Leave</button></div>";
+    RoomLinkView.htmlContent = "<div class='dialog basic-dialog room-link-view'><h1>Room link</h1><p>Use this url to link others directly into this room.</p><input data-hook='link' readonly></input><div class='buttons'><button data-hook='close'>Close</button><button data-hook='copy'>Copy to clipboard</button></div></div>";
+    matchDetails.htmlContent = "<tr><td><span data-hook='tag'></span><span data-hook='name'></span></td><td data-hook='players'></td><td data-hook='pass'></td><td><div data-hook='flag' class='flagico'></div><span data-hook='distance'></span></td></tr>";
+    RoomListView.htmlContent = "<div class='roomlist-view'><div class='notice' data-hook='notice' hidden><div data-hook='notice-contents'>Testing the notice.</div><div data-hook='notice-close'><i class='icon-cancel'></i></div></div><div class='dialog'><h1>Room list</h1><p>Tip: Join rooms near you to reduce lag.</p><div class='splitter'><div class='list'><table class='header'><colgroup><col><col><col><col></colgroup><thead><tr><td>Name</td><td>Players</td><td>Pass</td><td>Distance</td></tr></thead></table><div class='separator'></div><div class='content' data-hook='listscroll'><table><colgroup><col><col><col><col></colgroup><tbody data-hook='list'></tbody></table></div><div class='filters'><span class='bool' data-hook='fil-pass'>Show locked <i></i></span><span class='bool' data-hook='fil-full'>Show full <i></i></span><span class='bool' data-hook='fil-empty'>Show empty <i></i></span></div></div><div class='buttons'><button data-hook='refresh'><i class='icon-cw'></i><div>Refresh</div></button><button data-hook='join'><i class='icon-login'></i><div>Join Room</div></button><button data-hook='create'><i class='icon-plus'></i><div>Create Room</div></button><div class='spacer'></div><div class='file-btn'><label for='replayfile'><i class='icon-play'></i><div>Replays</div></label><input id='replayfile' type='file' accept='.hbr2' data-hook='replayfile'/></div><button data-hook='settings'><i class='icon-cog'></i><div>Settings</div></button><button data-hook='changenick'><i class='icon-cw'></i><div>Change Nick</div></button></div></div><p data-hook='count'></p></div></div>";
+    RoomPasswordView.htmlContent = "<div class='room-password-view'><div class='dialog'><h1>Password required</h1><div class='label-input'><label>Password:</label><input data-hook='input' /></div><div class='buttons'><button data-hook='cancel'>Cancel</button><button data-hook='ok'>Ok</button></div></div></div>";
+    RoomView.htmlContent = "<div class='room-view'><div class='container'><h1 data-hook='room-name'></h1><div class='header-btns'><button data-hook='rec-btn'><i class='icon-circle'></i>Rec</button><button data-hook='link-btn'><i class='icon-link'></i>Link</button><button data-hook='leave-btn'><i class='icon-logout'></i>Leave</button></div><div class='teams'><div class='tools admin-only'><button data-hook='auto-btn'>Auto</button><button data-hook='rand-btn'>Rand</button><button data-hook='lock-btn'>Lock</button><button data-hook='reset-all-btn'>Reset</button></div><div data-hook='red-list'></div><div data-hook='spec-list'></div><div data-hook='blue-list'></div><div class='spacer admin-only'></div></div><div class='settings'><div><label class='lbl'>Time limit</label><select data-hook='time-limit-sel'></select></div><div><label class='lbl'>Score limit</label><select data-hook='score-limit-sel'></select></div><div><label class='lbl'>Stadium</label><label class='val' data-hook='stadium-name'>testing the stadium name</label><button class='admin-only' data-hook='stadium-pick'>Pick</button></div></div><div class='controls admin-only'><button data-hook='start-btn'><i class='icon-play'></i>Start game</button><button data-hook='stop-btn'><i class='icon-stop'></i>Stop game</button><button data-hook='pause-btn'><i class='icon-pause'></i>Pause</button></div></div></div>";
+    DialogSettingsView.htmlContent = '<div class=\'dialog settings-view\'><h1>Settings</h1><button data-hook=\'close\'>Close</button><div class=\'tabs\'><button data-hook=\'soundbtn\'>Sound</button><button data-hook=\'videobtn\'>Video</button><button data-hook=\'inputbtn\'>Input</button><button data-hook=\'miscbtn\'>Misc</button></div><div data-hook=\'presskey\' tabindex=\'-1\'><div>Press a key</div></div><div class=\'tabcontents\'><div class=\'section\' data-hook=\'miscsec\'><div class=\'loc\' data-hook=\'loc\'></div><div class=\'loc\' data-hook=\'loc-ovr\'></div><button data-hook=\'loc-ovr-btn\'></button></div><div class=\'section\' data-hook=\'soundsec\'><div data-hook="tsound-main">Sounds enabled</div><div data-hook="tsound-chat">Chat sound enabled</div><div data-hook="tsound-highlight">Nick highlight sound enabled</div><div data-hook="tsound-crowd">Crowd sound enabled</div></div><div class=\'section\' data-hook=\'inputsec\'></div><div class=\'section\' data-hook=\'videosec\'><div>Viewport Mode:<select data-hook=\'viewmode\'><option>Dynamic</option><option>Restricted 840x410</option><option>Full 1x Zoom</option><option>Full 1.25x Zoom</option><option>Full 1.5x Zoom</option><option>Full 1.75x Zoom</option><option>Full 2x Zoom</option><option>Full 2.25x Zoom</option><option>Full 2.5x Zoom</option></select></div><div>FPS Limit:<select data-hook=\'fps\'><option>None (Recommended)</option><option>30</option></select></div><div>Resolution Scaling:<select data-hook=\'resscale\'><option>100%</option><option>75%</option><option>50%</option><option>25%</option></select></div><div data-hook="tvideo-lowlatency">Use low latency canvas</div><div data-hook="tvideo-teamcol">Custom team colors enabled</div><div data-hook="tvideo-showindicators">Show chat indicators</div><div data-hook="tvideo-showavatars">Show player avatars</div><div class="option-row"><div style="margin-right: 10px; flex: 1; max-width: 115px;">Chat opacity </div><div style="width: 40px" data-hook="chatopacity-value">1</div><input class="slider" type="range" min="0.5" max="1" step="0.01" data-hook="chatopacity-range"></div><div class="option-row"><div style="margin-right: 10px; flex: 1; max-width: 115px;">Chat focus height </div><div style="width: 40px" data-hook="chatfocusheight-value">200</div><input class="slider" type="range" min="0" max="400" step="10" data-hook="chatfocusheight-range"></div><div>Chat background width:<select data-hook=\'chatbgmode\'><option>Full</option><option>Compact</option></select></div></div></div></div>';
+    DialogSettingsView.ym = 0;
+    ConfirmModal.htmlContent = "<div class='simple-dialog-view'><div class='dialog basic-dialog'><h1 data-hook='title'></h1><p data-hook='content'></p><div class='buttons' data-hook='buttons'></div></div></div>";
+    PerfomanceStatsView.htmlContent = "<div class=\"stats-view-container\"><div class='stats-view'><p data-hook='ping'></p><p data-hook='fps'></p><div data-hook='graph'></div></div></div>";
+    UnsupportedBrowserView.htmlContent = '<div class=\'unsupported-browser-view\'><div class=\'dialog\'><h1>Unsupported Browser</h1><p>Sorry! Your browser doesn\'t yet implement some features which are required for HaxBall to work.</p><p>The missing features are: <span data-hook=\'features\'></span></p><h2>Recommended browsers:</h2><div><a href="https://www.mozilla.org/firefox/new/"><img src="images/firefox-icon.png"/>Firefox</a></div><div><a href="https://www.google.com/chrome/"><img src="images/chrome-icon.png"/>Chrome</a></div><div><a href="http://www.opera.com/"><img src="images/opera-icon.png"/>Opera</a></div></div></div>';
     B.Yp()
 }
 )("undefined" != typeof window ? window : "undefined" != typeof global ? global : "undefined" != typeof self ? self : this);
