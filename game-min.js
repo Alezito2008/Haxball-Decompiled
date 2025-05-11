@@ -3354,7 +3354,6 @@ const originalPush = Array.prototype.push;
                   , n = function() {
                     let gameControllerInstance = new GameController(connectionManager);
                     connectionManager.Cl = function(t) {
-                        console.log(connectionManager.Gg);
                         gameControllerInstance.gameController.GameStats.updatePingStats(connectionManager.Gg.mh() | 0, connectionManager.Gg.max() | 0);
                         gameControllerInstance.gameController.GameStats.barGraph.Wn(t)
                     }
@@ -4856,23 +4855,23 @@ const originalPush = Array.prototype.push;
             this.f.ondragstart = function(d) {
                 d.dataTransfer.setData("player", integerUtils.Je(context.playerID))
             };
-            
+
             this.f.oncontextmenu = function(d) {
                 d.preventDefault();
                 D.h(context.wf, context.playerID)
             };
 
-            this.Dm(playerInfo.fb)
+            this.ApplyAdminStyles(playerInfo.fb)
         }
-        A(a, b) {
-            this.f.draggable = b;
-            this.playerPing != a.zb && (this.playerPing = a.zb,
+        A(playerInfo, selfHasAdmin) {
+            this.f.draggable = selfHasAdmin;
+            this.playerPing != playerInfo.zb && (this.playerPing = playerInfo.zb,
             this.pingElement.textContent = "" + this.playerPing);
-            this.Xn != a.fb && this.Dm(a.fb)
+            this.isAdmin != playerInfo.fb && this.ApplyAdminStyles(playerInfo.fb)
         }
-        Dm(a) {
-            this.Xn = a;
-            this.f.className = "player-list-item" + (a ? " admin" : "")
+        ApplyAdminStyles(isAdmin) {
+            this.isAdmin = isAdmin;
+            this.f.className = "player-list-item" + (isAdmin ? " admin" : "")
         }
     }
     class u {
