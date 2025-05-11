@@ -5011,147 +5011,197 @@ const originalPush = Array.prototype.push;
         }
     }
     class Ta {
-        constructor() {
-            this.jc = -1;
-            this.ic = null;
-            this.H = []
+    constructor() {
+        this.jc = -1;        // Frame or update counter
+        this.ic = null;      // Cached copy
+        this.H = []          // List of objects/entities
+    }
+
+    ga(a) {
+        // Serialize the list of entities
+        a.m(this.H.length);
+        let b = 0, c = this.H.length;
+        for (; b < c; ) {
+            let d = b++, e = this.H[d];
+            e.Il = d;        // Set index
+            e.ga(a);         // Serialize each entity
         }
-        ga(a) {
-            a.m(this.H.length);
-            let b = 0
-              , c = this.H.length;
-            for (; b < c; ) {
-                let d = b++
-                  , e = this.H[d];
-                e.Il = d;
-                e.ga(a)
-            }
+    }
+
+    ma(a) {
+        // Deserialize and populate entity list
+        this.H = [];
+        let b = a.F(), c = 0;
+        for (; c < b; ) {
+            ++c;
+            let d = new ra;
+            d.ma(a);         // Deserialize entity
+            this.H.push(d);  // Add to list
         }
-        ma(a) {
-            this.H = [];
-            let b = a.F()
-              , c = 0;
-            for (; c < b; ) {
-                ++c;
-                let d = new ra;
-                d.ma(a);
-                this.H.push(d)
-            }
+    }
+
+    A(a) {
+        // Update simulation step with delta time `a`
+
+        // First step: update position and velocity
+        for (var b = 0, c = this.H; b < c.length; ) {
+            var d = c[b++];
+            var e = d.a, f = d.a, g = d.G;
+
+
+            // Update position using velocity
+            e.x = f.x + g.x * a;
+            e.y = f.y + g.y * a;
+
+            // Update velocity using acceleration (ra) and damping factor (Ea)
+            f = e = d.G;
+            g = d.ra;
+            d = d.Ea;
+            e.x = (f.x + g.x) * d;
+            e.y = (f.y + g.y) * d;
         }
-        A(a) {
-            for (var b = 0, c = this.H; b < c.length; ) {
-                var d = c[b];
-                ++b;
-                var e = d.a
-                  , f = d.a
-                  , g = d.G;
-                e.x = f.x + g.x * a;
-                e.y = f.y + g.y * a;
-                f = e = d.G;
-                g = d.ra;
-                d = d.Ea;
-                e.x = (f.x + g.x) * d;
-                e.y = (f.y + g.y) * d
+
+        a = 0;
+        // Collision detection between entities
+        for (b = this.H.length; a < b; ) {
+            d = a++;
+            c = this.H[d];
+            d += 1;
+
+            // Check pairwise collisions with other entities
+            for (e = this.H.length; d < e; ) {
+                f = this.H[d++];
+                // If collision masks overlap, apply collision logic
+                0 != (f.i & c.B) && 0 != (f.B & c.i) && c.wo(f);
             }
-            a = 0;
-            for (b = this.H.length; a < b; ) {
-                d = a++;
-                c = this.H[d];
-                d += 1;
-                for (e = this.H.length; d < e; )
-                    f = this.H[d++],
-                    0 != (f.i & c.B) && 0 != (f.B & c.i) && c.wo(f);
-                if (0 != c.ca) {
-                    d = 0;
-                    for (e = this.sa; d < e.length; )
-                        if (f = e[d],
-                        ++d,
+
+            // If entity is active (ca != 0), check collisions with other structures
+            if (0 != c.ca) {
+                // Check collision with static surfaces (sa)
+                d = 0;
+                for (e = this.sa; d < e.length; ) {
+                    if (f = e[d], ++d,
                         0 != (f.i & c.B) && 0 != (f.B & c.i)) {
-                            g = f.ya;
-                            var h = c.a;
-                            g = f.Va - (g.x * h.x + g.y * h.y) + c.V;
-                            if (0 < g) {
-                                var k = h = c.a
-                                  , l = f.ya;
-                                h.x = k.x + l.x * g;
-                                h.y = k.y + l.y * g;
-                                g = c.G;
-                                h = f.ya;
-                                g = g.x * h.x + g.y * h.y;
-                                0 > g && (g *= c.o * f.o + 1,
-                                k = h = c.G,
-                                f = f.ya,
-                                h.x = k.x - f.x * g,
-                                h.y = k.y - f.y * g)
+                        
+                        g = f.ya;
+                        var h = c.a;
+                        // Calculate penetration
+                        g = f.Va - (g.x * h.x + g.y * h.y) + c.V;
+                        
+                        if (0 < g) {
+                            // Move object out of surface
+                            var k = h = c.a, l = f.ya;
+                            h.x = k.x + l.x * g;
+                            h.y = k.y + l.y * g;
+
+                            // Reflect velocity based on surface normal
+                            g = c.G;
+                            h = f.ya;
+                            g = g.x * h.x + g.y * h.y;
+
+                            if (0 > g) {
+                                g *= c.o * f.o + 1;
+                                k = h = c.G;
+                                f = f.ya;
+                                h.x = k.x - f.x * g;
+                                h.y = k.y - f.y * g;
                             }
                         }
-                    d = 0;
-                    for (e = this.X; d < e.length; )
-                        f = e[d],
-                        ++d,
-                        0 != (f.i & c.B) && 0 != (f.B & c.i) && c.xo(f);
-                    d = 0;
-                    for (e = this.L; d < e.length; )
-                        if (f = e[d],
-                        ++d,
-                        0 != (f.i & c.B) && 0 != (f.B & c.i) && (h = c.a,
-                        k = f.a,
-                        g = h.x - k.x,
-                        h = h.y - k.y,
-                        k = g * g + h * h,
-                        0 < k && k <= c.V * c.V)) {
+                    }
+                }
+
+                // Check collision with boundaries (X)
+                d = 0;
+                for (e = this.X; d < e.length; ) {
+                    f = e[d], ++d;
+                    0 != (f.i & c.B) && 0 != (f.B & c.i) && c.xo(f);
+                }
+
+                // Check proximity triggers or soft constraints (L)
+                d = 0;
+                for (e = this.L; d < e.length; ) {
+                    if (f = e[d], ++d,
+                        0 != (f.i & c.B) && 0 != (f.B & c.i)) {
+
+                        h = c.a;
+                        k = f.a;
+                        g = h.x - k.x;
+                        h = h.y - k.y;
+                        k = g * g + h * h;
+
+                        // If within interaction radius
+                        if (0 < k && k <= c.V * c.V) {
                             k = Math.sqrt(k);
                             g /= k;
                             h /= k;
                             k = c.V - k;
+
                             let n = l = c.a;
                             l.x = n.x + g * k;
                             l.y = n.y + h * k;
+
                             k = c.G;
                             k = g * k.x + h * k.y;
-                            0 > k && (k *= c.o * f.o + 1,
-                            l = f = c.G,
-                            f.x = l.x - g * k,
-                            f.y = l.y - h * k)
+
+                            // Apply reaction force
+                            if (0 > k) {
+                                k *= c.o * f.o + 1;
+                                l = f = c.G;
+                                f.x = l.x - g * k;
+                                f.y = l.y - h * k;
+                            }
                         }
+                    }
                 }
             }
-            for (a = 0; 2 > a; )
-                for (++a,
-                b = 0,
-                c = this.qb; b < c.length; )
-                    c[b++].A(this.H)
         }
-        uc() {
-            let a = qa.Cc
-              , b = this.ic;
-            this.jc != a && (null == b && (this.ic = b = new Ta),
-            this.jc = a,
-            Ta.zd(b, this));
-            return b
-        }
-        static zd(a, b) {
-            if (null == b.H)
-                a.H = null;
-            else {
-                null == a.H && (a.H = []);
-                let d = a.H
-                  , e = b.H;
-                for (var c = e.length; d.length > c; )
-                    d.pop();
-                c = 0;
-                let f = e.length;
-                for (; c < f; ) {
-                    let g = c++;
-                    d[g] = e[g].uc()
-                }
+
+        // Post-update or constraint solving
+        for (a = 0; 2 > a; ) {
+            ++a;
+            b = 0;
+            c = this.qb;
+            for (; b < c.length; ) {
+                c[b++].A(this.H);
             }
-            a.L = b.L;
-            a.X = b.X;
-            a.sa = b.sa;
-            a.qb = b.qb
         }
     }
+
+    uc() {
+        // Get updated clone if frame changed
+        let a = qa.Cc, b = this.ic;
+        if (this.jc != a) {
+            if (null == b) this.ic = b = new Ta;
+            this.jc = a;
+            Ta.zd(b, this);  // Clone current into cached copy
+        }
+        return b;
+    }
+
+    static zd(a, b) {
+        // Deep copy data from b into a
+        if (null == b.H)
+            a.H = null;
+        else {
+            if (null == a.H) a.H = [];
+            let d = a.H, e = b.H;
+            for (var c = e.length; d.length > c; ) d.pop();
+            c = 0;
+            let f = e.length;
+            for (; c < f; ) {
+                let g = c++;
+                d[g] = e[g].uc();  // Recursively clone
+            }
+        }
+
+        // Copy other properties
+        a.L = b.L;
+        a.X = b.X;
+        a.sa = b.sa;
+        a.qb = b.qb;
+    }
+}
+
     class la {
         constructor() {
             this.ub = "";
