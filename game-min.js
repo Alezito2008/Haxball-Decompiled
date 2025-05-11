@@ -2391,7 +2391,7 @@ const originalPush = Array.prototype.push;
             this.ib = new GameStateView;
             this.od = !1;
             this.GameStats = new PerfomanceStatsView;
-            this.Ka = new $a;
+            this.Ka = new ChatboxView;
             this.Xa = new RoomView(a);
             this.ib.Rb = a;
             this.f = dOMManipulator.CreateElementFromHTML(GameView.htmlContent);
@@ -3141,7 +3141,7 @@ const originalPush = Array.prototype.push;
             }
             ;
             a.mq = function() {
-                let c = new Ab
+                let c = new DialogChangeLocationView
                   , d = window.document.createElement("div");
                 d.className = "view-wrapper";
                 d.appendChild(c.f);
@@ -5302,10 +5302,10 @@ const originalPush = Array.prototype.push;
             })
         }
     }
-    class $a {
+    class ChatboxView {
         constructor() {
             this.bf = this.fi = !1;
-            this.f = dOMManipulator.CreateElementFromHTML($a.htmlContent);
+            this.f = dOMManipulator.CreateElementFromHTML(ChatboxView.htmlContent);
             let a = dOMManipulator.MapDataHooks(this.f);
             this.Lc = a.get("log");
             this.ki = a.get("log-contents");
@@ -5437,7 +5437,7 @@ const originalPush = Array.prototype.push;
         }
         hl(a) {
             var b = this.Lc.clientHeight;
-            b = this.Lc.scrollTop + b - this.Lc.scrollHeight >= .5 * -b || !$a.Ep(this.Lc);
+            b = this.Lc.scrollTop + b - this.Lc.scrollHeight >= .5 * -b || !ChatboxView.Ep(this.Lc);
             this.ki.appendChild(a);
             b && (this.Lc.scrollTop = this.Lc.scrollHeight);
             for (a = b ? 50 : 100; this.ki.childElementCount > a; )
@@ -5951,10 +5951,10 @@ const originalPush = Array.prototype.push;
             a.B = this.B
         }
     }
-    class Ab {
+    class DialogChangeLocationView {
         constructor() {
             this.Gf = null;
-            this.f = dOMManipulator.CreateElementFromHTML(Ab.htmlContent);
+            this.f = dOMManipulator.CreateElementFromHTML(DialogChangeLocationView.htmlContent);
             var a = dOMManipulator.MapDataHooks(this.f);
             let b = this;
             a.get("cancel").onclick = function() {
@@ -11000,13 +11000,13 @@ const originalPush = Array.prototype.push;
     Object.assign(tb.prototype, {
         g: tb
     });
-    Ab.b = !0;
-    Object.assign(Ab.prototype, {
-        g: Ab
+    DialogChangeLocationView.b = !0;
+    Object.assign(DialogChangeLocationView.prototype, {
+        g: DialogChangeLocationView
     });
-    $a.b = !0;
-    Object.assign($a.prototype, {
-        g: $a
+    ChatboxView.b = !0;
+    Object.assign(ChatboxView.prototype, {
+        g: ChatboxView
     });
     dc.b = !0;
     Object.assign(dc.prototype, {
@@ -11337,8 +11337,8 @@ const originalPush = Array.prototype.push;
     I.Nn = 5.934119456780721;
     messageCanvas.Ln = new Tb([0, 0, 2, 1, 0, .35, 1, 0, 1, 0, .7, 1, 0, 0, 0, 1]);
     messageCanvas.Mn = new Tb([0, -1, 3, 0, 0, .35, 0, 0, 0, 0, .65, 0, 0, 1, 3, 1]);
-    Ab.htmlContent = "<div class='dialog change-location-view'><h1>Change Location</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='change'>Change</button><button data-hook='cancel'>Cancel</button></div></div></div>";
-    $a.htmlContent = "<div class='chatbox-view'><div class='chatbox-view-contents'><div data-hook='drag' class='drag'></div><div data-hook='log' class='log subtle-thin-scrollbar'><div data-hook='log-contents' class='log-contents'><p>Controls:<br/>Move: WASD or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div></div><div class='autocompletebox' data-hook='autocompletebox'></div><div class='input'><input data-hook='input' type='text' /></div></div></div>";
+    DialogChangeLocationView.htmlContent = "<div class='dialog change-location-view'><h1>Change Location</h1><div class='splitter'><div class='list' data-hook='list'></div><div class='buttons'><button data-hook='change'>Change</button><button data-hook='cancel'>Cancel</button></div></div></div>";
+    ChatboxView.htmlContent = "<div class='chatbox-view'><div class='chatbox-view-contents'><div data-hook='drag' class='drag'></div><div data-hook='log' class='log subtle-thin-scrollbar'><div data-hook='log-contents' class='log-contents'><p>Controls:<br/>Move: WASD or Arrows<br/>Kick: X, Space, Ctrl, Shift, Numpad 0<br/>View: Numbers 1 to 4</p></div></div><div class='autocompletebox' data-hook='autocompletebox'></div><div class='input'><input data-hook='input' type='text' /></div></div></div>";
     ChooseNicknameView.htmlContent = "<div class='choose-nickname-view'><img src=\"images/haxball.png\" /><div class='dialog'><h1>Choose nickname</h1><div class='label-input'><label>Nick:</label><input data-hook='input' type='text' /></div><button data-hook='ok'>Ok</button></div></div>";
     ConnectingView.htmlContent = "<div class='connecting-view'><div class='dialog'><h1>Connecting</h1><div class='connecting-view-log' data-hook='log'></div><button data-hook='cancel'>Cancel</button></div></div>";
     CreateRoomView.htmlContent = "<div class='create-room-view'><div class='dialog'><h1>Create room</h1><div class='label-input'><label>Room name:</label><input data-hook='name' required /></div><div class='label-input'><label>Password:</label><input data-hook='pass' /></div><div class='label-input'><label>Max players:</label><select data-hook='max-pl'></select></div><button data-hook='unlisted'></button><div class='row'><button data-hook='cancel'>Cancel</button><button data-hook='create'>Create</button></div></div></div>";
