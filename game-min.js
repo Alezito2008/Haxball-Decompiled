@@ -4839,35 +4839,35 @@ const originalPush = Array.prototype.push;
         }
     }
     class PlayerListItem {
-        constructor(a) {
-            this.D = a.D;
-            this.zb = a.zb;
-            this.ba = a.Z;
+        constructor(playerInfo) {
+            this.playerName = playerInfo.D;
+            this.playerPing = playerInfo.zb;
+            this.playerID = playerInfo.Z;
             this.f = dOMManipulator.CreateElementFromHTML(PlayerListItem.htmlContent);
-            let b = dOMManipulator.MapDataHooks(this.f);
-            this.nf = b.get("name");
-            this.Fg = b.get("ping");
+            let dataHooks = dOMManipulator.MapDataHooks(this.f);
+            this.nameElement = dataHooks.get("name");
+            this.pingElement = dataHooks.get("ping");
             try {
-                b.get("flag").classList.add("f-" + a.country)
-            } catch (d) {}
-            this.nf.textContent = this.D;
-            this.Fg.textContent = "" + this.zb;
-            let c = this;
+                dataHooks.get("flag").classList.add("f-" + playerInfo.country)
+            } catch (_) {}
+            this.nameElement.textContent = this.playerName;
+            this.pingElement.textContent = "" + this.playerPing;
+            let context = this;
             this.f.ondragstart = function(d) {
-                d.dataTransfer.setData("player", integerUtils.Je(c.ba))
-            }
-            ;
+                d.dataTransfer.setData("player", integerUtils.Je(context.playerID))
+            };
+            
             this.f.oncontextmenu = function(d) {
                 d.preventDefault();
-                D.h(c.wf, c.ba)
-            }
-            ;
-            this.Dm(a.fb)
+                D.h(context.wf, context.playerID)
+            };
+
+            this.Dm(playerInfo.fb)
         }
         A(a, b) {
             this.f.draggable = b;
-            this.zb != a.zb && (this.zb = a.zb,
-            this.Fg.textContent = "" + this.zb);
+            this.playerPing != a.zb && (this.playerPing = a.zb,
+            this.pingElement.textContent = "" + this.playerPing);
             this.Xn != a.fb && this.Dm(a.fb)
         }
         Dm(a) {
